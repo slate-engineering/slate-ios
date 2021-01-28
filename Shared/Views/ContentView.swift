@@ -6,11 +6,19 @@
 //
 
 import SwiftUI
+import Foundation
 
 struct ContentView: View {
+    @State private var id = UserDefaults.standard.string(forKey: "USER_ID")
+    @State private var scene: Navigation = .signIn
+    
     var body: some View {
-        Text("Hello, world!")
-            .padding()
+        switch scene {
+        case .signIn:
+            SignInView()
+        default:
+            DataView()
+        }
     }
 }
 

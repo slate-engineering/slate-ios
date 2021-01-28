@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -13,6 +13,27 @@
 		B43665B025BA395C00C3AEBD /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B436659B25BA395900C3AEBD /* ContentView.swift */; };
 		B43665B125BA395C00C3AEBD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B436659C25BA395C00C3AEBD /* Assets.xcassets */; };
 		B43665B225BA395C00C3AEBD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B436659C25BA395C00C3AEBD /* Assets.xcassets */; };
+		B43665C825BA416500C3AEBD /* SignInView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B43665C725BA416500C3AEBD /* SignInView.swift */; };
+		B43665CC25BA4BC500C3AEBD /* Colors.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B43665CB25BA4BC500C3AEBD /* Colors.xcassets */; };
+		B43665DC25BA534200C3AEBD /* ComponentStyles.swift in Sources */ = {isa = PBXBuildFile; fileRef = B43665DB25BA534200C3AEBD /* ComponentStyles.swift */; };
+		B43665E025BA537B00C3AEBD /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = B43665DF25BA537B00C3AEBD /* Constants.swift */; };
+		B43665E425BA55D200C3AEBD /* Inter.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B43665E325BA54D600C3AEBD /* Inter.ttf */; };
+		B43665E725BA55D300C3AEBD /* Inter.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B43665E325BA54D600C3AEBD /* Inter.ttf */; };
+		B43665EB25BA574200C3AEBD /* ButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B43665EA25BA574200C3AEBD /* ButtonView.swift */; };
+		B43665EF25BA64E200C3AEBD /* InputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B43665EE25BA64E200C3AEBD /* InputView.swift */; };
+		B43665F325BB663D00C3AEBD /* Strings.swift in Sources */ = {isa = PBXBuildFile; fileRef = B43665F225BB663C00C3AEBD /* Strings.swift */; };
+		B43665F725BB883000C3AEBD /* SignInView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B43665C725BA416500C3AEBD /* SignInView.swift */; };
+		B43665FC25BB884F00C3AEBD /* Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = B43665FB25BB884F00C3AEBD /* Helpers.swift */; };
+		B436660A25BB979C00C3AEBD /* AlertMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = B436660925BB979C00C3AEBD /* AlertMessage.swift */; };
+		B436660E25BB98E100C3AEBD /* Validations.swift in Sources */ = {isa = PBXBuildFile; fileRef = B436660D25BB98E100C3AEBD /* Validations.swift */; };
+		B436661225BB9C6100C3AEBD /* CheckBoxView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B436661125BB9C6100C3AEBD /* CheckBoxView.swift */; };
+		B436661625BBB5D100C3AEBD /* Actions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B436661525BBB5D000C3AEBD /* Actions.swift */; };
+		B4410EE325BF6C9F00030284 /* SwiftyJSON in Frameworks */ = {isa = PBXBuildFile; productRef = B4410EE225BF6C9F00030284 /* SwiftyJSON */; };
+		B4410EE725BF767900030284 /* Environment.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4410EE625BF767900030284 /* Environment.swift */; };
+		B4410EEB25BF9F6900030284 /* Navigation.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4410EEA25BF9F6900030284 /* Navigation.swift */; };
+		B4410EEF25BFA20900030284 /* DataView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4410EEE25BFA20900030284 /* DataView.swift */; };
+		B4410EF325BFA5DF00030284 /* Errors.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4410EF225BFA5DF00030284 /* Errors.swift */; };
+		B4410EF725BFACF500030284 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4410EF625BFACF500030284 /* User.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +45,24 @@
 		B43665A925BA395C00C3AEBD /* Slate iOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Slate iOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		B43665AB25BA395C00C3AEBD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B43665AC25BA395C00C3AEBD /* macOS.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = macOS.entitlements; sourceTree = "<group>"; };
+		B43665C725BA416500C3AEBD /* SignInView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInView.swift; sourceTree = "<group>"; };
+		B43665CB25BA4BC500C3AEBD /* Colors.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Colors.xcassets; sourceTree = "<group>"; };
+		B43665DB25BA534200C3AEBD /* ComponentStyles.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComponentStyles.swift; sourceTree = "<group>"; };
+		B43665DF25BA537B00C3AEBD /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		B43665E325BA54D600C3AEBD /* Inter.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Inter.ttf; sourceTree = "<group>"; };
+		B43665EA25BA574200C3AEBD /* ButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonView.swift; sourceTree = "<group>"; };
+		B43665EE25BA64E200C3AEBD /* InputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputView.swift; sourceTree = "<group>"; };
+		B43665F225BB663C00C3AEBD /* Strings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Strings.swift; sourceTree = "<group>"; };
+		B43665FB25BB884F00C3AEBD /* Helpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Helpers.swift; sourceTree = "<group>"; };
+		B436660925BB979C00C3AEBD /* AlertMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertMessage.swift; sourceTree = "<group>"; };
+		B436660D25BB98E100C3AEBD /* Validations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Validations.swift; sourceTree = "<group>"; };
+		B436661125BB9C6100C3AEBD /* CheckBoxView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckBoxView.swift; sourceTree = "<group>"; };
+		B436661525BBB5D000C3AEBD /* Actions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Actions.swift; sourceTree = "<group>"; };
+		B4410EE625BF767900030284 /* Environment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Environment.swift; sourceTree = "<group>"; };
+		B4410EEA25BF9F6900030284 /* Navigation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Navigation.swift; sourceTree = "<group>"; };
+		B4410EEE25BFA20900030284 /* DataView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataView.swift; sourceTree = "<group>"; };
+		B4410EF225BFA5DF00030284 /* Errors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Errors.swift; sourceTree = "<group>"; };
+		B4410EF625BFACF500030284 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -31,6 +70,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B4410EE325BF6C9F00030284 /* SwiftyJSON in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -57,9 +97,15 @@
 		B436659925BA395900C3AEBD /* Shared */ = {
 			isa = PBXGroup;
 			children = (
+				B43665FA25BB883E00C3AEBD /* Common */,
+				B43665F625BB882100C3AEBD /* Views */,
+				B43665DA25BA532100C3AEBD /* Styles */,
 				B436659A25BA395900C3AEBD /* Slate_iOSApp.swift */,
-				B436659B25BA395900C3AEBD /* ContentView.swift */,
+				B436660925BB979C00C3AEBD /* AlertMessage.swift */,
+				B4410EF625BFACF500030284 /* User.swift */,
+				B43665E325BA54D600C3AEBD /* Inter.ttf */,
 				B436659C25BA395C00C3AEBD /* Assets.xcassets */,
+				B43665CB25BA4BC500C3AEBD /* Colors.xcassets */,
 			);
 			path = Shared;
 			sourceTree = "<group>";
@@ -90,6 +136,50 @@
 			path = macOS;
 			sourceTree = "<group>";
 		};
+		B43665CF25BA529D00C3AEBD /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				B43665EA25BA574200C3AEBD /* ButtonView.swift */,
+				B43665EE25BA64E200C3AEBD /* InputView.swift */,
+				B436661125BB9C6100C3AEBD /* CheckBoxView.swift */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
+		B43665DA25BA532100C3AEBD /* Styles */ = {
+			isa = PBXGroup;
+			children = (
+				B43665DB25BA534200C3AEBD /* ComponentStyles.swift */,
+			);
+			path = Styles;
+			sourceTree = "<group>";
+		};
+		B43665F625BB882100C3AEBD /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				B436659B25BA395900C3AEBD /* ContentView.swift */,
+				B43665C725BA416500C3AEBD /* SignInView.swift */,
+				B4410EEE25BFA20900030284 /* DataView.swift */,
+				B43665CF25BA529D00C3AEBD /* Components */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		B43665FA25BB883E00C3AEBD /* Common */ = {
+			isa = PBXGroup;
+			children = (
+				B43665F225BB663C00C3AEBD /* Strings.swift */,
+				B43665DF25BA537B00C3AEBD /* Constants.swift */,
+				B43665FB25BB884F00C3AEBD /* Helpers.swift */,
+				B436660D25BB98E100C3AEBD /* Validations.swift */,
+				B4410EF225BFA5DF00030284 /* Errors.swift */,
+				B436661525BBB5D000C3AEBD /* Actions.swift */,
+				B4410EE625BF767900030284 /* Environment.swift */,
+				B4410EEA25BF9F6900030284 /* Navigation.swift */,
+			);
+			path = Common;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -106,6 +196,9 @@
 			dependencies = (
 			);
 			name = "Slate iOS (iOS)";
+			packageProductDependencies = (
+				B4410EE225BF6C9F00030284 /* SwiftyJSON */,
+			);
 			productName = "Slate iOS (iOS)";
 			productReference = B43665A125BA395C00C3AEBD /* Slate iOS.app */;
 			productType = "com.apple.product-type.application";
@@ -153,6 +246,9 @@
 				Base,
 			);
 			mainGroup = B436659425BA395900C3AEBD;
+			packageReferences = (
+				B4410EE125BF6C9F00030284 /* XCRemoteSwiftPackageReference "SwiftyJSON" */,
+			);
 			productRefGroup = B43665A225BA395C00C3AEBD /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -168,7 +264,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B43665E425BA55D200C3AEBD /* Inter.ttf in Resources */,
 				B43665B125BA395C00C3AEBD /* Assets.xcassets in Resources */,
+				B43665CC25BA4BC500C3AEBD /* Colors.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -177,6 +275,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B43665B225BA395C00C3AEBD /* Assets.xcassets in Resources */,
+				B43665E725BA55D300C3AEBD /* Inter.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -187,8 +286,24 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B43665E025BA537B00C3AEBD /* Constants.swift in Sources */,
+				B436661625BBB5D100C3AEBD /* Actions.swift in Sources */,
+				B43665EF25BA64E200C3AEBD /* InputView.swift in Sources */,
+				B4410EE725BF767900030284 /* Environment.swift in Sources */,
+				B43665F325BB663D00C3AEBD /* Strings.swift in Sources */,
+				B43665C825BA416500C3AEBD /* SignInView.swift in Sources */,
+				B43665FC25BB884F00C3AEBD /* Helpers.swift in Sources */,
+				B43665EB25BA574200C3AEBD /* ButtonView.swift in Sources */,
+				B436660A25BB979C00C3AEBD /* AlertMessage.swift in Sources */,
+				B436661225BB9C6100C3AEBD /* CheckBoxView.swift in Sources */,
 				B43665AF25BA395C00C3AEBD /* ContentView.swift in Sources */,
 				B43665AD25BA395C00C3AEBD /* Slate_iOSApp.swift in Sources */,
+				B4410EEB25BF9F6900030284 /* Navigation.swift in Sources */,
+				B4410EF325BFA5DF00030284 /* Errors.swift in Sources */,
+				B4410EF725BFACF500030284 /* User.swift in Sources */,
+				B436660E25BB98E100C3AEBD /* Validations.swift in Sources */,
+				B4410EEF25BFA20900030284 /* DataView.swift in Sources */,
+				B43665DC25BA534200C3AEBD /* ComponentStyles.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -196,6 +311,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B43665F725BB883000C3AEBD /* SignInView.swift in Sources */,
 				B43665B025BA395C00C3AEBD /* ContentView.swift in Sources */,
 				B43665AE25BA395C00C3AEBD /* Slate_iOSApp.swift in Sources */,
 			);
@@ -439,6 +555,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		B4410EE125BF6C9F00030284 /* XCRemoteSwiftPackageReference "SwiftyJSON" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SwiftyJSON/SwiftyJSON.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		B4410EE225BF6C9F00030284 /* SwiftyJSON */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B4410EE125BF6C9F00030284 /* XCRemoteSwiftPackageReference "SwiftyJSON" */;
+			productName = SwiftyJSON;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = B436659525BA395900C3AEBD /* Project object */;
 }
