@@ -7,7 +7,11 @@
 
 import Foundation
 
-enum Typescale {
+struct Constants {
+    static let gatewayURL = "https://slate.textile.io/ipfs"
     
+    enum FileType {
+        case image, video, audio, pdf, epub, other
+    }
 }
 

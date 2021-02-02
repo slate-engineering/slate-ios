@@ -8,18 +8,175 @@
 import Foundation
 import SwiftyJSON
 
-struct User: Codable {
+class User: ObservableObject, Codable {
     enum CodingKeys: String, CodingKey {
-        case id, username, data, library, onboarding, status, slates
+        case id, username, data, library, onboarding, status, slates, subscribers, subscriptions
     }
     
-    let id: UUID
-    var username: String
-    var data: UserData
-    var library: [Library]?
-    var slates: [Slate]?
-    var onboarding: [String: Bool]?
-    var status: [String: Bool]?
+    var id: String {
+        didSet {
+            UserDefaults.standard.set(id, forKey: "id")
+        }
+    }
+    @Published var username: String {
+        didSet {
+            UserDefaults.standard.set(username, forKey: "username")
+        }
+    }
+    @Published var data: UserData {
+        didSet {
+            let encoder = JSONEncoder()
+            if let encoded = try? encoder.encode(data) {
+                UserDefaults.standard.set(encoded, forKey: "data")
+            }
+        }
+    }
+    @Published var library: [Library]? {
+        didSet {
+            let encoder = JSONEncoder()
+            if let encoded = try? encoder.encode(library) {
+                UserDefaults.standard.set(encoded, forKey: "library")
+            }
+        }
+    }
+    @Published var slates: [Slate]? {
+        didSet {
+            let encoder = JSONEncoder()
+            if let encoded = try? encoder.encode(slates) {
+                UserDefaults.standard.set(encoded, forKey: "slates")
+            }
+        }
+    }
+    @Published var subscribers: [Subscription]? {
+        didSet {
+            let encoder = JSONEncoder()
+            if let encoded = try? encoder.encode(subscribers) {
+                UserDefaults.standard.set(encoded, forKey: "subscribers")
+            }
+        }
+    }
+    @Published var subscriptions: [Subscription]? {
+        didSet {
+            let encoder = JSONEncoder()
+            if let encoded = try? encoder.encode(subscriptions) {
+                UserDefaults.standard.set(encoded, forKey: "subscriptions")
+            }
+        }
+    }
+    var onboarding: [String: Bool]? {
+        didSet {
+            let encoder = JSONEncoder()
+            if let encoded = try? encoder.encode(onboarding) {
+                UserDefaults.standard.set(encoded, forKey: "onboarding")
+            }
+        }
+    }
+    var status: [String: Bool]? {
+        didSet {
+            let encoder = JSONEncoder()
+            if let encoded = try? encoder.encode(status) {
+                UserDefaults.standard.set(encoded, forKey: "status")
+            }
+        }
+    }
+    var files: [LibraryFile]? {
+        library?[0].children ?? [LibraryFile]()
+    }
+    
+    init() {
+        let decoder = JSONDecoder()
+        id = UserDefaults.standard.string(forKey: "id") ?? ""
+        username = UserDefaults.standard.string(forKey: "username") ?? ""
+        if let data = UserDefaults.standard.data(forKey: "data") {
+            if let decoded = try? decoder.decode(UserData.self, from: data) {
+                self.data = decoded
+            } else {
+                self.data = UserData()
+            }
+        } else {
+            self.data = UserData()
+        }
+        if let library = UserDefaults.standard.data(forKey: "library") {
+            if let decoded = try? decoder.decode([Library].self, from: library) {
+                self.library = decoded
+            } else {
+                self.library = nil
+            }
+        } else {
+            self.library = nil
+        }
+        if let slates = UserDefaults.standard.data(forKey: "slates") {
+            if let decoded = try? decoder.decode([Slate].self, from: slates) {
+                self.slates = decoded
+            } else {
+                self.slates = nil
+            }
+        } else {
+            self.slates = nil
+        }
+        if let subscribers = UserDefaults.standard.data(forKey: "subscribers") {
+            if let decoded = try? decoder.decode([Subscription].self, from: subscribers) {
+                self.subscribers = decoded
+            } else {
+                self.subscribers = nil
+            }
+        } else {
+            self.subscribers = nil
+        }
+        if let subscriptions = UserDefaults.standard.data(forKey: "subscriptions") {
+            if let decoded = try? decoder.decode([Subscription].self, from: subscriptions) {
+                self.subscriptions = decoded
+            } else {
+                self.subscriptions = nil
+            }
+        } else {
+            self.subscriptions = nil
+        }
+        if let onboarding = UserDefaults.standard.data(forKey: "onboarding") {
+            if let decoded = try? decoder.decode([String: Bool].self, from: onboarding) {
+                self.onboarding = decoded
+            } else {
+                self.onboarding = nil
+            }
+        } else {
+            self.onboarding = nil
+        }
+        if let status = UserDefaults.standard.data(forKey: "status") {
+            if let decoded = try? decoder.decode([String: Bool].self, from: status) {
+                self.status = decoded
+            } else {
+                self.status = nil
+            }
+        } else {
+            self.status = nil
+        }
+    }
+    
+    required init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: CodingKeys.self)
+        id = try values.decode(String.self, forKey: .id)
+        username = try values.decode(String.self, forKey: .username)
+        data = try values.decode(UserData.self, forKey: .data)
+        library = try values.decode([Library].self, forKey: .library)
+        slates = try values.decode([Slate].self, forKey: .slates)
+        subscribers = try values.decode([Subscription].self, forKey: .subscribers)
+        subscriptions = try values.decode([Subscription].self, forKey: .subscriptions)
+        onboarding = try values.decode([String: Bool].self, forKey: .onboarding)
+        status = try values.decode([String: Bool].self, forKey: .status)
+    }
+    
+    func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(id, forKey: .id)
+        try container.encode(username, forKey: .username)
+        try container.encode(data, forKey: .data)
+        try container.encode(library, forKey: .library)
+        try container.encode(slates, forKey: .slates)
+        try container.encode(subscribers, forKey: .subscribers)
+        try container.encode(subscriptions, forKey: .subscriptions)
+        try container.encode(onboarding, forKey: .onboarding)
+        try container.encode(status, forKey: .status)
+    }
 }
 
 struct UserData: Codable {
@@ -27,8 +184,8 @@ struct UserData: Codable {
         case body, name, photo
     }
     
-    @DecodableDefault.EmptyString var body: String
-    @DecodableDefault.EmptyString var name: String
+    var body: String?
+    var name: String?
     var photo: String?
 }
 
@@ -40,7 +197,7 @@ struct Library: Codable {
     var children: [LibraryFile]?
 }
 
-struct LibraryFile: Codable {
+struct LibraryFile: Codable, Identifiable {
     enum CodingKeys: String, CodingKey {
         case cid, id, file, name, size, type, blurhash, coverImage, date
         case isPublic = "public"
@@ -74,74 +231,23 @@ struct CoverImage: Codable {
     var url: String
 }
 
-struct Slate: Codable {
+struct Subscription: Codable {
     enum CodingKeys: String, CodingKey {
-        case createdAt = "created_at"
-        case updatedAt = "updated_at"
-        case publishedAt = "published_at"
-        case id, slatename, data
+        case id, slate, owner, user
     }
     
-    let id: String
-    var slatename: String
-    var createdAt: String?
-    var updatedAt: String?
-    var publishedAt: String?
-    var data: SlateData
+    var id: String
+    var owner: SubscriptionUser?
+    var slate: Slate?
+    var user: SubscriptionUser?
 }
 
-struct SlateData: Codable {
+struct SubscriptionUser: Codable {
     enum CodingKeys: String, CodingKey {
-        case name, ownerId, body, objects, layouts//body, layouts, name, objects, ownerId
-        case isPublic = "public"
+        case id, username, data
     }
     
-    @DecodableDefault.EmptyString var body: String
-    var name: String
-    var ownerId: String
-    @DecodableDefault.False var isPublic: Bool
-    var layouts: SlateLayout?
-    var objects: [SlateFile]
+    var id: String
+    var username: String
+    var data: UserData
 }
-
-struct SlateFile: Codable {
-    enum CodingKeys: String, CodingKey {
-        case blurhash, cid, id, name, ownerId, size, title, type, url, coverImage
-    }
-    
-    var cid: String
-    let id: String
-    var name: String
-    var title: String?
-    var size: Int
-    var type: String
-    var blurhash: String?
-    var coverImage: CoverImage?
-    var url: String
-    var ownerId: String
-}
-
-struct SlateLayout: Codable {
-    enum CodingKeys: String, CodingKey {
-        case ver, fileNames, defaultLayout, layout
-    }
-    
-    var ver: String?
-    var layout: [Placement]?
-    var fileNames: Bool?
-    var defaultLayout: Bool?
-}
-
-struct Placement: Codable {
-    enum CodingKeys: String, CodingKey {
-        case h, w, x, y, z, id
-    }
-    
-    let id: String
-    var h: Double
-    var w: Double
-    var x: Double
-    var y: Double
-    var z: Double
-}
-

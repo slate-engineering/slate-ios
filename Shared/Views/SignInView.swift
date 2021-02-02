@@ -12,6 +12,7 @@ struct SignInView: View {
         case signUp, signIn
     }
     
+    @ObservedObject var viewer: User
     @State private var username = ""
     @State private var password = ""
     @State private var status: Page? = nil
@@ -163,11 +164,10 @@ struct SignInView: View {
                         }
                     }
                 Spacer()
+                Spacer()
             }
             .frame(width: geo.size.width)
         }
-        .background(Color("foreground"))
-        .edgesIgnoringSafeArea(.all)
         .alert(item: $alert) {
             Alert(title: Text($0.title), message: Text($0.message), dismissButton: .default(Text("OK")))
         }
@@ -182,7 +182,7 @@ struct SignInView: View {
             alert = AlertMessage(title: "No password provided", message: "Please provide a password to sign in")
             return
         }
-        Actions.signIn(username: username, password: password)
+        Actions.signIn(username: username, password: password, completion: saveViewerData)
     }
     
     func signUp() {
@@ -198,11 +198,29 @@ struct SignInView: View {
             alert = AlertMessage(title: "Please agree to the terms", message: "You must agree to the terms to register an account")
             return
         }
+        Actions.signUp(username: username, password: password, accepted: agreedToTerms, completion: saveViewerData)
+    }
+    
+    func saveViewerData(_ user: User) {
+        print(user.id)
+        print(user.username)
+        DispatchQueue.main.async {
+            viewer.id = user.id
+            viewer.username = user.username
+            viewer.data = user.data
+            viewer.library = user.library
+            viewer.slates = user.slates
+            viewer.onboarding = user.onboarding
+            viewer.status = user.status
+            print("\n \n after save viewer data")
+            print(viewer.id)
+            print(viewer.username)
+        }
     }
 }
 
-struct SignInView_Previews: PreviewProvider {
-    static var previews: some View {
-        SignInView()
-    }
-}
+//struct SignInView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        SignInView()
+//    }
+//}

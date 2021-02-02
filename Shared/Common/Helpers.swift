@@ -17,7 +17,31 @@ extension Data {
     }
 }
 
-//  Property wrapper to give codable optional properties a default value
+extension Comparable {
+    func clamped(to r: ClosedRange<Self>) -> Self {
+        let min = r.lowerBound, max = r.upperBound
+        return self < min ? min : (max < self ? max : self)
+    }
+    
+    func lowerBounded(by min: Self) -> Self {
+        return self < min ? min : self
+    }
+    
+    func upperBounded(by max: Self) -> Self {
+        return self > max ? max : self
+    }
+}
+
+extension Encodable {
+    func toString() -> String {
+        guard let encoded = try? JSONEncoder().encode(self) else {
+            return "Failed to encode object"
+        }
+        return encoded.toString()
+    }
+}
+
+// NOTE(martina): Property wrapper to give codable optional properties a default value
 
 protocol DecodableDefaultSource {
     associatedtype Value: Decodable

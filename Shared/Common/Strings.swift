@@ -39,6 +39,20 @@ struct Strings {
         "-": "[·/_,:;']",
       ];
     
+    static func cidToUrl(_ cid: String) -> String {
+        return "\(Constants.gatewayURL)/\(cid)"
+    }
+    
+    static func getFileExtension(_ fileName: String) -> String {
+        let array = fileName.components(separatedBy: ".")
+        let ending = array.last ?? ""
+        if ending.count <= 4 {
+            return ending
+        } else {
+            return ""
+        }
+    }
+    
     static func createSlug(_ string: String, base: String = "untitled") -> String {
         if string.isEmpty {
             return base

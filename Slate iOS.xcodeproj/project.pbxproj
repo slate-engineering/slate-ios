@@ -34,6 +34,20 @@
 		B4410EEF25BFA20900030284 /* DataView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4410EEE25BFA20900030284 /* DataView.swift */; };
 		B4410EF325BFA5DF00030284 /* Errors.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4410EF225BFA5DF00030284 /* Errors.swift */; };
 		B4410EF725BFACF500030284 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4410EF625BFACF500030284 /* User.swift */; };
+		B4593CE325C351BF00345013 /* Slate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4593CE225C351BF00345013 /* Slate.swift */; };
+		B4593CE725C3A33600345013 /* MediaPreviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4593CE625C3A33600345013 /* MediaPreviewView.swift */; };
+		B4593CEB25C3A84800345013 /* ImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4593CEA25C3A84800345013 /* ImageView.swift */; };
+		B4593CF325C3AC9D00345013 /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4593CF225C3AC9C00345013 /* Utilities.swift */; };
+		B48AE2A925C4CC3D006FA245 /* SlatesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B48AE2A825C4CC3D006FA245 /* SlatesView.swift */; };
+		B48AE2AD25C4CCB6006FA245 /* ActivityView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B48AE2AC25C4CCB6006FA245 /* ActivityView.swift */; };
+		B48AE2B125C4CCC7006FA245 /* UserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B48AE2B025C4CCC7006FA245 /* UserView.swift */; };
+		B48AE2B525C4CCD5006FA245 /* FilecoinView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B48AE2B425C4CCD5006FA245 /* FilecoinView.swift */; };
+		B48AE2C225C4E4C6006FA245 /* Blur.swift in Sources */ = {isa = PBXBuildFile; fileRef = B48AE2C125C4E4C6006FA245 /* Blur.swift */; };
+		B48AE2C625C4EB73006FA245 /* TranslucentButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B48AE2C525C4EB73006FA245 /* TranslucentButtonView.swift */; };
+		B48AE2CA25C4FBD9006FA245 /* PageOverlayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B48AE2C925C4FBD9006FA245 /* PageOverlayView.swift */; };
+		B48AE2CE25C51029006FA245 /* SlatePreviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B48AE2CD25C51029006FA245 /* SlatePreviewView.swift */; };
+		B48AE2D225C54675006FA245 /* SlateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B48AE2D125C54675006FA245 /* SlateView.swift */; };
+		B48AE2D625C8BE56006FA245 /* FiletypeIconView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B48AE2D525C8BE56006FA245 /* FiletypeIconView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -63,6 +77,20 @@
 		B4410EEE25BFA20900030284 /* DataView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataView.swift; sourceTree = "<group>"; };
 		B4410EF225BFA5DF00030284 /* Errors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Errors.swift; sourceTree = "<group>"; };
 		B4410EF625BFACF500030284 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		B4593CE225C351BF00345013 /* Slate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Slate.swift; sourceTree = "<group>"; };
+		B4593CE625C3A33600345013 /* MediaPreviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaPreviewView.swift; sourceTree = "<group>"; };
+		B4593CEA25C3A84800345013 /* ImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageView.swift; sourceTree = "<group>"; };
+		B4593CF225C3AC9C00345013 /* Utilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utilities.swift; sourceTree = "<group>"; };
+		B48AE2A825C4CC3D006FA245 /* SlatesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SlatesView.swift; sourceTree = "<group>"; };
+		B48AE2AC25C4CCB6006FA245 /* ActivityView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityView.swift; sourceTree = "<group>"; };
+		B48AE2B025C4CCC7006FA245 /* UserView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserView.swift; sourceTree = "<group>"; };
+		B48AE2B425C4CCD5006FA245 /* FilecoinView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilecoinView.swift; sourceTree = "<group>"; };
+		B48AE2C125C4E4C6006FA245 /* Blur.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Blur.swift; sourceTree = "<group>"; };
+		B48AE2C525C4EB73006FA245 /* TranslucentButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranslucentButtonView.swift; sourceTree = "<group>"; };
+		B48AE2C925C4FBD9006FA245 /* PageOverlayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageOverlayView.swift; sourceTree = "<group>"; };
+		B48AE2CD25C51029006FA245 /* SlatePreviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SlatePreviewView.swift; sourceTree = "<group>"; };
+		B48AE2D125C54675006FA245 /* SlateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SlateView.swift; sourceTree = "<group>"; };
+		B48AE2D525C8BE56006FA245 /* FiletypeIconView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FiletypeIconView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -103,6 +131,7 @@
 				B436659A25BA395900C3AEBD /* Slate_iOSApp.swift */,
 				B436660925BB979C00C3AEBD /* AlertMessage.swift */,
 				B4410EF625BFACF500030284 /* User.swift */,
+				B4593CE225C351BF00345013 /* Slate.swift */,
 				B43665E325BA54D600C3AEBD /* Inter.ttf */,
 				B436659C25BA395C00C3AEBD /* Assets.xcassets */,
 				B43665CB25BA4BC500C3AEBD /* Colors.xcassets */,
@@ -140,8 +169,14 @@
 			isa = PBXGroup;
 			children = (
 				B43665EA25BA574200C3AEBD /* ButtonView.swift */,
+				B48AE2CD25C51029006FA245 /* SlatePreviewView.swift */,
+				B48AE2D525C8BE56006FA245 /* FiletypeIconView.swift */,
+				B48AE2C525C4EB73006FA245 /* TranslucentButtonView.swift */,
+				B48AE2C925C4FBD9006FA245 /* PageOverlayView.swift */,
 				B43665EE25BA64E200C3AEBD /* InputView.swift */,
 				B436661125BB9C6100C3AEBD /* CheckBoxView.swift */,
+				B4593CE625C3A33600345013 /* MediaPreviewView.swift */,
+				B4593CEA25C3A84800345013 /* ImageView.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -150,6 +185,7 @@
 			isa = PBXGroup;
 			children = (
 				B43665DB25BA534200C3AEBD /* ComponentStyles.swift */,
+				B48AE2C125C4E4C6006FA245 /* Blur.swift */,
 			);
 			path = Styles;
 			sourceTree = "<group>";
@@ -159,7 +195,12 @@
 			children = (
 				B436659B25BA395900C3AEBD /* ContentView.swift */,
 				B43665C725BA416500C3AEBD /* SignInView.swift */,
+				B48AE2B025C4CCC7006FA245 /* UserView.swift */,
+				B48AE2B425C4CCD5006FA245 /* FilecoinView.swift */,
+				B48AE2AC25C4CCB6006FA245 /* ActivityView.swift */,
 				B4410EEE25BFA20900030284 /* DataView.swift */,
+				B48AE2D125C54675006FA245 /* SlateView.swift */,
+				B48AE2A825C4CC3D006FA245 /* SlatesView.swift */,
 				B43665CF25BA529D00C3AEBD /* Components */,
 			);
 			path = Views;
@@ -172,6 +213,7 @@
 				B43665DF25BA537B00C3AEBD /* Constants.swift */,
 				B43665FB25BB884F00C3AEBD /* Helpers.swift */,
 				B436660D25BB98E100C3AEBD /* Validations.swift */,
+				B4593CF225C3AC9C00345013 /* Utilities.swift */,
 				B4410EF225BFA5DF00030284 /* Errors.swift */,
 				B436661525BBB5D000C3AEBD /* Actions.swift */,
 				B4410EE625BF767900030284 /* Environment.swift */,
@@ -288,15 +330,29 @@
 			files = (
 				B43665E025BA537B00C3AEBD /* Constants.swift in Sources */,
 				B436661625BBB5D100C3AEBD /* Actions.swift in Sources */,
+				B48AE2B125C4CCC7006FA245 /* UserView.swift in Sources */,
 				B43665EF25BA64E200C3AEBD /* InputView.swift in Sources */,
 				B4410EE725BF767900030284 /* Environment.swift in Sources */,
+				B48AE2CA25C4FBD9006FA245 /* PageOverlayView.swift in Sources */,
 				B43665F325BB663D00C3AEBD /* Strings.swift in Sources */,
+				B48AE2C225C4E4C6006FA245 /* Blur.swift in Sources */,
+				B48AE2AD25C4CCB6006FA245 /* ActivityView.swift in Sources */,
 				B43665C825BA416500C3AEBD /* SignInView.swift in Sources */,
 				B43665FC25BB884F00C3AEBD /* Helpers.swift in Sources */,
 				B43665EB25BA574200C3AEBD /* ButtonView.swift in Sources */,
 				B436660A25BB979C00C3AEBD /* AlertMessage.swift in Sources */,
+				B48AE2C625C4EB73006FA245 /* TranslucentButtonView.swift in Sources */,
+				B4593CEB25C3A84800345013 /* ImageView.swift in Sources */,
+				B48AE2CE25C51029006FA245 /* SlatePreviewView.swift in Sources */,
+				B4593CE325C351BF00345013 /* Slate.swift in Sources */,
+				B48AE2B525C4CCD5006FA245 /* FilecoinView.swift in Sources */,
 				B436661225BB9C6100C3AEBD /* CheckBoxView.swift in Sources */,
+				B48AE2A925C4CC3D006FA245 /* SlatesView.swift in Sources */,
+				B4593CE725C3A33600345013 /* MediaPreviewView.swift in Sources */,
 				B43665AF25BA395C00C3AEBD /* ContentView.swift in Sources */,
+				B48AE2D225C54675006FA245 /* SlateView.swift in Sources */,
+				B48AE2D625C8BE56006FA245 /* FiletypeIconView.swift in Sources */,
+				B4593CF325C3AC9D00345013 /* Utilities.swift in Sources */,
 				B43665AD25BA395C00C3AEBD /* Slate_iOSApp.swift in Sources */,
 				B4410EEB25BF9F6900030284 /* Navigation.swift in Sources */,
 				B4410EF325BFA5DF00030284 /* Errors.swift in Sources */,
