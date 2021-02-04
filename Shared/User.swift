@@ -10,7 +10,7 @@ import SwiftyJSON
 
 class User: ObservableObject, Codable {
     enum CodingKeys: String, CodingKey {
-        case id, username, data, library, onboarding, status, slates, subscribers, subscriptions
+        case id, username, data, library, slates, subscribers, subscriptions, onboarding, status
     }
     
     var id: String {
@@ -237,9 +237,9 @@ struct Subscription: Codable {
     }
     
     var id: String
-    var owner: SubscriptionUser?
+    var owner: User?
     var slate: Slate?
-    var user: SubscriptionUser?
+    var user: User?
 }
 
 struct SubscriptionUser: Codable {

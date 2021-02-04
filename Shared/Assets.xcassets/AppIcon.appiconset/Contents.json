@@ -26,11 +26,13 @@
       "size" : "40x40"
     },
     {
+      "filename" : "app_icon_120 (1)-1.png",
       "idiom" : "iphone",
       "scale" : "3x",
       "size" : "40x40"
     },
     {
+      "filename" : "app_icon_120 (1).png",
       "idiom" : "iphone",
       "scale" : "2x",
       "size" : "60x60"
@@ -76,6 +78,7 @@
       "size" : "76x76"
     },
     {
+      "filename" : "app_icon_152 (1).png",
       "idiom" : "ipad",
       "scale" : "2x",
       "size" : "76x76"
@@ -86,6 +89,7 @@
       "size" : "83.5x83.5"
     },
     {
+      "filename" : "app_icon_1024 (1)-1.png",
       "idiom" : "ios-marketing",
       "scale" : "1x",
       "size" : "1024x1024"
@@ -136,6 +140,7 @@
       "size" : "512x512"
     },
     {
+      "filename" : "app_icon_1024 (1).png",
       "idiom" : "mac",
       "scale" : "2x",
       "size" : "512x512"

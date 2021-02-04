@@ -67,7 +67,7 @@ struct SlatePreviewView: View {
                     }
                 }
             }
-            .padding(16)
+            .padding(Constants.sideMargin)
         }
         .background(Color.white)
         .clipShape(RoundedRectangle(cornerRadius: 4))

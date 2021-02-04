@@ -9,6 +9,8 @@ import Foundation
 
 struct Env {
     static var serverURL: String {
-        return "http://192.168.86.162:1337" //slateProcessInfo.processInfo.environment["RESOURCE_URI_SERVER"] ?? ""
+        return "https://slate.host"
+//        let url = Bundle.main.infoDictionary?["ServerURL"] as! String
+//        return url
     }
 }

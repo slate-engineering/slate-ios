@@ -24,6 +24,8 @@ struct SlateView: View {
         VStack(alignment: .leading) {
             GeometryReader { geo in
                 ScrollView(.vertical) {
+                    Spacer()
+                        .frame(height: Constants.bottomMargin)
                     VStack(alignment: .leading, spacing: 4) {
                         Text(slate.data.name).font(Font.custom("Inter", size: 22)).fontWeight(.medium)
                         if username != nil {
@@ -36,9 +38,8 @@ struct SlateView: View {
                                 .padding(.top, 4)
                         }
                     }
-                    .padding(.top, 64)
                     .padding(.bottom, 16)
-                    .padding(.horizontal, 16)
+                    .padding(.horizontal, Constants.sideMargin)
                     .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity, alignment: .topLeading)
                     LazyVStack {
                         ForEach(0..<slate.data.objects.count) { index in
@@ -46,9 +47,11 @@ struct SlateView: View {
 //                                .shadow(color: Color(red: 178/255, green: 178/255, blue: 178/255).opacity(0.15), radius: 10, x: 0, y: 5)
                                 .frame(width: geo.size.width - 32, height: geo.size.width - 32)
                                 .padding(.vertical, 8)
-                                .padding(.horizontal, 16)
+                                .padding(.horizontal, Constants.sideMargin)
                         }
                     }
+                    Spacer()
+                        .frame(height: Constants.bottomMargin)
                 }.frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity, alignment: .topLeading)
             }
             Spacer()
@@ -56,8 +59,8 @@ struct SlateView: View {
         .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity, alignment: .topLeading)
         .background(Color("foreground"))
         .edgesIgnoringSafeArea(.all)
-        .navigationBarTitle(slate.data.name)
-        .navigationBarHidden(true)
+//        .navigationBarTitle(slate.data.name)
+//        .navigationBarHidden(true)
     }
 }
 

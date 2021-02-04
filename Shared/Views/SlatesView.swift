@@ -30,13 +30,13 @@ struct SlatesView: View {
                             ForEach(0..<(viewer.slates?.count ?? 0)) { index in
                                 NavigationLink(destination: SlateView(viewer: viewer, slate: viewer.slates![index])) {
                                     SlatePreviewView(slate: viewer.slates![index])
-                                        .padding(.horizontal, 16)
+                                        .padding(.horizontal, Constants.sideMargin)
                                         .frame(width: geo.size.width, height: 0.75 * geo.size.width + 46)
                                 }
                             }
                         }
                         Spacer()
-                            .frame(height: 96)
+                            .frame(height: Constants.bottomMargin)
                     }
                 } else {
                     ScrollView(.vertical) {
@@ -46,13 +46,13 @@ struct SlatesView: View {
                             ForEach(0..<slatesFollowing.count) { index in
                                 NavigationLink(destination: SlateView(viewer: viewer, slate: slatesFollowing[index])) {
                                     SlatePreviewView(slate: slatesFollowing[index])
-                                        .padding(.horizontal, 16)
+                                        .padding(.horizontal, Constants.sideMargin)
                                         .frame(width: geo.size.width, height: 0.75 * geo.size.width + 46)
                                 }
                             }
                         }
                         Spacer()
-                            .frame(height: 96)
+                            .frame(height: Constants.bottomMargin)
                     }
                 }
             }

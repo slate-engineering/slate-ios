@@ -19,7 +19,7 @@ struct FiletypeIconView: View {
     }
     
     var body: some View {
-        Image(type == .pdf ? "pdf" : type == .audio ? "audio" : type == .video ? "video" : type == .epub ? "book" : "document")
+        Image(type == .image ? "image" : type == .pdf ? "pdf" : type == .audio ? "audio" : type == .video ? "video" : type == .epub ? "book" : "document")
             .resizable()
     }
 }

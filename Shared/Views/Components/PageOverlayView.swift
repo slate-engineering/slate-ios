@@ -11,26 +11,30 @@ struct PageOverlayView<Content: View>: View {
     let pickerOptions: [String]?
     @Binding var pickerIndex: Int
     var topRight: Content
+    var hideTop: Bool
     
-    init(pickerOptions: [String]?, pickerIndex: Binding<Int>?, @ViewBuilder withTopRight topRight: () -> Content) {
+    init(pickerOptions: [String]?, pickerIndex: Binding<Int>?, hideTop: Bool = false, @ViewBuilder withTopRight topRight: () -> Content) {
         self.pickerOptions = pickerOptions
         self._pickerIndex = pickerIndex ?? Binding.constant(0)
         self.topRight = topRight()
+        self.hideTop = hideTop
     }
     
     var body: some View {
         VStack {
-            HStack {
-                TranslucentButtonView(type: .icon, action: { print("Pressed button") }) {
-                    Image("search-semibold")
-                        .resizable()
-                        .frame(width: 18, height: 18)
+            if !hideTop {
+                HStack {
+                    TranslucentButtonView(type: .icon, action: { print("Pressed button") }) {
+                        Image("search-semibold")
+                            .resizable()
+                            .frame(width: 18, height: 18)
+                    }
+                    Spacer()
+                    topRight
                 }
-                Spacer()
-                topRight
+                .padding(.top, 12)
+                .padding(.horizontal, 20)
             }
-            .padding(.top, 12)
-            .padding(.horizontal, 20)
             Spacer()
             if pickerOptions != nil {
                 Picker("View", selection: $pickerIndex) {
@@ -41,7 +45,7 @@ struct PageOverlayView<Content: View>: View {
                 .background(Blur().clipShape(RoundedRectangle(cornerRadius: 8)))
                 .pickerStyle(SegmentedPickerStyle())
                 .padding(.bottom, 52)
-                .padding(.horizontal, 16)
+                .padding(.horizontal, Constants.sideMargin)
             }
         }
     }

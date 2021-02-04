@@ -48,6 +48,8 @@
 		B48AE2CE25C51029006FA245 /* SlatePreviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B48AE2CD25C51029006FA245 /* SlatePreviewView.swift */; };
 		B48AE2D225C54675006FA245 /* SlateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B48AE2D125C54675006FA245 /* SlateView.swift */; };
 		B48AE2D625C8BE56006FA245 /* FiletypeIconView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B48AE2D525C8BE56006FA245 /* FiletypeIconView.swift */; };
+		B48AE35425CB6923006FA245 /* TextBoxView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B48AE35325CB6923006FA245 /* TextBoxView.swift */; };
+		B48AE35825CB8969006FA245 /* NavigationBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B48AE35725CB8969006FA245 /* NavigationBarView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -91,6 +93,8 @@
 		B48AE2CD25C51029006FA245 /* SlatePreviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SlatePreviewView.swift; sourceTree = "<group>"; };
 		B48AE2D125C54675006FA245 /* SlateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SlateView.swift; sourceTree = "<group>"; };
 		B48AE2D525C8BE56006FA245 /* FiletypeIconView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FiletypeIconView.swift; sourceTree = "<group>"; };
+		B48AE35325CB6923006FA245 /* TextBoxView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextBoxView.swift; sourceTree = "<group>"; };
+		B48AE35725CB8969006FA245 /* NavigationBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationBarView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -169,11 +173,13 @@
 			isa = PBXGroup;
 			children = (
 				B43665EA25BA574200C3AEBD /* ButtonView.swift */,
+				B48AE35725CB8969006FA245 /* NavigationBarView.swift */,
 				B48AE2CD25C51029006FA245 /* SlatePreviewView.swift */,
 				B48AE2D525C8BE56006FA245 /* FiletypeIconView.swift */,
 				B48AE2C525C4EB73006FA245 /* TranslucentButtonView.swift */,
 				B48AE2C925C4FBD9006FA245 /* PageOverlayView.swift */,
 				B43665EE25BA64E200C3AEBD /* InputView.swift */,
+				B48AE35325CB6923006FA245 /* TextBoxView.swift */,
 				B436661125BB9C6100C3AEBD /* CheckBoxView.swift */,
 				B4593CE625C3A33600345013 /* MediaPreviewView.swift */,
 				B4593CEA25C3A84800345013 /* ImageView.swift */,
@@ -356,7 +362,9 @@
 				B43665AD25BA395C00C3AEBD /* Slate_iOSApp.swift in Sources */,
 				B4410EEB25BF9F6900030284 /* Navigation.swift in Sources */,
 				B4410EF325BFA5DF00030284 /* Errors.swift in Sources */,
+				B48AE35825CB8969006FA245 /* NavigationBarView.swift in Sources */,
 				B4410EF725BFACF500030284 /* User.swift in Sources */,
+				B48AE35425CB6923006FA245 /* TextBoxView.swift in Sources */,
 				B436660E25BB98E100C3AEBD /* Validations.swift in Sources */,
 				B4410EEF25BFA20900030284 /* DataView.swift in Sources */,
 				B43665DC25BA534200C3AEBD /* ComponentStyles.swift in Sources */,
@@ -503,6 +511,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "Martina-Long.Slate-iOS";
 				PRODUCT_NAME = "Slate iOS";
+				RESOURCE_URI_SERVER = "http://192.168.86.162:1337";
 				SDKROOT = iphoneos;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -525,6 +534,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "Martina-Long.Slate-iOS";
 				PRODUCT_NAME = "Slate iOS";
+				RESOURCE_URI_SERVER = "https://slate.host";
 				SDKROOT = iphoneos;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";

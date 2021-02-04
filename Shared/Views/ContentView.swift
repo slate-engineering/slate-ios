@@ -95,14 +95,6 @@ struct ContentView: View {
                 }
                 .accentColor(Color("brand"))
             }
-//            switch scene {
-//            case .data:
-//                DataView(viewer: viewer)
-//                    .background(Color("foreground"))
-//                    .edgesIgnoringSafeArea(.all)
-//            default:
-//                DataView(viewer: viewer)
-//            }
         }
     }
 }

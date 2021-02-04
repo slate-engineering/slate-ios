@@ -8,12 +8,12 @@
 import SwiftUI
 
 struct MediaPreviewView: View {
-    var cid: String
+    var cid: String?
     var url: String
     var id: String
     var fileExtension: String
     var name: String
-    var size: Int
+    var size: Int?
     var fileType: Constants.FileType
     var coverImage: CoverImage?
     var width: CGFloat

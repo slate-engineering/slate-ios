@@ -2,6 +2,14 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>ServerURL</key>
+	<string>$(RESOURCE_URI_SERVER)</string>
+	<key>CFBundleIconFiles</key>
+	<array>
+		<string>app_icon_120.png</string>
+		<string>app_icon_152.png</string>
+		<string>app_icon_1024.png</string>
+	</array>
 	<key>UIAppFonts</key>
 	<array>
 		<string>Inter.ttf</string>
@@ -19,7 +27,7 @@
 	<key>CFBundlePackageType</key>
 	<string>$(PRODUCT_BUNDLE_PACKAGE_TYPE)</string>
 	<key>CFBundleShortVersionString</key>
-	<string>1.0</string>
+	<string>1.1.4</string>
 	<key>CFBundleVersion</key>
 	<string>1</string>
 	<key>LSRequiresIPhoneOS</key>

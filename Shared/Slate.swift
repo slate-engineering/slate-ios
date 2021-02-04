@@ -26,7 +26,7 @@ class Slate: ObservableObject, Codable {
 
 struct SlateData: Codable {
     enum CodingKeys: String, CodingKey {
-        case name, ownerId, body, objects, layouts
+        case name, ownerId, body, layouts, objects
         case isPublic = "public"
     }
     
@@ -43,11 +43,11 @@ struct SlateFile: Codable {
         case blurhash, cid, id, name, ownerId, size, title, type, url, coverImage
     }
     
-    var cid: String
+    var cid: String?
     let id: String
     var name: String
     var title: String?
-    var size: Int
+    var size: Int?
     var type: String
     var blurhash: String?
     var coverImage: CoverImage?

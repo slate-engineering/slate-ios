@@ -202,8 +202,8 @@ struct SignInView: View {
     }
     
     func saveViewerData(_ user: User) {
-        print(user.id)
-        print(user.username)
+        print(viewer.id)
+        print(viewer.username)
         DispatchQueue.main.async {
             viewer.id = user.id
             viewer.username = user.username
@@ -212,7 +212,9 @@ struct SignInView: View {
             viewer.slates = user.slates
             viewer.onboarding = user.onboarding
             viewer.status = user.status
-            print("\n \n after save viewer data")
+            viewer.subscriptions = user.subscriptions
+            viewer.subscribers = user.subscribers
+            print("Info after save viewer data:")
             print(viewer.id)
             print(viewer.username)
         }
