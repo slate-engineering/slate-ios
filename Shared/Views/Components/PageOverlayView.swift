@@ -24,7 +24,7 @@ struct PageOverlayView<Content: View>: View {
         VStack {
             if !hideTop {
                 HStack {
-                    TranslucentButtonView(type: .icon, action: { print("Pressed button") }) {
+                    TranslucentButtonView(type: .icon) {
                         Image("search-semibold")
                             .resizable()
                             .frame(width: 18, height: 18)
@@ -44,10 +44,10 @@ struct PageOverlayView<Content: View>: View {
                 }
                 .background(Blur().clipShape(RoundedRectangle(cornerRadius: 8)))
                 .pickerStyle(SegmentedPickerStyle())
-                .padding(.bottom, 52)
                 .padding(.horizontal, Constants.sideMargin)
             }
         }
+//        .background(Color.red)
     }
 }
 

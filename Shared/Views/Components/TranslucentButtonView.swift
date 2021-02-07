@@ -16,7 +16,7 @@ struct TranslucentButtonView<Content: View>: View {
     let action: () -> Void
     let buttonType: ButtonType
     
-    init(type: ButtonType, action: @escaping () -> Void, @ViewBuilder content: () -> Content) {
+    init(type: ButtonType, action: @escaping () -> Void = { print("button clicked") }, @ViewBuilder content: () -> Content) {
         self.content = content()
         self.action = action
         self.buttonType = type

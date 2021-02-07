@@ -50,7 +50,10 @@ struct ContentView: View {
                     DataView(viewer: viewer)
                         .padding(.vertical, 40)
                         .background(Color("foreground"))
+                        .clipped()
                         .edgesIgnoringSafeArea(.all)
+                        .navigationBarTitle("")
+                        .navigationBarHidden(true)
                         .tabItem {
                             Image("folder-light")
                             Text("Files")
@@ -60,6 +63,8 @@ struct ContentView: View {
                         .padding(.vertical, 40)
                         .background(Color("foreground"))
                         .edgesIgnoringSafeArea(.all)
+                        .navigationBarTitle("")
+                        .navigationBarHidden(true)
                         .tabItem {
                             Image("box-light")
                             Text("Slates")
@@ -69,6 +74,8 @@ struct ContentView: View {
                         .padding(.vertical, 40)
                         .background(Color("foreground"))
                         .edgesIgnoringSafeArea(.all)
+                        .navigationBarTitle("")
+                        .navigationBarHidden(true)
                         .tabItem {
                             Image("globe-light")
                             Text("Explore")
@@ -78,6 +85,8 @@ struct ContentView: View {
                         .padding(.vertical, 40)
                         .background(Color("foreground"))
                         .edgesIgnoringSafeArea(.all)
+                        .navigationBarTitle("")
+                        .navigationBarHidden(true)
                         .tabItem {
                             Image("user-light")
                             Text("User")
@@ -87,6 +96,8 @@ struct ContentView: View {
                         .padding(.vertical, 40)
                         .background(Color("foreground"))
                         .edgesIgnoringSafeArea(.all)
+                        .navigationBarTitle("")
+                        .navigationBarHidden(true)
                         .tabItem {
                             Image("wallet-light")
                             Text("Filecoin")
@@ -94,7 +105,11 @@ struct ContentView: View {
                         .tag(Navigation.filecoin)
                 }
                 .accentColor(Color("brand"))
+                .clipped()
+                .edgesIgnoringSafeArea(.all)
             }
+            .clipped()
+            .edgesIgnoringSafeArea(.all)
         }
     }
 }

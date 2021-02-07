@@ -8,23 +8,30 @@
 import SwiftUI
 
 struct UserView: View {
+    enum Sheet: Identifiable {
+        case edit, user
+        
+        var id: Int { hashValue }
+    }
+    
     @ObservedObject var viewer: User
-    @State private var showEditSheet = false
+    @State private var showingEditSheet = false
+    @State private var selectedUser: User? = nil
     let views = ["Following", "Followers"]
     @State private var viewIndex = 0
-    var following: [SubscriptionUser] {
+    var following: [User] {
         if let subscriptions = viewer.subscriptions {
             return subscriptions.filter { return $0.user != nil }
                 .map { $0.user! }
         }
-        return [SubscriptionUser]()
+        return [User]()
     }
-    var followers: [SubscriptionUser] {
+    var followers: [User] {
         if let subscribers = viewer.subscribers {
             return subscribers.filter { return $0.owner != nil }
                 .map { $0.owner! }
         }
-        return [SubscriptionUser]()
+        return [User]()
     }
     
     var body: some View {
@@ -43,37 +50,96 @@ struct UserView: View {
                         Text(viewer.data.body!)
                             .font(Font.custom("Inter", size: 14))
                             .foregroundColor(Color("darkGray"))
+                            .multilineTextAlignment(.center)
                             .padding(.top, 2)
                     }
                 }
+                .padding(.horizontal, Constants.sideMargin)
                 .padding(.bottom, 24)
                 .frame(maxWidth: .infinity)
                 .contentShape(Rectangle())
-                .onTapGesture { self.showEditSheet = true }
-                ScrollView(.vertical) {
-                    VStack {
-                        if viewIndex == 0 {
-                            ForEach(0..<following.count) { index in
-                                UserEntryView(user: following[index])
+                .onTapGesture {
+                    self.showingEditSheet = true
+                }
+                .sheet(isPresented: $showingEditSheet) {
+                    UserEditView(viewer: viewer)
+                }
+                
+                if viewIndex == 0 {
+                    if following.count > 0 {
+                        ScrollView(.vertical) {
+                            VStack {
+                                ForEach(0..<following.count) { index in
+                                    UserEntryView(user: following[index])
+                                        .onTapGesture {
+                                            self.selectedUser = following[index]
+                                        }
+                                }
                             }
-                        } else {
-                            ForEach(0..<followers.count) { index in
-                                UserEntryView(user: followers[index])
+                            .padding(.horizontal, Constants.sideMargin)
+                            .sheet(item: $selectedUser) { user in
+                                ProfileView(user: user)
                             }
+                            Spacer()
+                                .frame(height: Constants.bottomMargin)
                         }
+                    } else {
+                        EmptyStateView(text: "Users you follow will be displayed here", icon: Image("user"))
+                            .padding(.horizontal, 16)
                     }
-                    .padding(.horizontal, Constants.sideMargin)
-                    Spacer()
-                        .frame(height: Constants.bottomMargin)
+                } else {
+                    if followers.count > 0 {
+                        ScrollView(.vertical) {
+                            VStack {
+                                ForEach(0..<followers.count) { index in
+                                    UserEntryView(user: followers[index])
+                                        .onTapGesture {
+                                            self.selectedUser = followers[index]
+                                        }
+                                }
+                            }
+                            .padding(.horizontal, Constants.sideMargin)
+                            .sheet(item: $selectedUser) { user in
+                                ProfileView(user: user)
+                            }
+                            Spacer()
+                                .frame(height: Constants.bottomMargin)
+                        }
+                    } else {
+                        EmptyStateView(text: "Users who follow you will be displayed here", icon: Image("user"))
+                            .padding(.horizontal, 16)
+                    }
                 }
             }
-            PageOverlayView(pickerOptions: views, pickerIndex: $viewIndex, hideTop: true) {
-                Text("Null")
+            PageOverlayView(pickerOptions: views, pickerIndex: $viewIndex) {
+                TranslucentButtonView(type: .text, action: {
+                                        print("sign out button clicked")
+                                        Actions.signOut(completion: clearViewerData)
+                }) {
+                    Text("Sign out")
+                        .font(Font.custom("Inter", size: 14))
+                        .fontWeight(.medium)
+                }
             }
+            .padding(.bottom, 52)
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .sheet(isPresented: $showEditSheet) {
-            UserEditView(viewer: viewer)
+    }
+    
+    func clearViewerData() {
+        DispatchQueue.main.async {
+            viewer.id = ""
+            viewer.username = ""
+            viewer.data = UserData()
+            viewer.library = nil
+            viewer.slates = nil
+            viewer.onboarding = nil
+            viewer.status = nil
+            viewer.subscriptions = nil
+            viewer.subscribers = nil
+            print("Info after clear viewer data:")
+            print(viewer.id)
+            print(viewer.username)
         }
     }
 }
@@ -169,7 +235,7 @@ struct UserEditView: View {
 }
 
 struct UserEntryView: View {
-    var user: SubscriptionUser
+    var user: User
     
     var body: some View {
         HStack(spacing: 16) {

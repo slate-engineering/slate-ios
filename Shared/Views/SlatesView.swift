@@ -26,14 +26,19 @@ struct SlatesView: View {
                     ScrollView(.vertical) {
                         Spacer()
                             .frame(height: 52)
-                        VStack(spacing: 16) {
-                            ForEach(0..<(viewer.slates?.count ?? 0)) { index in
-                                NavigationLink(destination: SlateView(viewer: viewer, slate: viewer.slates![index])) {
-                                    SlatePreviewView(slate: viewer.slates![index])
-                                        .padding(.horizontal, Constants.sideMargin)
-                                        .frame(width: geo.size.width, height: 0.75 * geo.size.width + 46)
+                        if viewer.slates != nil && viewer.slates!.count > 0 {
+                            VStack(spacing: 16) {
+                                ForEach(0..<viewer.slates!.count) { index in
+                                    NavigationLink(destination: SlateView(user: viewer, slate: viewer.slates![index])) {
+                                        SlatePreviewView(slate: viewer.slates![index])
+                                            .padding(.horizontal, Constants.sideMargin)
+                                            .frame(width: geo.size.width, height: 0.75 * geo.size.width + 46)
+                                    }
                                 }
                             }
+                        } else {
+                            EmptyStateView(text: "Make your first slate by pressing \"New Slate\"", icon: Image("box"))
+                                .padding(.horizontal, 16)
                         }
                         Spacer()
                             .frame(height: Constants.bottomMargin)
@@ -42,14 +47,19 @@ struct SlatesView: View {
                     ScrollView(.vertical) {
                         Spacer()
                             .frame(height: 52)
-                        VStack(spacing: 16) {
-                            ForEach(0..<slatesFollowing.count) { index in
-                                NavigationLink(destination: SlateView(viewer: viewer, slate: slatesFollowing[index])) {
-                                    SlatePreviewView(slate: slatesFollowing[index])
-                                        .padding(.horizontal, Constants.sideMargin)
-                                        .frame(width: geo.size.width, height: 0.75 * geo.size.width + 46)
+                        if slatesFollowing.count > 0 {
+                            VStack(spacing: 16) {
+                                ForEach(0..<slatesFollowing.count) { index in
+                                    NavigationLink(destination: SlateView(user: viewer, slate: slatesFollowing[index])) {
+                                        SlatePreviewView(slate: slatesFollowing[index])
+                                            .padding(.horizontal, Constants.sideMargin)
+                                            .frame(width: geo.size.width, height: 0.75 * geo.size.width + 46)
+                                    }
                                 }
                             }
+                        } else {
+                            EmptyStateView(text: "Slates you follow will be shown here", icon: Image("box"))
+                                .padding(.horizontal, 16)
                         }
                         Spacer()
                             .frame(height: Constants.bottomMargin)
@@ -63,6 +73,7 @@ struct SlatesView: View {
                         .fontWeight(.medium)
                 }
             }
+            .padding(.bottom, 52)
         }
     }
 }

@@ -22,7 +22,10 @@ struct DataView: View {
     var body: some View {
         GeometryReader { geo in
             ZStack {
-                if viewIndex == 2 {
+                if viewer.files == nil || viewer.files!.count == 0 {
+                    EmptyStateView(text: "Add files using the upload button", icon: Image("folder"))
+                        .padding(.horizontal, 16)
+                } else if viewIndex == 2 {
                     ScrollView(.vertical) {
                         Spacer()
                             .frame(height: 52)
@@ -71,6 +74,7 @@ struct DataView: View {
                             .fontWeight(.medium)
                     }
                 }
+                .padding(.bottom, 52)
             }
         }
     }

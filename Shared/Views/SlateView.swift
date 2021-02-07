@@ -8,14 +8,14 @@
 import SwiftUI
 
 struct SlateView: View {
-    var viewer: User
+    var user: User
     var slate: Slate
     var username: String? {
         if let username = slate.user?.data.name ?? slate.user?.username {
             return username
         }
-        if slate.data.ownerId == viewer.id {
-            return viewer.data.name ?? "@\(viewer.username)"
+        if slate.data.ownerId == user.id {
+            return user.data.name ?? "@\(user.username)"
         }
         return nil
     }

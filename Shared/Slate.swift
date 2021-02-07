@@ -7,7 +7,7 @@
 
 import Foundation
 
-class Slate: ObservableObject, Codable {
+class Slate: ObservableObject, Codable, Identifiable {
     enum CodingKeys: String, CodingKey {
         case createdAt = "created_at"
         case updatedAt = "updated_at"

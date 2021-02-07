@@ -29,9 +29,9 @@ import SwiftUI
 //    }
 //}
 
-//extension Text {
-//    init() {
-//        self
-//            .font(/*@START_MENU_TOKEN@*/.title/*@END_MENU_TOKEN@*/)
-//    }
-//}
+extension Text {
+    func textStyle() -> Text {
+        self
+            .font(Font.custom("Inter", size: 14))
+    }
+}

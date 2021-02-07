@@ -50,6 +50,10 @@
 		B48AE2D625C8BE56006FA245 /* FiletypeIconView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B48AE2D525C8BE56006FA245 /* FiletypeIconView.swift */; };
 		B48AE35425CB6923006FA245 /* TextBoxView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B48AE35325CB6923006FA245 /* TextBoxView.swift */; };
 		B48AE35825CB8969006FA245 /* NavigationBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B48AE35725CB8969006FA245 /* NavigationBarView.swift */; };
+		B48AE36125CF372C006FA245 /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B48AE36025CF372B006FA245 /* ProfileView.swift */; };
+		B48AE36525CF3A85006FA245 /* TabGroupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B48AE36425CF3A85006FA245 /* TabGroupView.swift */; };
+		B48AE36925CF7509006FA245 /* EmptyStateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B48AE36825CF7509006FA245 /* EmptyStateView.swift */; };
+		B48AE36D25CF899C006FA245 /* LoaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B48AE36C25CF899C006FA245 /* LoaderView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -95,6 +99,10 @@
 		B48AE2D525C8BE56006FA245 /* FiletypeIconView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FiletypeIconView.swift; sourceTree = "<group>"; };
 		B48AE35325CB6923006FA245 /* TextBoxView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextBoxView.swift; sourceTree = "<group>"; };
 		B48AE35725CB8969006FA245 /* NavigationBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationBarView.swift; sourceTree = "<group>"; };
+		B48AE36025CF372B006FA245 /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
+		B48AE36425CF3A85006FA245 /* TabGroupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabGroupView.swift; sourceTree = "<group>"; };
+		B48AE36825CF7509006FA245 /* EmptyStateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyStateView.swift; sourceTree = "<group>"; };
+		B48AE36C25CF899C006FA245 /* LoaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoaderView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -173,7 +181,10 @@
 			isa = PBXGroup;
 			children = (
 				B43665EA25BA574200C3AEBD /* ButtonView.swift */,
+				B48AE36425CF3A85006FA245 /* TabGroupView.swift */,
+				B48AE36C25CF899C006FA245 /* LoaderView.swift */,
 				B48AE35725CB8969006FA245 /* NavigationBarView.swift */,
+				B48AE36825CF7509006FA245 /* EmptyStateView.swift */,
 				B48AE2CD25C51029006FA245 /* SlatePreviewView.swift */,
 				B48AE2D525C8BE56006FA245 /* FiletypeIconView.swift */,
 				B48AE2C525C4EB73006FA245 /* TranslucentButtonView.swift */,
@@ -202,6 +213,7 @@
 				B436659B25BA395900C3AEBD /* ContentView.swift */,
 				B43665C725BA416500C3AEBD /* SignInView.swift */,
 				B48AE2B025C4CCC7006FA245 /* UserView.swift */,
+				B48AE36025CF372B006FA245 /* ProfileView.swift */,
 				B48AE2B425C4CCD5006FA245 /* FilecoinView.swift */,
 				B48AE2AC25C4CCB6006FA245 /* ActivityView.swift */,
 				B4410EEE25BFA20900030284 /* DataView.swift */,
@@ -338,14 +350,18 @@
 				B436661625BBB5D100C3AEBD /* Actions.swift in Sources */,
 				B48AE2B125C4CCC7006FA245 /* UserView.swift in Sources */,
 				B43665EF25BA64E200C3AEBD /* InputView.swift in Sources */,
+				B48AE36925CF7509006FA245 /* EmptyStateView.swift in Sources */,
 				B4410EE725BF767900030284 /* Environment.swift in Sources */,
 				B48AE2CA25C4FBD9006FA245 /* PageOverlayView.swift in Sources */,
+				B48AE36D25CF899C006FA245 /* LoaderView.swift in Sources */,
 				B43665F325BB663D00C3AEBD /* Strings.swift in Sources */,
 				B48AE2C225C4E4C6006FA245 /* Blur.swift in Sources */,
+				B48AE36525CF3A85006FA245 /* TabGroupView.swift in Sources */,
 				B48AE2AD25C4CCB6006FA245 /* ActivityView.swift in Sources */,
 				B43665C825BA416500C3AEBD /* SignInView.swift in Sources */,
 				B43665FC25BB884F00C3AEBD /* Helpers.swift in Sources */,
 				B43665EB25BA574200C3AEBD /* ButtonView.swift in Sources */,
+				B48AE36125CF372C006FA245 /* ProfileView.swift in Sources */,
 				B436660A25BB979C00C3AEBD /* AlertMessage.swift in Sources */,
 				B48AE2C625C4EB73006FA245 /* TranslucentButtonView.swift in Sources */,
 				B4593CEB25C3A84800345013 /* ImageView.swift in Sources */,

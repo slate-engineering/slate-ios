@@ -8,77 +8,20 @@
 import Foundation
 import SwiftyJSON
 
-class User: ObservableObject, Codable {
+class User: ObservableObject, Codable, Identifiable {
     enum CodingKeys: String, CodingKey {
         case id, username, data, library, slates, subscribers, subscriptions, onboarding, status
     }
     
-    var id: String {
-        didSet {
-            UserDefaults.standard.set(id, forKey: "id")
-        }
-    }
-    @Published var username: String {
-        didSet {
-            UserDefaults.standard.set(username, forKey: "username")
-        }
-    }
-    @Published var data: UserData {
-        didSet {
-            let encoder = JSONEncoder()
-            if let encoded = try? encoder.encode(data) {
-                UserDefaults.standard.set(encoded, forKey: "data")
-            }
-        }
-    }
-    @Published var library: [Library]? {
-        didSet {
-            let encoder = JSONEncoder()
-            if let encoded = try? encoder.encode(library) {
-                UserDefaults.standard.set(encoded, forKey: "library")
-            }
-        }
-    }
-    @Published var slates: [Slate]? {
-        didSet {
-            let encoder = JSONEncoder()
-            if let encoded = try? encoder.encode(slates) {
-                UserDefaults.standard.set(encoded, forKey: "slates")
-            }
-        }
-    }
-    @Published var subscribers: [Subscription]? {
-        didSet {
-            let encoder = JSONEncoder()
-            if let encoded = try? encoder.encode(subscribers) {
-                UserDefaults.standard.set(encoded, forKey: "subscribers")
-            }
-        }
-    }
-    @Published var subscriptions: [Subscription]? {
-        didSet {
-            let encoder = JSONEncoder()
-            if let encoded = try? encoder.encode(subscriptions) {
-                UserDefaults.standard.set(encoded, forKey: "subscriptions")
-            }
-        }
-    }
-    var onboarding: [String: Bool]? {
-        didSet {
-            let encoder = JSONEncoder()
-            if let encoded = try? encoder.encode(onboarding) {
-                UserDefaults.standard.set(encoded, forKey: "onboarding")
-            }
-        }
-    }
-    var status: [String: Bool]? {
-        didSet {
-            let encoder = JSONEncoder()
-            if let encoded = try? encoder.encode(status) {
-                UserDefaults.standard.set(encoded, forKey: "status")
-            }
-        }
-    }
+    var id: String
+    @Published var username: String
+    @Published var data: UserData
+    @Published var library: [Library]?
+    @Published var slates: [Slate]?
+    @Published var subscribers: [Subscription]?
+    @Published var subscriptions: [Subscription]?
+    var onboarding: [String: Bool]?
+    var status: [String: Bool]?
     var files: [LibraryFile]? {
         library?[0].children ?? [LibraryFile]()
     }
@@ -154,15 +97,15 @@ class User: ObservableObject, Codable {
     
     required init(from decoder: Decoder) throws {
         let values = try decoder.container(keyedBy: CodingKeys.self)
-        id = try values.decode(String.self, forKey: .id)
-        username = try values.decode(String.self, forKey: .username)
-        data = try values.decode(UserData.self, forKey: .data)
-        library = try values.decode([Library].self, forKey: .library)
-        slates = try values.decode([Slate].self, forKey: .slates)
-        subscribers = try values.decode([Subscription].self, forKey: .subscribers)
-        subscriptions = try values.decode([Subscription].self, forKey: .subscriptions)
-        onboarding = try values.decode([String: Bool].self, forKey: .onboarding)
-        status = try values.decode([String: Bool].self, forKey: .status)
+        id = try values.decodeIfPresent(String.self, forKey: .id) ?? ""
+        username = try values.decodeIfPresent(String.self, forKey: .username) ?? ""
+        data = try values.decodeIfPresent(UserData.self, forKey: .data) ?? UserData()
+        library = try values.decodeIfPresent([Library].self, forKey: .library)
+        slates = try values.decodeIfPresent([Slate].self, forKey: .slates)
+        subscribers = try values.decodeIfPresent([Subscription].self, forKey: .subscribers)
+        subscriptions = try values.decodeIfPresent([Subscription].self, forKey: .subscriptions)
+        onboarding = try values.decodeIfPresent([String: Bool].self, forKey: .onboarding)
+        status = try values.decodeIfPresent([String: Bool].self, forKey: .status)
     }
     
     func encode(to encoder: Encoder) throws {
@@ -176,6 +119,33 @@ class User: ObservableObject, Codable {
         try container.encode(subscriptions, forKey: .subscriptions)
         try container.encode(onboarding, forKey: .onboarding)
         try container.encode(status, forKey: .status)
+    }
+    
+    func saveToUserDefaults() {
+        UserDefaults.standard.set(id, forKey: "id")
+        UserDefaults.standard.set(username, forKey: "username")
+        let encoder = JSONEncoder()
+        if let encoded = try? encoder.encode(data) {
+            UserDefaults.standard.set(encoded, forKey: "data")
+        }
+        if let encoded = try? encoder.encode(library) {
+            UserDefaults.standard.set(encoded, forKey: "library")
+        }
+        if let encoded = try? encoder.encode(slates) {
+            UserDefaults.standard.set(encoded, forKey: "slates")
+        }
+        if let encoded = try? encoder.encode(subscribers) {
+            UserDefaults.standard.set(encoded, forKey: "subscribers")
+        }
+        if let encoded = try? encoder.encode(subscriptions) {
+            UserDefaults.standard.set(encoded, forKey: "subscriptions")
+        }
+        if let encoded = try? encoder.encode(onboarding) {
+            UserDefaults.standard.set(encoded, forKey: "onboarding")
+        }
+        if let encoded = try? encoder.encode(status) {
+            UserDefaults.standard.set(encoded, forKey: "status")
+        }
     }
 }
 
@@ -236,18 +206,8 @@ struct Subscription: Codable {
         case id, slate, owner, user
     }
     
-    var id: String
+    var id: String?
     var owner: User?
     var slate: Slate?
     var user: User?
-}
-
-struct SubscriptionUser: Codable {
-    enum CodingKeys: String, CodingKey {
-        case id, username, data
-    }
-    
-    var id: String
-    var username: String
-    var data: UserData
 }

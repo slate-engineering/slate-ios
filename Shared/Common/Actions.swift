@@ -9,10 +9,6 @@ import Foundation
 import SwiftyJSON
 
 struct Actions {
-    static func toString(data: Data) -> String {
-        return String(decoding: data, as: UTF8.self)
-    }
-    
     static func readCookie(forURL url: URL) -> [HTTPCookie] {
         let cookieStorage = HTTPCookieStorage.shared
         let cookies = cookieStorage.cookies(for: url) ?? []
@@ -26,13 +22,30 @@ struct Actions {
                                  mainDocumentURL: nil)
     }
     
-    static func deleteCookies(forURL url: URL) {
+    static func deleteCookies() {
         let cookieStorage = HTTPCookieStorage.shared
-
-        for cookie in readCookie(forURL: url) {
+        
+        for cookie in cookieStorage.cookies! {
             cookieStorage.deleteCookie(cookie)
         }
     }
+    
+    static func printCookies() {
+        let cookieStorage = HTTPCookieStorage.shared
+        print("Cookies:")
+        
+        for cookie in cookieStorage.cookies! {
+            print(cookie)
+        }
+    }
+    
+//    static func deleteCookies(forURL url: URL) {
+//        let cookieStorage = HTTPCookieStorage.shared
+//
+//        for cookie in readCookie(forURL: url) {
+//            cookieStorage.deleteCookie(cookie)
+//        }
+//    }
     
     static func makeRequest(route: String, body: Data?, completion: @escaping (Data) -> Void) {
         let url = URL(string: "\(Env.serverURL)\(route)")!
@@ -91,6 +104,8 @@ struct Actions {
     }
     
     static func signIn(username: String, password: String, completion: @escaping (User) -> Void) {
+        printCookies()
+        deleteCookies()
         let url = URL(string: Env.serverURL)!
         guard let encoded = try? JSONEncoder().encode(["data": ["username": username, "password": password]]) else {
             print("Failed to encode body")
@@ -131,6 +146,60 @@ struct Actions {
                 let user = decoded.data
                 print(user)
                 completion(user)
+            } else {
+                print("failed")
+            }
+        }
+    }
+    
+    static func signOut(completion: @escaping () -> Void) {
+        deleteCookies()
+        completion()
+    }
+    
+    static func getSerializedProfile(id: String, completion: @escaping (User) -> Void) {
+        struct Response: Codable {
+            enum CodingKeys: String, CodingKey {
+                case data
+            }
+            
+            let data: User
+        }
+        
+        guard let encoded = try? JSONEncoder().encode(["data": ["id": id]]) else {
+            print("Failed to encode body")
+            return
+        }
+        makeRequest(route: "/api/users/get-serialized", body: encoded) { data in
+            print(data.toString())
+            if let decoded = try? JSONDecoder().decode(Response.self, from: data) {
+                let user = decoded.data
+                print(user)
+                completion(user)
+            } else {
+                print("failed")
+            }
+        }
+    }
+    
+    static func getUserSocial(id: String, completion: @escaping ([Subscription], [Subscription]) -> Void) {
+        struct Response: Codable {
+            enum CodingKeys: String, CodingKey {
+                case subscribers, subscriptions
+            }
+            
+            let subscriptions: [Subscription]?
+            let subscribers: [Subscription]?
+        }
+        
+        guard let encoded = try? JSONEncoder().encode(["data": ["userId": id]]) else {
+            print("Failed to encode body")
+            return
+        }
+        
+        makeRequest(route: "/api/users/get-social", body: encoded) { data in
+            if let decoded = try? JSONDecoder().decode(Response.self, from: data) {
+                completion(decoded.subscriptions ?? [Subscription](), decoded.subscribers ?? [Subscription]())
             } else {
                 print("failed")
             }
