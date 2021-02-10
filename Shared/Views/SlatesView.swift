@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct SlatesView: View {
-    @ObservedObject var viewer: User
+    @EnvironmentObject var viewer: User
     let views = ["My Slates", "Following"]
     @State private var viewIndex = 0
     var slatesFollowing: [Slate] {
@@ -29,7 +29,7 @@ struct SlatesView: View {
                         if viewer.slates != nil && viewer.slates!.count > 0 {
                             VStack(spacing: 16) {
                                 ForEach(0..<viewer.slates!.count) { index in
-                                    NavigationLink(destination: SlateView(user: viewer, slate: viewer.slates![index])) {
+                                    NavigationLink(destination: SlateView(slate: viewer.slates![index]).environmentObject(viewer)) {
                                         SlatePreviewView(slate: viewer.slates![index])
                                             .padding(.horizontal, Constants.sideMargin)
                                             .frame(width: geo.size.width, height: 0.75 * geo.size.width + 46)
@@ -50,7 +50,7 @@ struct SlatesView: View {
                         if slatesFollowing.count > 0 {
                             VStack(spacing: 16) {
                                 ForEach(0..<slatesFollowing.count) { index in
-                                    NavigationLink(destination: SlateView(user: viewer, slate: slatesFollowing[index])) {
+                                    NavigationLink(destination: SlateView(slate: slatesFollowing[index]).environmentObject(viewer)) {
                                         SlatePreviewView(slate: slatesFollowing[index])
                                             .padding(.horizontal, Constants.sideMargin)
                                             .frame(width: geo.size.width, height: 0.75 * geo.size.width + 46)
@@ -67,7 +67,7 @@ struct SlatesView: View {
                 }
             }
             PageOverlayView(pickerOptions: views, pickerIndex: $viewIndex) {
-                TranslucentButtonView(type: .text, action: { print("Pressed button") }) {
+                TranslucentButtonView(type: .text, action: { print("Pressed new slate button (not implemented yet)") }) {
                     Text("New Slate")
                         .font(Font.custom("Inter", size: 14))
                         .fontWeight(.medium)
@@ -75,11 +75,5 @@ struct SlatesView: View {
             }
             .padding(.bottom, 52)
         }
-    }
-}
-
-struct SlatesView_Previews: PreviewProvider {
-    static var previews: some View {
-        SlatesView(viewer: User())
     }
 }

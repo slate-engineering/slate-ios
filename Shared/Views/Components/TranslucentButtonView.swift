@@ -13,17 +13,27 @@ struct TranslucentButtonView<Content: View>: View {
     }
     
     let content: Content
-    let action: () -> Void
+    let action: (() -> Void)?
     let buttonType: ButtonType
     
-    init(type: ButtonType, action: @escaping () -> Void = { print("button clicked") }, @ViewBuilder content: () -> Content) {
+    init(type: ButtonType, action: (() -> Void)? = nil, @ViewBuilder content: () -> Content) {
         self.content = content()
         self.action = action
         self.buttonType = type
     }
     
     var body: some View {
-        Button(action: self.action) {
+        if self.action != nil {
+            Button(action: self.action!) {
+                content
+                    .padding(.horizontal, buttonType == .text ? 12 : 0)
+                    .frame(width: buttonType == .text ? nil : 32, height: 32)
+                    .background(Blur(style: .systemMaterial))
+                    .foregroundColor(Color("grayBlack"))
+                    .clipShape(RoundedRectangle(cornerRadius: 100))
+                    .contentShape(RoundedRectangle(cornerRadius: 100))
+            }
+        } else {
             content
                 .padding(.horizontal, buttonType == .text ? 12 : 0)
                 .frame(width: buttonType == .text ? nil : 32, height: 32)

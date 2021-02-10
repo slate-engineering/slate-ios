@@ -15,7 +15,7 @@ class Slate: ObservableObject, Codable, Identifiable {
         case id, slatename, data
     }
     
-    let id: String
+    var id: String
     var slatename: String
     var createdAt: String?
     var updatedAt: String?

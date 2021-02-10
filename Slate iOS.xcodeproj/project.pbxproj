@@ -54,6 +54,10 @@
 		B48AE36525CF3A85006FA245 /* TabGroupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B48AE36425CF3A85006FA245 /* TabGroupView.swift */; };
 		B48AE36925CF7509006FA245 /* EmptyStateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B48AE36825CF7509006FA245 /* EmptyStateView.swift */; };
 		B48AE36D25CF899C006FA245 /* LoaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B48AE36C25CF899C006FA245 /* LoaderView.swift */; };
+		B48AE38125D32DC1006FA245 /* ProfilePeersView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B48AE38025D32DC1006FA245 /* ProfilePeersView.swift */; };
+		B48AE38625D35C9C006FA245 /* Starscream in Frameworks */ = {isa = PBXBuildFile; productRef = B48AE38525D35C9C006FA245 /* Starscream */; };
+		B48AE38A25D35CBD006FA245 /* Websocket.swift in Sources */ = {isa = PBXBuildFile; fileRef = B48AE38925D35CBD006FA245 /* Websocket.swift */; };
+		B48AE3AA25D47D05006FA245 /* NewSlateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B48AE3A925D47D04006FA245 /* NewSlateView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -103,6 +107,9 @@
 		B48AE36425CF3A85006FA245 /* TabGroupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabGroupView.swift; sourceTree = "<group>"; };
 		B48AE36825CF7509006FA245 /* EmptyStateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyStateView.swift; sourceTree = "<group>"; };
 		B48AE36C25CF899C006FA245 /* LoaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoaderView.swift; sourceTree = "<group>"; };
+		B48AE38025D32DC1006FA245 /* ProfilePeersView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfilePeersView.swift; sourceTree = "<group>"; };
+		B48AE38925D35CBD006FA245 /* Websocket.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Websocket.swift; sourceTree = "<group>"; };
+		B48AE3A925D47D04006FA245 /* NewSlateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewSlateView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -111,6 +118,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B4410EE325BF6C9F00030284 /* SwiftyJSON in Frameworks */,
+				B48AE38625D35C9C006FA245 /* Starscream in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -144,6 +152,7 @@
 				B436660925BB979C00C3AEBD /* AlertMessage.swift */,
 				B4410EF625BFACF500030284 /* User.swift */,
 				B4593CE225C351BF00345013 /* Slate.swift */,
+				B48AE38925D35CBD006FA245 /* Websocket.swift */,
 				B43665E325BA54D600C3AEBD /* Inter.ttf */,
 				B436659C25BA395C00C3AEBD /* Assets.xcassets */,
 				B43665CB25BA4BC500C3AEBD /* Colors.xcassets */,
@@ -214,10 +223,12 @@
 				B43665C725BA416500C3AEBD /* SignInView.swift */,
 				B48AE2B025C4CCC7006FA245 /* UserView.swift */,
 				B48AE36025CF372B006FA245 /* ProfileView.swift */,
+				B48AE38025D32DC1006FA245 /* ProfilePeersView.swift */,
 				B48AE2B425C4CCD5006FA245 /* FilecoinView.swift */,
 				B48AE2AC25C4CCB6006FA245 /* ActivityView.swift */,
 				B4410EEE25BFA20900030284 /* DataView.swift */,
 				B48AE2D125C54675006FA245 /* SlateView.swift */,
+				B48AE3A925D47D04006FA245 /* NewSlateView.swift */,
 				B48AE2A825C4CC3D006FA245 /* SlatesView.swift */,
 				B43665CF25BA529D00C3AEBD /* Components */,
 			);
@@ -258,6 +269,7 @@
 			name = "Slate iOS (iOS)";
 			packageProductDependencies = (
 				B4410EE225BF6C9F00030284 /* SwiftyJSON */,
+				B48AE38525D35C9C006FA245 /* Starscream */,
 			);
 			productName = "Slate iOS (iOS)";
 			productReference = B43665A125BA395C00C3AEBD /* Slate iOS.app */;
@@ -308,6 +320,7 @@
 			mainGroup = B436659425BA395900C3AEBD;
 			packageReferences = (
 				B4410EE125BF6C9F00030284 /* XCRemoteSwiftPackageReference "SwiftyJSON" */,
+				B48AE38425D35C9C006FA245 /* XCRemoteSwiftPackageReference "Starscream" */,
 			);
 			productRefGroup = B43665A225BA395C00C3AEBD /* Products */;
 			projectDirPath = "";
@@ -348,6 +361,7 @@
 			files = (
 				B43665E025BA537B00C3AEBD /* Constants.swift in Sources */,
 				B436661625BBB5D100C3AEBD /* Actions.swift in Sources */,
+				B48AE3AA25D47D05006FA245 /* NewSlateView.swift in Sources */,
 				B48AE2B125C4CCC7006FA245 /* UserView.swift in Sources */,
 				B43665EF25BA64E200C3AEBD /* InputView.swift in Sources */,
 				B48AE36925CF7509006FA245 /* EmptyStateView.swift in Sources */,
@@ -363,10 +377,12 @@
 				B43665EB25BA574200C3AEBD /* ButtonView.swift in Sources */,
 				B48AE36125CF372C006FA245 /* ProfileView.swift in Sources */,
 				B436660A25BB979C00C3AEBD /* AlertMessage.swift in Sources */,
+				B48AE38A25D35CBD006FA245 /* Websocket.swift in Sources */,
 				B48AE2C625C4EB73006FA245 /* TranslucentButtonView.swift in Sources */,
 				B4593CEB25C3A84800345013 /* ImageView.swift in Sources */,
 				B48AE2CE25C51029006FA245 /* SlatePreviewView.swift in Sources */,
 				B4593CE325C351BF00345013 /* Slate.swift in Sources */,
+				B48AE38125D32DC1006FA245 /* ProfilePeersView.swift in Sources */,
 				B48AE2B525C4CCD5006FA245 /* FilecoinView.swift in Sources */,
 				B436661225BB9C6100C3AEBD /* CheckBoxView.swift in Sources */,
 				B48AE2A925C4CC3D006FA245 /* SlatesView.swift in Sources */,
@@ -527,7 +543,10 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "Martina-Long.Slate-iOS";
 				PRODUCT_NAME = "Slate iOS";
+				RESOURCE_URI_PUBSUB = "ws://192.168.86.162:6464";
+				RESOURCE_URI_SEARCH = "http://192.168.86.162:1313";
 				RESOURCE_URI_SERVER = "http://192.168.86.162:1337";
+				RESOURCE_URI_UPLOAD = "http://192.168.86.162:4242";
 				SDKROOT = iphoneos;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -550,7 +569,10 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "Martina-Long.Slate-iOS";
 				PRODUCT_NAME = "Slate iOS";
+				RESOURCE_URI_PUBSUB = "wss://fiji.onrender.com";
+				RESOURCE_URI_SEARCH = "https://lens.slate.host";
 				RESOURCE_URI_SERVER = "https://slate.host";
+				RESOURCE_URI_UPLOAD = "https://slate-api.onrender.com";
 				SDKROOT = iphoneos;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -647,6 +669,14 @@
 				minimumVersion = 5.0.0;
 			};
 		};
+		B48AE38425D35C9C006FA245 /* XCRemoteSwiftPackageReference "Starscream" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/daltoniam/Starscream";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 4.0.4;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -654,6 +684,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = B4410EE125BF6C9F00030284 /* XCRemoteSwiftPackageReference "SwiftyJSON" */;
 			productName = SwiftyJSON;
+		};
+		B48AE38525D35C9C006FA245 /* Starscream */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B48AE38425D35C9C006FA245 /* XCRemoteSwiftPackageReference "Starscream" */;
+			productName = Starscream;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

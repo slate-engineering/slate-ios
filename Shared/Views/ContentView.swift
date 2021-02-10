@@ -7,24 +7,7 @@
 
 import SwiftUI
 import Foundation
-
-extension UIImage {
-    class func colorForNavBar(color: UIColor) -> UIImage {
-        let rect = CGRect(x: 0.0, y: 0.0, width: 1.0, height: 1.0)
-        //    Or if you need a thinner border :
-        //    let rect = CGRect(x: 0.0, y: 0.0, width: 1.0, height: 0.5)
-        UIGraphicsBeginImageContext(rect.size)
-        let context = UIGraphicsGetCurrentContext()
-
-        context!.setFillColor(color.cgColor)
-        context!.fill(rect)
-
-        let image = UIGraphicsGetImageFromCurrentImageContext()
-        UIGraphicsEndImageContext()
-
-        return image!
-    }
-}
+import Starscream
 
 struct ContentView: View {
     @ObservedObject var viewer = User()
@@ -41,13 +24,15 @@ struct ContentView: View {
     
     var body: some View {
         if viewer.id.isEmpty {
-            SignInView(viewer: viewer)
+            SignInView()
+                .environmentObject(viewer)
                 .background(Color("foreground"))
                 .edgesIgnoringSafeArea(.all)
         } else {
             NavigationView {
                 TabView(selection: $scene) {
-                    DataView(viewer: viewer)
+                    DataView()
+                        .environmentObject(viewer)
                         .padding(.vertical, 40)
                         .background(Color("foreground"))
                         .clipped()
@@ -59,7 +44,8 @@ struct ContentView: View {
                             Text("Files")
                         }
                         .tag(Navigation.data)
-                    SlatesView(viewer: viewer)
+                    SlatesView()
+                        .environmentObject(viewer)
                         .padding(.vertical, 40)
                         .background(Color("foreground"))
                         .edgesIgnoringSafeArea(.all)
@@ -71,6 +57,7 @@ struct ContentView: View {
                         }
                         .tag(Navigation.slates)
                     ActivityView()
+                        .environmentObject(viewer)
                         .padding(.vertical, 40)
                         .background(Color("foreground"))
                         .edgesIgnoringSafeArea(.all)
@@ -81,7 +68,8 @@ struct ContentView: View {
                             Text("Explore")
                         }
                         .tag(Navigation.activity)
-                    UserView(viewer: viewer)
+                    UserView()
+                        .environmentObject(viewer)
                         .padding(.vertical, 40)
                         .background(Color("foreground"))
                         .edgesIgnoringSafeArea(.all)
@@ -93,6 +81,7 @@ struct ContentView: View {
                         }
                         .tag(Navigation.user)
                     FilecoinView()
+                        .environmentObject(viewer)
                         .padding(.vertical, 40)
                         .background(Color("foreground"))
                         .edgesIgnoringSafeArea(.all)
@@ -110,6 +99,7 @@ struct ContentView: View {
             }
             .clipped()
             .edgesIgnoringSafeArea(.all)
+            .onAppear { print("Content view on appear called") }
         }
     }
 }

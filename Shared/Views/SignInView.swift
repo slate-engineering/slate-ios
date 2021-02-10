@@ -12,7 +12,7 @@ struct SignInView: View {
         case signUp, signIn
     }
     
-    @ObservedObject var viewer: User
+    @EnvironmentObject var viewer: User
     @State private var username = ""
     @State private var password = ""
     @State private var status: Page? = nil
@@ -211,23 +211,11 @@ struct SignInView: View {
     }
     
     func saveViewerData(_ user: User) {
-        print(viewer.id)
-        print(viewer.username)
+        Utilities.copyUserDetails(to: viewer, from: user)
         DispatchQueue.main.async {
-            viewer.id = user.id
-            viewer.username = user.username
-            viewer.data = user.data
-            viewer.library = user.library
-            viewer.slates = user.slates
-            viewer.onboarding = user.onboarding
-            viewer.status = user.status
-            viewer.subscriptions = user.subscriptions
-            viewer.subscribers = user.subscribers
             viewer.saveToUserDefaults()
             loading = false
-            print("Info after save viewer data:")
-            print(viewer.id)
-            print(viewer.username)
+            print("Signed in as: \n\(viewer.id) \n\(viewer.username)")
         }
     }
 }

@@ -8,13 +8,13 @@
 import SwiftUI
 
 struct UserView: View {
+    @EnvironmentObject var viewer: User
     enum Sheet: Identifiable {
         case edit, user
         
         var id: Int { hashValue }
     }
     
-    @ObservedObject var viewer: User
     @State private var showingEditSheet = false
     @State private var selectedUser: User? = nil
     let views = ["Following", "Followers"]
@@ -78,7 +78,10 @@ struct UserView: View {
                             }
                             .padding(.horizontal, Constants.sideMargin)
                             .sheet(item: $selectedUser) { user in
-                                ProfileView(user: user)
+                                NavigationView {
+                                    ProfileView(user: user)
+                                        .environmentObject(viewer)
+                                }
                             }
                             Spacer()
                                 .frame(height: Constants.bottomMargin)
@@ -100,7 +103,10 @@ struct UserView: View {
                             }
                             .padding(.horizontal, Constants.sideMargin)
                             .sheet(item: $selectedUser) { user in
-                                ProfileView(user: user)
+                                NavigationView {
+                                    ProfileView(user: user)
+                                        .environmentObject(viewer)
+                                }
                             }
                             Spacer()
                                 .frame(height: Constants.bottomMargin)
@@ -113,7 +119,6 @@ struct UserView: View {
             }
             PageOverlayView(pickerOptions: views, pickerIndex: $viewIndex) {
                 TranslucentButtonView(type: .text, action: {
-                                        print("sign out button clicked")
                                         Actions.signOut(completion: clearViewerData)
                 }) {
                     Text("Sign out")
@@ -137,9 +142,6 @@ struct UserView: View {
             viewer.status = nil
             viewer.subscriptions = nil
             viewer.subscribers = nil
-            print("Info after clear viewer data:")
-            print(viewer.id)
-            print(viewer.username)
         }
     }
 }
@@ -230,7 +232,7 @@ struct UserEditView: View {
     }
     
     func save() {
-        print("saved")
+        print("saved profile details (not implemented yet)")
     }
 }
 
@@ -244,6 +246,7 @@ struct UserEntryView: View {
             Text(user.data.name != nil && !user.data.name!.isEmpty ? user.data.name! : "@\(user.username)")
                 .font(Font.custom("Inter", size: 14))
                 .fontWeight(.medium)
+                .foregroundColor(Color("black"))
             Spacer()
         }
         .padding(8)

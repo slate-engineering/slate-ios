@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct DataView: View {
-    @ObservedObject var viewer: User
+    @EnvironmentObject var viewer: User
     let views = ["Gallery", "Column", "List"]
     @State private var viewIndex = 0
     let singleColumn: [GridItem] = [
@@ -68,7 +68,7 @@ struct DataView: View {
                     }
                 }
                 PageOverlayView(pickerOptions: views, pickerIndex: $viewIndex) {
-                    TranslucentButtonView(type: .text, action: { print("Pressed button") }) {
+                    TranslucentButtonView(type: .text, action: { print("Pressed upload button (not implemented yet)") }) {
                         Text("Upload")
                             .font(Font.custom("Inter", size: 14))
                             .fontWeight(.medium)
@@ -77,11 +77,5 @@ struct DataView: View {
                 .padding(.bottom, 52)
             }
         }
-    }
-}
-
-struct DataView_Previews: PreviewProvider {
-    static var previews: some View {
-        DataView(viewer: User())
     }
 }

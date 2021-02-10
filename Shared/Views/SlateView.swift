@@ -8,16 +8,21 @@
 import SwiftUI
 
 struct SlateView: View {
-    var user: User
-    var slate: Slate
+    @EnvironmentObject var viewer: User
+//    var user: User?
+    @ObservedObject var slate: Slate
     var username: String? {
         if let username = slate.user?.data.name ?? slate.user?.username {
             return username
         }
-        if slate.data.ownerId == user.id {
-            return user.data.name ?? "@\(user.username)"
+        if slate.data.ownerId == viewer.id {
+            return viewer.data.name ?? "@\(viewer.username)"
         }
         return nil
+    }
+    @State private var isFollowing: Bool = false
+    var isOwner: Bool {
+        slate.data.ownerId == viewer.id
     }
     
     var body: some View {
@@ -26,9 +31,24 @@ struct SlateView: View {
                 ScrollView(.vertical) {
                     Spacer()
                         .frame(height: Constants.bottomMargin)
-                    VStack(alignment: .leading, spacing: 4) {
-                        Text(slate.data.name).font(Font.custom("Inter", size: 22)).fontWeight(.medium)
-                        if username != nil {
+                    VStack(alignment: .leading, spacing: 6) {
+                        HStack(spacing: 16) {
+                            Text(slate.data.name).font(Font.custom("Inter", size: 22)).fontWeight(.medium)
+                            if !isOwner {
+                                TranslucentButtonView(type: .text, action: {}) {
+                                    Text(isFollowing ? "Unfollow" : "Follow")
+                                        .font(Font.custom("Inter", size: 14))
+                                        .fontWeight(.medium)
+                                        .onTapGesture {
+                                            isFollowing = !isFollowing
+                                            Actions.subscribeSlate(id: slate.id) {
+                                                Actions.rehydrateSocial(viewer: viewer)
+                                            }
+                                        }
+                                }
+                            }
+                        }
+                        if username != nil && !isOwner {
                             Text(username!).font(Font.custom("Inter", size: 14))
                         }
                         if slate.data.body != nil {
@@ -59,8 +79,29 @@ struct SlateView: View {
         .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity, alignment: .topLeading)
         .background(Color("foreground"))
         .edgesIgnoringSafeArea(.all)
+        .onAppear {
+            determineFollowing()
+            Actions.getSerializedSlate(id: slate.id) { slate in
+                Utilities.copySlateDetails(to: self.slate, from: slate)
+            }
+        }
 //        .navigationBarTitle(slate.data.name)
 //        .navigationBarHidden(true)
+    }
+    
+    func determineFollowing() {
+        var isFollowing = false
+        if let subscriptions = viewer.subscriptions {
+            for sub in subscriptions {
+                if let subSlate = sub.slate {
+                    if subSlate.id == slate.id {
+                        isFollowing = true
+                        break
+                    }
+                }
+            }
+        }
+        self.isFollowing = isFollowing
     }
 }
 

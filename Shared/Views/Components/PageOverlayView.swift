@@ -8,29 +8,37 @@
 import SwiftUI
 
 struct PageOverlayView<Content: View>: View {
+    enum Style {
+        case normal, hideTop, hideSearch, hideButton
+    }
+    
     let pickerOptions: [String]?
     @Binding var pickerIndex: Int
     var topRight: Content
-    var hideTop: Bool
+    var style: Style
     
-    init(pickerOptions: [String]?, pickerIndex: Binding<Int>?, hideTop: Bool = false, @ViewBuilder withTopRight topRight: () -> Content) {
+    init(pickerOptions: [String]?, pickerIndex: Binding<Int>?, style: Style = .normal, @ViewBuilder withTopRight topRight: () -> Content) {
         self.pickerOptions = pickerOptions
         self._pickerIndex = pickerIndex ?? Binding.constant(0)
         self.topRight = topRight()
-        self.hideTop = hideTop
+        self.style = style
     }
     
     var body: some View {
         VStack {
-            if !hideTop {
+            if style != .hideTop {
                 HStack {
-                    TranslucentButtonView(type: .icon) {
-                        Image("search-semibold")
-                            .resizable()
-                            .frame(width: 18, height: 18)
+                    if style != .hideSearch {
+                        TranslucentButtonView(type: .icon) {
+                            Image("search-semibold")
+                                .resizable()
+                                .frame(width: 18, height: 18)
+                        }
                     }
                     Spacer()
-                    topRight
+                    if style != .hideButton {
+                        topRight
+                    }
                 }
                 .padding(.top, 12)
                 .padding(.horizontal, 20)

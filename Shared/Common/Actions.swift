@@ -9,6 +9,7 @@ import Foundation
 import SwiftyJSON
 
 struct Actions {
+    // MARK: - Cookies
     static func readCookie(forURL url: URL) -> [HTTPCookie] {
         let cookieStorage = HTTPCookieStorage.shared
         let cookies = cookieStorage.cookies(for: url) ?? []
@@ -39,14 +40,7 @@ struct Actions {
         }
     }
     
-//    static func deleteCookies(forURL url: URL) {
-//        let cookieStorage = HTTPCookieStorage.shared
-//
-//        for cookie in readCookie(forURL: url) {
-//            cookieStorage.deleteCookie(cookie)
-//        }
-//    }
-    
+    // MARK: Make request
     static func makeRequest(route: String, body: Data?, completion: @escaping (Data) -> Void) {
         let url = URL(string: "\(Env.serverURL)\(route)")!
         var request = URLRequest(url: url)
@@ -54,12 +48,12 @@ struct Actions {
         request.httpMethod = "POST"
         if let body = body {
             request.httpBody = body
-            print(body.toString())
+//            print(body.toString())
         }
         
         
         URLSession.shared.dataTask(with: request) { data, response, error in
-            print(data.toString())
+//            print(data.toString())
             print(error)
             guard let data = data else {
                 print("No data in response: \(error?.localizedDescription ?? "Unknown error").")
@@ -87,6 +81,21 @@ struct Actions {
 //            }
         }.resume()
     }
+    
+    // MARK: - Rehydrate (temp till websockets added)
+    static func rehydrateViewer(viewer: User) {
+        getSerializedUser(id: viewer.id) { user in
+            Utilities.copyUserDetails(to: viewer, from: user)
+        }
+    }
+    
+    static func rehydrateSocial(viewer: User) {
+        getUserSocial(id: viewer.id) { subscriptions, subscribers in
+            Utilities.copyUserSocial(to: viewer, subscriptions: subscriptions, subscribers: subscribers)
+        }
+    }
+    
+    // MARK: - Authentication
     
     static func signUp(username: String, password: String, accepted: Bool, completion: @escaping (User) -> Void) {
         struct Request: Codable {
@@ -118,7 +127,6 @@ struct Actions {
                 if let token = json["token"].string {
                     let responseCookies = HTTPCookie.cookies(withResponseHeaderFields: ["Set-Cookie": "WEB_SERVICE_SESSION_KEY=\(token)"], for: url)
                     storeCookies(responseCookies, forURL: url)
-                    print("finished sign in successfully")
                     hydrateAuthenticatedUser(completion: completion)
                 }
             }
@@ -133,7 +141,6 @@ struct Actions {
             
             let data: User
         }
-        print("made it to hydrate authenticated user")
         makeRequest(route: "/api/hydrate", body: nil) { data in
             print(data.toString())
 //            if let json = try? JSON(data: data) {
@@ -157,7 +164,9 @@ struct Actions {
         completion()
     }
     
-    static func getSerializedProfile(id: String, completion: @escaping (User) -> Void) {
+    // MARK: - Users
+    
+    static func getSerializedUser(id: String, completion: @escaping (User) -> Void) {
         struct Response: Codable {
             enum CodingKeys: String, CodingKey {
                 case data
@@ -205,4 +214,65 @@ struct Actions {
             }
         }
     }
+    
+    static func subscribeUser(id: String, completion: @escaping () -> Void) {
+        guard let encoded = try? JSONEncoder().encode(["data": ["userId": id]]) else {
+            print("Failed to encode body")
+            return
+        }
+        
+        makeRequest(route: "/api/subscribe", body: encoded) { data in
+            completion()
+//            if let decoded = try? JSONDecoder().decode(Response.self, from: data) {
+//                completion(decoded.subscriptions ?? [Subscription](), decoded.subscribers ?? [Subscription]())
+//            } else {
+//                print("failed")
+//            }
+        }
+    }
+    
+    // MARK: - Slates
+    
+    static func getSerializedSlate(id: String, completion: @escaping (Slate) -> Void) {
+        struct Response: Codable {
+            enum CodingKeys: String, CodingKey {
+                case data
+            }
+            
+            let data: Slate
+        }
+        
+        guard let encoded = try? JSONEncoder().encode(["data": ["id": id]]) else {
+            print("Failed to encode body")
+            return
+        }
+        makeRequest(route: "/api/users/get-serialized", body: encoded) { data in
+            print(data.toString())
+            if let decoded = try? JSONDecoder().decode(Response.self, from: data) {
+                let user = decoded.data
+                print(user)
+                completion(user)
+            } else {
+                print("failed")
+            }
+        }
+    }
+    
+    static func subscribeSlate(id: String, completion: @escaping () -> Void) {
+        guard let encoded = try? JSONEncoder().encode(["data": ["slateId": id]]) else {
+            print("Failed to encode body")
+            return
+        }
+        
+        makeRequest(route: "/api/subscribe", body: encoded) { data in
+            completion()
+//            if let decoded = try? JSONDecoder().decode(Response.self, from: data) {
+//                completion(decoded.subscriptions ?? [Subscription](), decoded.subscribers ?? [Subscription]())
+//            } else {
+//                print("failed")
+//            }
+        }
+    }
+    
+    // MARK: - Data
 }
