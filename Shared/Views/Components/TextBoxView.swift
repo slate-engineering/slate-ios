@@ -23,14 +23,14 @@ struct TextBox: UIViewRepresentable {
         let view = UITextView()
         view.textContainerInset = .zero
         view.textContainer.lineFragmentPadding = 0
-        view.contentInset = UIEdgeInsets(top: 12, left: 16, bottom: 12, right: 16)
+//        view.contentInset = UIEdgeInsets(top: 12, left: 16, bottom: 12, right: 16)
         view.attributedText = NSAttributedString(string: text, attributes: self.attributes)
         view.delegate = context.coordinator
         return view
     }
     
     func updateUIView(_ uiView: UITextView, context: Context) {
-        uiView.text = text
+//        uiView.text = text
         let selectedRange = uiView.selectedRange
         uiView.attributedText = NSAttributedString(string: text, attributes: self.attributes)
         uiView.selectedRange = selectedRange
@@ -69,10 +69,10 @@ struct TextBoxView: View {
                 Text(title)
                     .font(Font.custom("Inter", size: 14))
                     .foregroundColor(Color(red: 200/255, green: 200/255, blue: 200/255))
-                    .padding(.top, 12)
-                    .padding(.horizontal, 16)
             }
         }
+        .padding(.vertical, 12)
+        .padding(.horizontal, 16)
         .overlay(RoundedRectangle(cornerRadius: 4).stroke(Color("bgGray"), lineWidth: 1))
     }
 }

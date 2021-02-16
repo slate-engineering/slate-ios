@@ -34,4 +34,11 @@ extension Text {
         self
             .font(Font.custom("Inter", size: 14))
     }
+    
+    func sectionHeaderStyle() -> Text {
+        self
+            .font(Font.custom("Inter", size: 12))
+            .foregroundColor(Color("grayBlack"))
+            .fontWeight(.semibold)
+    }
 }

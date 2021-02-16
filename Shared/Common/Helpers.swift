@@ -41,7 +41,16 @@ extension Encodable {
     }
 }
 
-// NOTE(martina): Property wrapper to give codable optional properties a default value
+extension NSMutableData {
+  func appendString(_ string: String) {
+    if let data = string.data(using: .utf8) {
+      self.append(data)
+    }
+  }
+}
+
+
+// MARK: Property wrapper to give codable optional properties a default value
 
 protocol DecodableDefaultSource {
     associatedtype Value: Decodable

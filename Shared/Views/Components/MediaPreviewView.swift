@@ -97,7 +97,7 @@ struct MediaPreviewView: View {
                 }
             }
             .background(Color("white"))
-            .frame(width: width, height: height)
+            .frame(maxWidth: width, maxHeight: height)
             .border(Color(border ? "foreground" : "transparent"))
         }
     }

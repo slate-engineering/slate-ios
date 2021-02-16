@@ -8,8 +8,8 @@
 import SwiftUI
 
 struct SlateView: View {
+    @Environment(\.presentationMode) var presentationMode
     @EnvironmentObject var viewer: User
-//    var user: User?
     @ObservedObject var slate: Slate
     var username: String? {
         if let username = slate.user?.data.name ?? slate.user?.username {
@@ -24,6 +24,7 @@ struct SlateView: View {
     var isOwner: Bool {
         slate.data.ownerId == viewer.id
     }
+    @State private var showingEditSheet = false
     
     var body: some View {
         VStack(alignment: .leading) {
@@ -32,24 +33,15 @@ struct SlateView: View {
                     Spacer()
                         .frame(height: Constants.bottomMargin)
                     VStack(alignment: .leading, spacing: 6) {
-                        HStack(spacing: 16) {
-                            Text(slate.data.name).font(Font.custom("Inter", size: 22)).fontWeight(.medium)
+                        Text(slate.data.name).font(Font.custom("Inter", size: 22)).fontWeight(.medium)
+                        if username != nil {
                             if !isOwner {
-                                TranslucentButtonView(type: .text, action: {}) {
-                                    Text(isFollowing ? "Unfollow" : "Follow")
-                                        .font(Font.custom("Inter", size: 14))
-                                        .fontWeight(.medium)
-                                        .onTapGesture {
-                                            isFollowing = !isFollowing
-                                            Actions.subscribeSlate(id: slate.id) {
-                                                Actions.rehydrateSocial(viewer: viewer)
-                                            }
-                                        }
+                                NavigationLink(destination: ProfileView(user: slate.user ?? User(id: slate.data.ownerId))) {
+                                    Text(username!).font(Font.custom("Inter", size: 14)).foregroundColor(Color("brand"))
                                 }
+                            } else {
+                                Text(username!).font(Font.custom("Inter", size: 14))
                             }
-                        }
-                        if username != nil && !isOwner {
-                            Text(username!).font(Font.custom("Inter", size: 14))
                         }
                         if slate.data.body != nil {
                             Text(slate.data.body!)
@@ -64,8 +56,6 @@ struct SlateView: View {
                     LazyVStack {
                         ForEach(0..<slate.data.objects.count) { index in
                             MediaPreviewView(slate.data.objects[index], width: geo.size.width - 32, contentMode: .fit)
-//                                .shadow(color: Color(red: 178/255, green: 178/255, blue: 178/255).opacity(0.15), radius: 10, x: 0, y: 5)
-                                .frame(width: geo.size.width - 32, height: geo.size.width - 32)
                                 .padding(.vertical, 8)
                                 .padding(.horizontal, Constants.sideMargin)
                         }
@@ -76,17 +66,44 @@ struct SlateView: View {
             }
             Spacer()
         }
+        .navigationBarItems(trailing:
+                                HStack {
+                                    if isOwner {
+                                        TranslucentButtonView(type: .icon, action: { print("clicked upload")}) {
+                                            Image("plus")
+                                                .resizable()
+                                                .frame(width: 18, height: 18)
+                                        }
+                                        TranslucentButtonView(type: .icon, action: { showingEditSheet = true }) {
+                                            Image("settings")
+                                                .resizable()
+                                                .frame(width: 18, height: 18)
+                                        }
+                                        .sheet(isPresented: $showingEditSheet) {
+                                            EditSlateView(slate: slate, parentPresentationMode: presentationMode)
+                                                .environmentObject(viewer)
+                                        }
+                                    } else {
+                                        TranslucentButtonView(type: .text, action: {
+                                            isFollowing = !isFollowing
+                                            Actions.subscribeSlate(id: slate.id) {
+                                                Actions.rehydrateSocial(viewer: viewer)
+                                            }
+                                        }) {
+                                            Text(isFollowing ? "Unfollow" : "Follow")
+                                                .font(Font.custom("Inter", size: 14))
+                                                .fontWeight(.medium)
+                                        }
+                                    }
+                                }
+        )
         .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity, alignment: .topLeading)
         .background(Color("foreground"))
         .edgesIgnoringSafeArea(.all)
         .onAppear {
             determineFollowing()
-            Actions.getSerializedSlate(id: slate.id) { slate in
-                Utilities.copySlateDetails(to: self.slate, from: slate)
-            }
+            fetchSlate()
         }
-//        .navigationBarTitle(slate.data.name)
-//        .navigationBarHidden(true)
     }
     
     func determineFollowing() {
@@ -102,6 +119,19 @@ struct SlateView: View {
             }
         }
         self.isFollowing = isFollowing
+    }
+    
+    func fetchSlate() {
+        if slate.user != nil || isOwner {
+            // NOTE(martina): if already have user (or user is self), no need to fetch to get the username
+            return
+        }
+        
+        Actions.getSerializedSlate(id: slate.id) { fetchedSlate in
+            DispatchQueue.main.async {
+                slate.copySlateDetails(from: fetchedSlate)
+            }
+        }
     }
 }
 

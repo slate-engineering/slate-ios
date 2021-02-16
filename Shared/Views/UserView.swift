@@ -63,6 +63,7 @@ struct UserView: View {
                 }
                 .sheet(isPresented: $showingEditSheet) {
                     UserEditView(viewer: viewer)
+                        .environmentObject(viewer)
                 }
                 
                 if viewIndex == 0 {
@@ -119,7 +120,12 @@ struct UserView: View {
             }
             PageOverlayView(pickerOptions: views, pickerIndex: $viewIndex) {
                 TranslucentButtonView(type: .text, action: {
-                                        Actions.signOut(completion: clearViewerData)
+                    Actions.signOut() {
+                        DispatchQueue.main.async {
+                            viewer.clearUserDetails()
+                            viewer.saveToUserDefaults()
+                        }
+                    }
                 }) {
                     Text("Sign out")
                         .font(Font.custom("Inter", size: 14))
@@ -130,31 +136,17 @@ struct UserView: View {
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
     }
-    
-    func clearViewerData() {
-        DispatchQueue.main.async {
-            viewer.id = ""
-            viewer.username = ""
-            viewer.data = UserData()
-            viewer.library = nil
-            viewer.slates = nil
-            viewer.onboarding = nil
-            viewer.status = nil
-            viewer.subscriptions = nil
-            viewer.subscribers = nil
-        }
-    }
 }
 
 struct UserEditView: View {
     @Environment(\.presentationMode) var presentationMode
-    
     @ObservedObject var viewer: User
     @State private var name: String
     @State private var username: String
     @State private var description: String
     @State private var password: String = ""
     @State private var passwordConfirm: String = ""
+    @State private var alert: AlertMessage? = nil
     
     init(viewer: User) {
         self.viewer = viewer
@@ -179,12 +171,8 @@ struct UserEditView: View {
                     save()
                     presentationMode.wrappedValue.dismiss()
                 }
-            //                Text("Save")
-            //                    .font(Font.custom("Inter", size: 12))
-            //                    .foregroundColor(Color("grayBlack"))
-            //                    .fontWeight(.medium)
         })
-        VStack(spacing: 16) {
+        VStack(spacing: 32) {
             ZStack {
                 ImageView(withURL: viewer.data.photo ?? Constants.profileImageDefault, width: 96, height: 96)
                     .background(Color("foreground"))
@@ -194,34 +182,19 @@ struct UserEditView: View {
             }
             .clipShape(RoundedRectangle(cornerRadius: 8))
             .frame(width: 96, height: 96)
-            .padding(.bottom, 16)
-            VStack(alignment: .leading, spacing: 6) {
-                Text("NAME")
-                    .font(Font.custom("Inter", size: 10))
-                    .foregroundColor(Color("grayBlack"))
-                    .fontWeight(.semibold)
+            VStack(alignment: .leading) {
+                Text("ACCOUNT DETAILS")
+                    .sectionHeaderStyle()
+                    .padding(.bottom, 4)
                 InputView("Name", text: $name)
-            }
-            VStack(alignment: .leading, spacing: 6) {
-                Text("USERNAME")
-                    .font(Font.custom("Inter", size: 10))
-                    .foregroundColor(Color("grayBlack"))
-                    .fontWeight(.semibold)
                 InputView("Username", text: $username)
-            }
-            VStack(alignment: .leading, spacing: 6) {
-                Text("DESCRIPTION")
-                    .font(Font.custom("Inter", size: 10))
-                    .foregroundColor(Color("grayBlack"))
-                    .fontWeight(.semibold)
                 TextBoxView("Description", text: $description)
                     .frame(height: 120)
             }
-            VStack(alignment: .leading, spacing: 6) {
+            VStack(alignment: .leading) {
                 Text("CHANGE PASSWORD")
-                    .font(Font.custom("Inter", size: 10))
-                    .foregroundColor(Color("grayBlack"))
-                    .fontWeight(.semibold)
+                    .sectionHeaderStyle()
+                    .padding(.bottom, 4)
                 SecureInputView("New password", text: $password)
                 SecureInputView("Confirm password", text: $passwordConfirm)
             }
@@ -229,10 +202,30 @@ struct UserEditView: View {
         }
         .padding(.vertical, 24)
         .padding(.horizontal, Constants.sideMargin)
+        .alert(item: $alert) {
+            Alert(title: Text($0.title), message: Text($0.message), dismissButton: .default(Text("OK")))
+        }
     }
     
     func save() {
-        print("saved profile details (not implemented yet)")
+        if (!password.isEmpty && passwordConfirm.isEmpty) || (password.isEmpty && !passwordConfirm.isEmpty) {
+            if passwordConfirm.isEmpty {
+                alert = AlertMessage(title: "No password confirmation", message: "To update your password, please make sure both the password and password confirmation fields are filled in")
+                return
+            }
+        }
+        viewer.data.name = name
+        viewer.username = username
+        viewer.data.body = description
+        if !password.isEmpty && !passwordConfirm.isEmpty {
+            if password != passwordConfirm {
+                alert = AlertMessage(title: "Passwords do not match", message: "To update your password, please make sure the passwords match")
+                return
+            }
+            Actions.editUser(name: name, username: username, description: description, password: password)
+        } else {
+            Actions.editUser(name: name, username: username, description: description)
+        }
     }
 }
 

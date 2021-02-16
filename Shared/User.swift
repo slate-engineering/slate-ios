@@ -26,72 +26,84 @@ class User: ObservableObject, Codable, Identifiable {
         library?[0].children ?? [LibraryFile]()
     }
     
-    init() {
-        let decoder = JSONDecoder()
-        id = UserDefaults.standard.string(forKey: "id") ?? ""
-        username = UserDefaults.standard.string(forKey: "username") ?? ""
-        if let data = UserDefaults.standard.data(forKey: "data") {
-            if let decoded = try? decoder.decode(UserData.self, from: data) {
-                self.data = decoded
+    init(id: String) {
+        self.id = id
+        username = ""
+        data = UserData()
+    }
+    
+    init(isViewer: Bool = false) {
+        if isViewer {
+            let decoder = JSONDecoder()
+            id = UserDefaults.standard.string(forKey: "id") ?? ""
+            username = UserDefaults.standard.string(forKey: "username") ?? ""
+            if let data = UserDefaults.standard.data(forKey: "data") {
+                if let decoded = try? decoder.decode(UserData.self, from: data) {
+                    self.data = decoded
+                } else {
+                    self.data = UserData()
+                }
             } else {
                 self.data = UserData()
             }
-        } else {
-            self.data = UserData()
-        }
-        if let library = UserDefaults.standard.data(forKey: "library") {
-            if let decoded = try? decoder.decode([Library].self, from: library) {
-                self.library = decoded
+            if let library = UserDefaults.standard.data(forKey: "library") {
+                if let decoded = try? decoder.decode([Library].self, from: library) {
+                    self.library = decoded
+                } else {
+                    self.library = nil
+                }
             } else {
                 self.library = nil
             }
-        } else {
-            self.library = nil
-        }
-        if let slates = UserDefaults.standard.data(forKey: "slates") {
-            if let decoded = try? decoder.decode([Slate].self, from: slates) {
-                self.slates = decoded
+            if let slates = UserDefaults.standard.data(forKey: "slates") {
+                if let decoded = try? decoder.decode([Slate].self, from: slates) {
+                    self.slates = decoded
+                } else {
+                    self.slates = nil
+                }
             } else {
                 self.slates = nil
             }
-        } else {
-            self.slates = nil
-        }
-        if let subscribers = UserDefaults.standard.data(forKey: "subscribers") {
-            if let decoded = try? decoder.decode([Subscription].self, from: subscribers) {
-                self.subscribers = decoded
+            if let subscribers = UserDefaults.standard.data(forKey: "subscribers") {
+                if let decoded = try? decoder.decode([Subscription].self, from: subscribers) {
+                    self.subscribers = decoded
+                } else {
+                    self.subscribers = nil
+                }
             } else {
                 self.subscribers = nil
             }
-        } else {
-            self.subscribers = nil
-        }
-        if let subscriptions = UserDefaults.standard.data(forKey: "subscriptions") {
-            if let decoded = try? decoder.decode([Subscription].self, from: subscriptions) {
-                self.subscriptions = decoded
+            if let subscriptions = UserDefaults.standard.data(forKey: "subscriptions") {
+                if let decoded = try? decoder.decode([Subscription].self, from: subscriptions) {
+                    self.subscriptions = decoded
+                } else {
+                    self.subscriptions = nil
+                }
             } else {
                 self.subscriptions = nil
             }
-        } else {
-            self.subscriptions = nil
-        }
-        if let onboarding = UserDefaults.standard.data(forKey: "onboarding") {
-            if let decoded = try? decoder.decode([String: Bool].self, from: onboarding) {
-                self.onboarding = decoded
+            if let onboarding = UserDefaults.standard.data(forKey: "onboarding") {
+                if let decoded = try? decoder.decode([String: Bool].self, from: onboarding) {
+                    self.onboarding = decoded
+                } else {
+                    self.onboarding = nil
+                }
             } else {
                 self.onboarding = nil
             }
-        } else {
-            self.onboarding = nil
-        }
-        if let status = UserDefaults.standard.data(forKey: "status") {
-            if let decoded = try? decoder.decode([String: Bool].self, from: status) {
-                self.status = decoded
+            if let status = UserDefaults.standard.data(forKey: "status") {
+                if let decoded = try? decoder.decode([String: Bool].self, from: status) {
+                    self.status = decoded
+                } else {
+                    self.status = nil
+                }
             } else {
                 self.status = nil
             }
         } else {
-            self.status = nil
+            id = ""
+            username = ""
+            data = UserData()
         }
     }
     
@@ -146,6 +158,35 @@ class User: ObservableObject, Codable, Identifiable {
         if let encoded = try? encoder.encode(status) {
             UserDefaults.standard.set(encoded, forKey: "status")
         }
+    }
+    
+    func copyUserDetails(from source: User) {
+        id = source.id
+        username = source.username
+        data = source.data
+        library = source.library
+        slates = source.slates
+        onboarding = source.onboarding
+        status = source.status
+        subscriptions = source.subscriptions
+        subscribers = source.subscribers
+    }
+    
+    func copySocial(subscriptions: [Subscription], subscribers: [Subscription]) {
+        self.subscriptions = subscriptions
+        self.subscribers = subscribers
+    }
+    
+    func clearUserDetails() {
+        id = ""
+        username = ""
+        data = UserData()
+        library = nil
+        slates = nil
+        onboarding = nil
+        status = nil
+        subscriptions = nil
+        subscribers = nil
     }
 }
 

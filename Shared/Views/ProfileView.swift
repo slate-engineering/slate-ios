@@ -131,14 +131,7 @@ struct ProfileView: View {
                                     .frame(height: Constants.bottomMargin)
                             }
                             .onAppear {
-                                if socialLoading {
-                                    Actions.getUserSocial(id: user.id) { subscriptions, subscribers in
-                                        Utilities.copyUserSocial(to: self.user, subscriptions: subscriptions, subscribers: subscribers)
-                                        DispatchQueue.main.async {
-                                            self.socialLoading = false
-                                        }
-                                    }
-                                }
+                                fetchSocial()
                             }
                         }
                     }
@@ -173,12 +166,7 @@ struct ProfileView: View {
         .edgesIgnoringSafeArea(.all)
         .onAppear {
             determineFollowing()
-            Actions.getSerializedUser(id: user.id) { user in
-                Utilities.copyUserDetails(to: self.user, from: user)
-                DispatchQueue.main.async {
-                    self.loading = false
-                }
-            }
+            fetchUser()
         }
         .navigationBarTitle("")
         .navigationBarHidden(true)
@@ -197,6 +185,34 @@ struct ProfileView: View {
             }
         }
         self.isFollowing = isFollowing
+    }
+    
+    func fetchUser() {
+        if user.library != nil && user.slates != nil {
+            // NOTE(martina): already have library and slates, don't need to fetch
+            return
+        }
+        Actions.getSerializedUser(id: user.id) { fetchedUser in
+            DispatchQueue.main.async {
+                user.copyUserDetails(from: fetchedUser)
+                self.loading = false
+            }
+        }
+    }
+    
+    func fetchSocial() {
+        if user.subscriptions != nil && user.subscribers != nil {
+            // NOTE(martina): already have social, don't need to fetch
+            return
+        }
+        if socialLoading {
+            Actions.getUserSocial(id: user.id) { subscriptions, subscribers in
+                DispatchQueue.main.async {
+                    self.user.copySocial(subscriptions: subscriptions, subscribers: subscribers)
+                    self.socialLoading = false
+                }
+            }
+        }
     }
 }
 

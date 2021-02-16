@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		245C5E92D814A2394E7B93D8 /* Pods_Slate_iOS__iOS_.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4EB8ACE22489270AD99037D9 /* Pods_Slate_iOS__iOS_.framework */; };
+		B435675525DB5BD400704B8F /* Upload.swift in Sources */ = {isa = PBXBuildFile; fileRef = B435675425DB5BD400704B8F /* Upload.swift */; };
 		B43665AD25BA395C00C3AEBD /* Slate_iOSApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = B436659A25BA395900C3AEBD /* Slate_iOSApp.swift */; };
 		B43665AE25BA395C00C3AEBD /* Slate_iOSApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = B436659A25BA395900C3AEBD /* Slate_iOSApp.swift */; };
 		B43665AF25BA395C00C3AEBD /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B436659B25BA395900C3AEBD /* ContentView.swift */; };
@@ -57,10 +59,21 @@
 		B48AE38125D32DC1006FA245 /* ProfilePeersView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B48AE38025D32DC1006FA245 /* ProfilePeersView.swift */; };
 		B48AE38625D35C9C006FA245 /* Starscream in Frameworks */ = {isa = PBXBuildFile; productRef = B48AE38525D35C9C006FA245 /* Starscream */; };
 		B48AE38A25D35CBD006FA245 /* Websocket.swift in Sources */ = {isa = PBXBuildFile; fileRef = B48AE38925D35CBD006FA245 /* Websocket.swift */; };
-		B48AE3AA25D47D05006FA245 /* NewSlateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B48AE3A925D47D04006FA245 /* NewSlateView.swift */; };
+		B48AE3AA25D47D05006FA245 /* SlateCreateEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B48AE3A925D47D04006FA245 /* SlateCreateEditView.swift */; };
+		B48AE3AE25D47E35006FA245 /* ToggleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B48AE3AD25D47E35006FA245 /* ToggleView.swift */; };
+		B48AE3B225D49E7D006FA245 /* RadioButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B48AE3B125D49E7D006FA245 /* RadioButtonView.swift */; };
+		B48AE3B625D4A71D006FA245 /* TooltipView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B48AE3B525D4A71D006FA245 /* TooltipView.swift */; };
+		B491873125D62AA800859B76 /* AssetsPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B491873025D62AA800859B76 /* AssetsPickerView.swift */; };
+		B491873525D63E7700859B76 /* CarouselView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B491873425D63E7700859B76 /* CarouselView.swift */; };
+		C36D80E2C72A9E04B0FF2DB0 /* Pods_Slate_iOS__macOS_.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DED2468AD54078F8B449536E /* Pods_Slate_iOS__macOS_.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		4EB8ACE22489270AD99037D9 /* Pods_Slate_iOS__iOS_.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Slate_iOS__iOS_.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		613FD322DB7FFC6A875BED29 /* Pods-Slate iOS (iOS).debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Slate iOS (iOS).debug.xcconfig"; path = "Target Support Files/Pods-Slate iOS (iOS)/Pods-Slate iOS (iOS).debug.xcconfig"; sourceTree = "<group>"; };
+		8CA50FCFFC7EA72467D58F47 /* Pods-Slate iOS (iOS).release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Slate iOS (iOS).release.xcconfig"; path = "Target Support Files/Pods-Slate iOS (iOS)/Pods-Slate iOS (iOS).release.xcconfig"; sourceTree = "<group>"; };
+		9EA0B74C5F9E873B1FE07341 /* Pods-Slate iOS (macOS).debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Slate iOS (macOS).debug.xcconfig"; path = "Target Support Files/Pods-Slate iOS (macOS)/Pods-Slate iOS (macOS).debug.xcconfig"; sourceTree = "<group>"; };
+		B435675425DB5BD400704B8F /* Upload.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Upload.swift; sourceTree = "<group>"; };
 		B436659A25BA395900C3AEBD /* Slate_iOSApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Slate_iOSApp.swift; sourceTree = "<group>"; };
 		B436659B25BA395900C3AEBD /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		B436659C25BA395C00C3AEBD /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -109,7 +122,14 @@
 		B48AE36C25CF899C006FA245 /* LoaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoaderView.swift; sourceTree = "<group>"; };
 		B48AE38025D32DC1006FA245 /* ProfilePeersView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfilePeersView.swift; sourceTree = "<group>"; };
 		B48AE38925D35CBD006FA245 /* Websocket.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Websocket.swift; sourceTree = "<group>"; };
-		B48AE3A925D47D04006FA245 /* NewSlateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewSlateView.swift; sourceTree = "<group>"; };
+		B48AE3A925D47D04006FA245 /* SlateCreateEditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SlateCreateEditView.swift; sourceTree = "<group>"; };
+		B48AE3AD25D47E35006FA245 /* ToggleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToggleView.swift; sourceTree = "<group>"; };
+		B48AE3B125D49E7D006FA245 /* RadioButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RadioButtonView.swift; sourceTree = "<group>"; };
+		B48AE3B525D4A71D006FA245 /* TooltipView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TooltipView.swift; sourceTree = "<group>"; };
+		B491873025D62AA800859B76 /* AssetsPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssetsPickerView.swift; sourceTree = "<group>"; };
+		B491873425D63E7700859B76 /* CarouselView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarouselView.swift; sourceTree = "<group>"; };
+		BE750C8B9DAFDB9F761824F4 /* Pods-Slate iOS (macOS).release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Slate iOS (macOS).release.xcconfig"; path = "Target Support Files/Pods-Slate iOS (macOS)/Pods-Slate iOS (macOS).release.xcconfig"; sourceTree = "<group>"; };
+		DED2468AD54078F8B449536E /* Pods_Slate_iOS__macOS_.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Slate_iOS__macOS_.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -119,6 +139,7 @@
 			files = (
 				B4410EE325BF6C9F00030284 /* SwiftyJSON in Frameworks */,
 				B48AE38625D35C9C006FA245 /* Starscream in Frameworks */,
+				245C5E92D814A2394E7B93D8 /* Pods_Slate_iOS__iOS_.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -126,12 +147,33 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C36D80E2C72A9E04B0FF2DB0 /* Pods_Slate_iOS__macOS_.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		2346A75FDEA14DDA1D89958A /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				613FD322DB7FFC6A875BED29 /* Pods-Slate iOS (iOS).debug.xcconfig */,
+				8CA50FCFFC7EA72467D58F47 /* Pods-Slate iOS (iOS).release.xcconfig */,
+				9EA0B74C5F9E873B1FE07341 /* Pods-Slate iOS (macOS).debug.xcconfig */,
+				BE750C8B9DAFDB9F761824F4 /* Pods-Slate iOS (macOS).release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
+		A79211DD1AE9DD1673D9CD55 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				4EB8ACE22489270AD99037D9 /* Pods_Slate_iOS__iOS_.framework */,
+				DED2468AD54078F8B449536E /* Pods_Slate_iOS__macOS_.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		B436659425BA395900C3AEBD = {
 			isa = PBXGroup;
 			children = (
@@ -139,6 +181,8 @@
 				B43665A325BA395C00C3AEBD /* iOS */,
 				B43665AA25BA395C00C3AEBD /* macOS */,
 				B43665A225BA395C00C3AEBD /* Products */,
+				2346A75FDEA14DDA1D89958A /* Pods */,
+				A79211DD1AE9DD1673D9CD55 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -151,6 +195,7 @@
 				B436659A25BA395900C3AEBD /* Slate_iOSApp.swift */,
 				B436660925BB979C00C3AEBD /* AlertMessage.swift */,
 				B4410EF625BFACF500030284 /* User.swift */,
+				B435675425DB5BD400704B8F /* Upload.swift */,
 				B4593CE225C351BF00345013 /* Slate.swift */,
 				B48AE38925D35CBD006FA245 /* Websocket.swift */,
 				B43665E325BA54D600C3AEBD /* Inter.ttf */,
@@ -190,12 +235,17 @@
 			isa = PBXGroup;
 			children = (
 				B43665EA25BA574200C3AEBD /* ButtonView.swift */,
+				B491873425D63E7700859B76 /* CarouselView.swift */,
 				B48AE36425CF3A85006FA245 /* TabGroupView.swift */,
+				B48AE3AD25D47E35006FA245 /* ToggleView.swift */,
+				B491873025D62AA800859B76 /* AssetsPickerView.swift */,
 				B48AE36C25CF899C006FA245 /* LoaderView.swift */,
 				B48AE35725CB8969006FA245 /* NavigationBarView.swift */,
 				B48AE36825CF7509006FA245 /* EmptyStateView.swift */,
 				B48AE2CD25C51029006FA245 /* SlatePreviewView.swift */,
+				B48AE3B125D49E7D006FA245 /* RadioButtonView.swift */,
 				B48AE2D525C8BE56006FA245 /* FiletypeIconView.swift */,
+				B48AE3B525D4A71D006FA245 /* TooltipView.swift */,
 				B48AE2C525C4EB73006FA245 /* TranslucentButtonView.swift */,
 				B48AE2C925C4FBD9006FA245 /* PageOverlayView.swift */,
 				B43665EE25BA64E200C3AEBD /* InputView.swift */,
@@ -228,7 +278,7 @@
 				B48AE2AC25C4CCB6006FA245 /* ActivityView.swift */,
 				B4410EEE25BFA20900030284 /* DataView.swift */,
 				B48AE2D125C54675006FA245 /* SlateView.swift */,
-				B48AE3A925D47D04006FA245 /* NewSlateView.swift */,
+				B48AE3A925D47D04006FA245 /* SlateCreateEditView.swift */,
 				B48AE2A825C4CC3D006FA245 /* SlatesView.swift */,
 				B43665CF25BA529D00C3AEBD /* Components */,
 			);
@@ -258,9 +308,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = B43665B525BA395C00C3AEBD /* Build configuration list for PBXNativeTarget "Slate iOS (iOS)" */;
 			buildPhases = (
+				BE043C2DF8F960AF1A2AA028 /* [CP] Check Pods Manifest.lock */,
 				B436659D25BA395C00C3AEBD /* Sources */,
 				B436659E25BA395C00C3AEBD /* Frameworks */,
 				B436659F25BA395C00C3AEBD /* Resources */,
+				086885FED56A9F7C012B4E99 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -279,6 +331,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = B43665B825BA395C00C3AEBD /* Build configuration list for PBXNativeTarget "Slate iOS (macOS)" */;
 			buildPhases = (
+				E992A629C84A7A97A5B0F663 /* [CP] Check Pods Manifest.lock */,
 				B43665A525BA395C00C3AEBD /* Sources */,
 				B43665A625BA395C00C3AEBD /* Frameworks */,
 				B43665A725BA395C00C3AEBD /* Resources */,
@@ -354,6 +407,70 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		086885FED56A9F7C012B4E99 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Slate iOS (iOS)/Pods-Slate iOS (iOS)-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Slate iOS (iOS)/Pods-Slate iOS (iOS)-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Slate iOS (iOS)/Pods-Slate iOS (iOS)-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		BE043C2DF8F960AF1A2AA028 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-Slate iOS (iOS)-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		E992A629C84A7A97A5B0F663 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-Slate iOS (macOS)-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		B436659D25BA395C00C3AEBD /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -361,7 +478,10 @@
 			files = (
 				B43665E025BA537B00C3AEBD /* Constants.swift in Sources */,
 				B436661625BBB5D100C3AEBD /* Actions.swift in Sources */,
-				B48AE3AA25D47D05006FA245 /* NewSlateView.swift in Sources */,
+				B48AE3B225D49E7D006FA245 /* RadioButtonView.swift in Sources */,
+				B48AE3AA25D47D05006FA245 /* SlateCreateEditView.swift in Sources */,
+				B491873125D62AA800859B76 /* AssetsPickerView.swift in Sources */,
+				B435675525DB5BD400704B8F /* Upload.swift in Sources */,
 				B48AE2B125C4CCC7006FA245 /* UserView.swift in Sources */,
 				B43665EF25BA64E200C3AEBD /* InputView.swift in Sources */,
 				B48AE36925CF7509006FA245 /* EmptyStateView.swift in Sources */,
@@ -376,8 +496,10 @@
 				B43665FC25BB884F00C3AEBD /* Helpers.swift in Sources */,
 				B43665EB25BA574200C3AEBD /* ButtonView.swift in Sources */,
 				B48AE36125CF372C006FA245 /* ProfileView.swift in Sources */,
+				B48AE3B625D4A71D006FA245 /* TooltipView.swift in Sources */,
 				B436660A25BB979C00C3AEBD /* AlertMessage.swift in Sources */,
 				B48AE38A25D35CBD006FA245 /* Websocket.swift in Sources */,
+				B491873525D63E7700859B76 /* CarouselView.swift in Sources */,
 				B48AE2C625C4EB73006FA245 /* TranslucentButtonView.swift in Sources */,
 				B4593CEB25C3A84800345013 /* ImageView.swift in Sources */,
 				B48AE2CE25C51029006FA245 /* SlatePreviewView.swift in Sources */,
@@ -393,6 +515,7 @@
 				B4593CF325C3AC9D00345013 /* Utilities.swift in Sources */,
 				B43665AD25BA395C00C3AEBD /* Slate_iOSApp.swift in Sources */,
 				B4410EEB25BF9F6900030284 /* Navigation.swift in Sources */,
+				B48AE3AE25D47E35006FA245 /* ToggleView.swift in Sources */,
 				B4410EF325BFA5DF00030284 /* Errors.swift in Sources */,
 				B48AE35825CB8969006FA245 /* NavigationBarView.swift in Sources */,
 				B4410EF725BFACF500030284 /* User.swift in Sources */,
@@ -529,6 +652,7 @@
 		};
 		B43665B625BA395C00C3AEBD /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 613FD322DB7FFC6A875BED29 /* Pods-Slate iOS (iOS).debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -555,6 +679,7 @@
 		};
 		B43665B725BA395C00C3AEBD /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 8CA50FCFFC7EA72467D58F47 /* Pods-Slate iOS (iOS).release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -582,6 +707,7 @@
 		};
 		B43665B925BA395C00C3AEBD /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 9EA0B74C5F9E873B1FE07341 /* Pods-Slate iOS (macOS).debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -606,6 +732,7 @@
 		};
 		B43665BA25BA395C00C3AEBD /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = BE750C8B9DAFDB9F761824F4 /* Pods-Slate iOS (macOS).release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;

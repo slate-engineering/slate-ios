@@ -211,8 +211,8 @@ struct SignInView: View {
     }
     
     func saveViewerData(_ user: User) {
-        Utilities.copyUserDetails(to: viewer, from: user)
         DispatchQueue.main.async {
+            viewer.copyUserDetails(from: user)
             viewer.saveToUserDefaults()
             loading = false
             print("Signed in as: \n\(viewer.id) \n\(viewer.username)")

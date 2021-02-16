@@ -85,13 +85,19 @@ struct Actions {
     // MARK: - Rehydrate (temp till websockets added)
     static func rehydrateViewer(viewer: User) {
         getSerializedUser(id: viewer.id) { user in
-            Utilities.copyUserDetails(to: viewer, from: user)
+            DispatchQueue.main.async {
+                viewer.copyUserDetails(from: user)
+                viewer.saveToUserDefaults()
+            }
         }
     }
     
     static func rehydrateSocial(viewer: User) {
         getUserSocial(id: viewer.id) { subscriptions, subscribers in
-            Utilities.copyUserSocial(to: viewer, subscriptions: subscriptions, subscribers: subscribers)
+            DispatchQueue.main.async {
+                viewer.copySocial(subscriptions: subscriptions, subscribers: subscribers)
+                viewer.saveToUserDefaults()
+            }
         }
     }
     
@@ -122,7 +128,6 @@ struct Actions {
         }
         print("before sign in call")
         makeRequest(route: "/api/sign-in", body: encoded) { data in
-            print(data.toString())
             if let json = try? JSON(data: data) {
                 if let token = json["token"].string {
                     let responseCookies = HTTPCookie.cookies(withResponseHeaderFields: ["Set-Cookie": "WEB_SERVICE_SESSION_KEY=\(token)"], for: url)
@@ -142,16 +147,8 @@ struct Actions {
             let data: User
         }
         makeRequest(route: "/api/hydrate", body: nil) { data in
-            print(data.toString())
-//            if let json = try? JSON(data: data) {
-//                let data = json["data"]
-//                let slates = data["slates"]
-//                print(slates)
-//            }
-            
             if let decoded = try? JSONDecoder().decode(Response.self, from: data) {
                 let user = decoded.data
-                print(user)
                 completion(user)
             } else {
                 print("failed")
@@ -180,10 +177,8 @@ struct Actions {
             return
         }
         makeRequest(route: "/api/users/get-serialized", body: encoded) { data in
-            print(data.toString())
             if let decoded = try? JSONDecoder().decode(Response.self, from: data) {
                 let user = decoded.data
-                print(user)
                 completion(user)
             } else {
                 print("failed")
@@ -223,15 +218,38 @@ struct Actions {
         
         makeRequest(route: "/api/subscribe", body: encoded) { data in
             completion()
-//            if let decoded = try? JSONDecoder().decode(Response.self, from: data) {
-//                completion(decoded.subscriptions ?? [Subscription](), decoded.subscribers ?? [Subscription]())
-//            } else {
-//                print("failed")
-//            }
+        }
+    }
+    
+    static func editUser(name: String, username: String, description: String, password: String? = nil) {
+        struct Request: Codable {
+            let username: String
+            let password: String?
+            let data: Data
+            
+            struct Data: Codable {
+                enum CodingKeys: String, CodingKey {
+                    case description = "body"
+                    case name
+                }
+                
+                let description: String
+                let name: String
+            }
+        }
+        
+        guard let encoded = try? JSONEncoder().encode(["data": Request(username: username, password: password, data: Request.Data(description: description, name: name))]) else {
+            print("Failed to encode body")
+            return
+        }
+        
+        makeRequest(route: "/api/users/update", body: encoded) { data in
         }
     }
     
     // MARK: - Slates
+    
+//    static func getSlate
     
     static func getSerializedSlate(id: String, completion: @escaping (Slate) -> Void) {
         struct Response: Codable {
@@ -246,12 +264,10 @@ struct Actions {
             print("Failed to encode body")
             return
         }
-        makeRequest(route: "/api/users/get-serialized", body: encoded) { data in
-            print(data.toString())
+        makeRequest(route: "/api/slates/get-serialized", body: encoded) { data in
             if let decoded = try? JSONDecoder().decode(Response.self, from: data) {
-                let user = decoded.data
-                print(user)
-                completion(user)
+                let slate = decoded.data
+                completion(slate)
             } else {
                 print("failed")
             }
@@ -266,13 +282,132 @@ struct Actions {
         
         makeRequest(route: "/api/subscribe", body: encoded) { data in
             completion()
-//            if let decoded = try? JSONDecoder().decode(Response.self, from: data) {
-//                completion(decoded.subscriptions ?? [Subscription](), decoded.subscribers ?? [Subscription]())
-//            } else {
-//                print("failed")
-//            }
+        }
+    }
+    
+    static func createSlate(name: String, description: String, isPublic: Bool, completion: @escaping () -> Void) {
+        struct Request: Codable {
+            enum CodingKeys: String, CodingKey {
+                case isPublic = "public"
+                case description = "body"
+                case name
+            }
+            
+            let name: String
+            let description: String
+            let isPublic: Bool
+        }
+        
+        guard let encoded = try? JSONEncoder().encode(["data": Request(name: name, description: description, isPublic: isPublic)]) else {
+            print("Failed to encode body")
+            return
+        }
+        
+        makeRequest(route: "/api/slates/create", body: encoded) { data in
+            completion()
+        }
+    }
+    
+    static func editSlate(id: String, name: String, description: String, isPublic: Bool, completion: @escaping () -> Void) {
+        struct Request: Codable {
+            let id: String
+            let data: Data
+            
+            struct Data: Codable {
+                enum CodingKeys: String, CodingKey {
+                    case isPublic = "public"
+                    case description = "body"
+                    case name
+                }
+                
+                let name: String
+                let description: String
+                let isPublic: Bool
+            }
+        }
+        
+        guard let encoded = try? JSONEncoder().encode(["data": Request(id: id, data: Request.Data(name: name, description: description, isPublic: isPublic))]) else {
+            print("Failed to encode body")
+            return
+        }
+        
+        makeRequest(route: "/api/slates/update", body: encoded) { data in
+            completion()
+        }
+    }
+    
+    static func deleteSlate(id: String, completion: @escaping () -> Void) {
+        guard let encoded = try? JSONEncoder().encode(["data": ["id": id]]) else {
+            print("Failed to encode body")
+            return
+        }
+        
+        makeRequest(route: "/api/slates/delete", body: encoded) { data in
+            completion()
         }
     }
     
     // MARK: - Data
+    
+    func convertFileData(fieldName: String, fileName: String, mimeType: String, fileData: Data, using boundary: String) -> Data {
+      let data = NSMutableData()
+
+      data.appendString("--\(boundary)\r\n")
+      data.appendString("Content-Disposition: form-data; name=\"\(fieldName)\"; filename=\"\(fileName)\"\r\n")
+      data.appendString("Content-Type: \(mimeType)\r\n\r\n")
+      data.append(fileData)
+      data.appendString("\r\n")
+
+      return data as Data
+    }
+    
+    static func upload(file: Data, completion: @escaping () -> Void) {
+        let fileName = "get the filename of the file"
+        
+        makeUploadRequest(url: "\(Env.uploadURL)/api/data/\(fileName)", fileData: file) {
+            completion()
+        }
+    }
+    
+//    static func storageDeal(files: [Data], completion: @escaping () -> Void) {
+//        //use RESOURCE_URI_STORAGE_UPLOAD for storageUploadURL
+//        makeUploadRequest(url: "\(Env.storageUploadURL)/api/data", body: encoded) { data in
+//            completion()
+//        }
+//    }
+    
+    static func makeUploadRequest(url: String, fileData: Data, completion: @escaping () -> Void) {
+        let boundary = "Boundary-\(UUID().uuidString)"
+        let url = URL(string: url)!
+        var request = URLRequest(url: url)
+        request.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
+        request.httpMethod = "POST"
+        
+        
+        let fieldName = "data"
+        let fileName = "get the filename of the file"
+        let mimeType = "get the mimetype of the file"
+        
+        let data = NSMutableData()
+        data.appendString("--\(boundary)\r\n")
+        data.appendString("Content-Disposition: form-data; name=\"\(fieldName)\"; filename=\"\(fileName)\"\r\n")
+        data.appendString("Content-Type: \(mimeType)\r\n\r\n")
+        data.append(fileData)
+        data.appendString("\r\n")
+        
+        let httpBody = NSMutableData()
+        httpBody.append(data as Data)
+//        httpBody.appendString("--\(boundary)--")
+//        request.httpBody = httpBody as Data
+        
+        URLSession.shared.dataTask(with: request) { data, response, error in
+            print(data.toString())
+            print(error)
+            guard let data = data else {
+                print("No data in response: \(error?.localizedDescription ?? "Unknown error").")
+                return
+            }
+            completion()
+        }.resume()
+    }
 }

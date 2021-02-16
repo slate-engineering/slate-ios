@@ -18,6 +18,7 @@ struct SlatesView: View {
         }
         return [Slate]()
     }
+    @State private var showingCreateSheet = false
     
     var body: some View {
         ZStack {
@@ -28,9 +29,9 @@ struct SlatesView: View {
                             .frame(height: 52)
                         if viewer.slates != nil && viewer.slates!.count > 0 {
                             VStack(spacing: 16) {
-                                ForEach(0..<viewer.slates!.count) { index in
-                                    NavigationLink(destination: SlateView(slate: viewer.slates![index]).environmentObject(viewer)) {
-                                        SlatePreviewView(slate: viewer.slates![index])
+                                ForEach(viewer.slates!, id: \.id) { slate in
+                                    NavigationLink(destination: SlateView(slate: slate).environmentObject(viewer)) {
+                                        SlatePreviewView(slate: slate)
                                             .padding(.horizontal, Constants.sideMargin)
                                             .frame(width: geo.size.width, height: 0.75 * geo.size.width + 46)
                                     }
@@ -49,9 +50,9 @@ struct SlatesView: View {
                             .frame(height: 52)
                         if slatesFollowing.count > 0 {
                             VStack(spacing: 16) {
-                                ForEach(0..<slatesFollowing.count) { index in
-                                    NavigationLink(destination: SlateView(slate: slatesFollowing[index]).environmentObject(viewer)) {
-                                        SlatePreviewView(slate: slatesFollowing[index])
+                                ForEach(slatesFollowing, id: \.id) { slate in
+                                    NavigationLink(destination: SlateView(slate: slate).environmentObject(viewer)) {
+                                        SlatePreviewView(slate: slate)
                                             .padding(.horizontal, Constants.sideMargin)
                                             .frame(width: geo.size.width, height: 0.75 * geo.size.width + 46)
                                     }
@@ -67,10 +68,14 @@ struct SlatesView: View {
                 }
             }
             PageOverlayView(pickerOptions: views, pickerIndex: $viewIndex) {
-                TranslucentButtonView(type: .text, action: { print("Pressed new slate button (not implemented yet)") }) {
+                TranslucentButtonView(type: .text, action: { showingCreateSheet = true }) {
                     Text("New Slate")
                         .font(Font.custom("Inter", size: 14))
                         .fontWeight(.medium)
+                }
+                .sheet(isPresented: $showingCreateSheet) {
+                    CreateSlateView()
+                        .environmentObject(viewer)
                 }
             }
             .padding(.bottom, 52)

@@ -47,7 +47,7 @@ struct ImageView: View {
         Image(uiImage: image)
             .resizable()
             .aspectRatio(contentMode: contentMode)
-            .frame(width: width, height: height)
+            .frame(maxWidth: width, maxHeight: height)
             .clipped()
             .onReceive(imageLoader.didChange) { data in
                 self.image = UIImage(data: data) ?? UIImage()

@@ -10,7 +10,7 @@ import Foundation
 import Starscream
 
 struct ContentView: View {
-    @ObservedObject var viewer = User()
+    @ObservedObject var viewer = User(isViewer: true)
     @State private var scene: Navigation = .data
     
     init() {
