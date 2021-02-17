@@ -71,9 +71,29 @@ struct SlateData: Codable {
     var body: String?
     var name: String
     var ownerId: String
-    @DecodableDefault.False var isPublic: Bool
+    var isPublic: Bool
     var layouts: SlateLayout?
     var objects: [SlateFile]
+    
+    init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: CodingKeys.self)
+        body = try values.decodeIfPresent(String.self, forKey: .body)
+        name = try values.decode(String.self, forKey: .name)
+        ownerId = try values.decodeIfPresent(String.self, forKey: .ownerId) ?? ""
+        isPublic = try values.decodeIfPresent(Bool.self, forKey: .isPublic) ?? false
+        layouts = try values.decodeIfPresent(SlateLayout.self, forKey: .layouts)
+        objects = try values.decodeIfPresent([SlateFile].self, forKey: .objects) ?? [SlateFile]()
+    }
+    
+    func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(body, forKey: .body)
+        try container.encode(name, forKey: .name)
+        try container.encode(ownerId, forKey: .ownerId)
+        try container.encode(isPublic, forKey: .isPublic)
+        try container.encode(layouts, forKey: .layouts)
+        try container.encode(objects, forKey: .objects)
+    }
 }
 
 struct SlateFile: Codable {
@@ -90,7 +110,7 @@ struct SlateFile: Codable {
     var blurhash: String?
     var coverImage: CoverImage?
     var url: String
-    var ownerId: String
+    var ownerId: String?
 }
 
 struct SlateLayout: Codable {

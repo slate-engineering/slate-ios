@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		245C5E92D814A2394E7B93D8 /* Pods_Slate_iOS__iOS_.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4EB8ACE22489270AD99037D9 /* Pods_Slate_iOS__iOS_.framework */; };
 		B435675525DB5BD400704B8F /* Upload.swift in Sources */ = {isa = PBXBuildFile; fileRef = B435675425DB5BD400704B8F /* Upload.swift */; };
+		B435675B25DC6ADF00704B8F /* Activity.swift in Sources */ = {isa = PBXBuildFile; fileRef = B435675A25DC6ADF00704B8F /* Activity.swift */; };
 		B43665AD25BA395C00C3AEBD /* Slate_iOSApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = B436659A25BA395900C3AEBD /* Slate_iOSApp.swift */; };
 		B43665AE25BA395C00C3AEBD /* Slate_iOSApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = B436659A25BA395900C3AEBD /* Slate_iOSApp.swift */; };
 		B43665AF25BA395C00C3AEBD /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B436659B25BA395900C3AEBD /* ContentView.swift */; };
@@ -74,6 +75,7 @@
 		8CA50FCFFC7EA72467D58F47 /* Pods-Slate iOS (iOS).release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Slate iOS (iOS).release.xcconfig"; path = "Target Support Files/Pods-Slate iOS (iOS)/Pods-Slate iOS (iOS).release.xcconfig"; sourceTree = "<group>"; };
 		9EA0B74C5F9E873B1FE07341 /* Pods-Slate iOS (macOS).debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Slate iOS (macOS).debug.xcconfig"; path = "Target Support Files/Pods-Slate iOS (macOS)/Pods-Slate iOS (macOS).debug.xcconfig"; sourceTree = "<group>"; };
 		B435675425DB5BD400704B8F /* Upload.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Upload.swift; sourceTree = "<group>"; };
+		B435675A25DC6ADF00704B8F /* Activity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Activity.swift; sourceTree = "<group>"; };
 		B436659A25BA395900C3AEBD /* Slate_iOSApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Slate_iOSApp.swift; sourceTree = "<group>"; };
 		B436659B25BA395900C3AEBD /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		B436659C25BA395C00C3AEBD /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -196,6 +198,7 @@
 				B436660925BB979C00C3AEBD /* AlertMessage.swift */,
 				B4410EF625BFACF500030284 /* User.swift */,
 				B435675425DB5BD400704B8F /* Upload.swift */,
+				B435675A25DC6ADF00704B8F /* Activity.swift */,
 				B4593CE225C351BF00345013 /* Slate.swift */,
 				B48AE38925D35CBD006FA245 /* Websocket.swift */,
 				B43665E325BA54D600C3AEBD /* Inter.ttf */,
@@ -482,6 +485,7 @@
 				B48AE3AA25D47D05006FA245 /* SlateCreateEditView.swift in Sources */,
 				B491873125D62AA800859B76 /* AssetsPickerView.swift in Sources */,
 				B435675525DB5BD400704B8F /* Upload.swift in Sources */,
+				B435675B25DC6ADF00704B8F /* Activity.swift in Sources */,
 				B48AE2B125C4CCC7006FA245 /* UserView.swift in Sources */,
 				B43665EF25BA64E200C3AEBD /* InputView.swift in Sources */,
 				B48AE36925CF7509006FA245 /* EmptyStateView.swift in Sources */,

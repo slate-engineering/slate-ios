@@ -38,19 +38,30 @@ struct ImageView: View {
 
     init(withURL url: String, width: CGFloat, height: CGFloat, contentMode: ContentMode = .fill) {
         imageLoader = ImageLoader(urlString:url)
-        self.width = width
-        self.height = height
+        self.width = max(width, 0)
+        self.height = max(height, 0)
         self.contentMode = contentMode
     }
 
     var body: some View {
-        Image(uiImage: image)
-            .resizable()
-            .aspectRatio(contentMode: contentMode)
-            .frame(maxWidth: width, maxHeight: height)
-            .clipped()
-            .onReceive(imageLoader.didChange) { data in
-                self.image = UIImage(data: data) ?? UIImage()
-            }
+        if contentMode == .fit {
+            Image(uiImage: image)
+                .resizable()
+                .aspectRatio(contentMode: contentMode)
+                .frame(maxWidth: width, maxHeight: height)
+                .clipped()
+                .onReceive(imageLoader.didChange) { data in
+                    self.image = UIImage(data: data) ?? UIImage()
+                }
+        } else {
+            Image(uiImage: image)
+                .resizable()
+                .aspectRatio(contentMode: contentMode)
+                .frame(width: width, height: height)
+                .clipped()
+                .onReceive(imageLoader.didChange) { data in
+                    self.image = UIImage(data: data) ?? UIImage()
+                }
+        }
     }
 }

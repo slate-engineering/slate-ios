@@ -12,6 +12,8 @@ import Starscream
 struct ContentView: View {
     @ObservedObject var viewer = User(isViewer: true)
     @State private var scene: Navigation = .data
+    @State private var loading = true
+    @State private var authenticated = false
     
     init() {
         let appearance = UITabBar.appearance()
@@ -23,8 +25,21 @@ struct ContentView: View {
     }
     
     var body: some View {
-        if viewer.id.isEmpty {
-            SignInView()
+        if loading {
+            VStack {
+                Image("logotype")
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .frame(width: 100)
+            }
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .background(Color("foreground"))
+            .edgesIgnoringSafeArea(.all)
+            .onAppear {
+                checkSignedIn()
+            }
+        } else if !authenticated {
+            SignInView(authenticated: $authenticated) 
                 .environmentObject(viewer)
                 .background(Color("foreground"))
                 .edgesIgnoringSafeArea(.all)
@@ -68,7 +83,7 @@ struct ContentView: View {
                             Text("Explore")
                         }
                         .tag(Navigation.activity)
-                    UserView()
+                    UserView(authenticated: $authenticated)
                         .environmentObject(viewer)
                         .padding(.vertical, 40)
                         .background(Color("foreground"))
@@ -99,7 +114,29 @@ struct ContentView: View {
             }
             .clipped()
             .edgesIgnoringSafeArea(.all)
-            .onAppear { print("Content view on appear called") }
+        }
+    }
+    
+    func checkSignedIn() {
+        Actions.checkSignedIn() { authenticated in
+            self.authenticated = authenticated
+            if authenticated {
+                Actions.hydrateAuthenticatedUser{ user in
+                    saveViewerData(user)
+                    loading = false
+                }
+            } else {
+                viewer.clearUserDetails()
+                viewer.saveToUserDefaults()
+                loading = false
+            }
+        }
+    }
+    
+    func saveViewerData(_ user: User) {
+        DispatchQueue.main.async {
+            viewer.copyUserDetails(from: user)
+            viewer.saveToUserDefaults()
         }
     }
 }

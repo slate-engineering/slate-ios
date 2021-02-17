@@ -21,6 +21,12 @@ struct SignInView: View {
     @State private var alert: AlertMessage? = nil
     @State private var loading = false
     
+    @Binding var authenticated: Bool {
+        didSet {
+            print("set authenticated to \(authenticated)")
+        }
+    }
+    
     var body: some View {
         let sanitizedUsername = Binding<String>(
             get: {
@@ -215,6 +221,7 @@ struct SignInView: View {
             viewer.copyUserDetails(from: user)
             viewer.saveToUserDefaults()
             loading = false
+            authenticated = true
             print("Signed in as: \n\(viewer.id) \n\(viewer.username)")
         }
     }

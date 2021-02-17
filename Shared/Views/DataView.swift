@@ -45,6 +45,7 @@ struct DataView: View {
                 if viewer.files == nil || viewer.files!.count == 0 {
                     EmptyStateView(text: "Add files using the upload button", icon: Image("folder"))
                         .padding(.horizontal, 16)
+                        .padding(.top, 52)
                 } else if viewIndex == 2 {
                     ScrollView(.vertical) {
                         Spacer()

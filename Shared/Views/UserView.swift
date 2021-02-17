@@ -8,12 +8,14 @@
 import SwiftUI
 
 struct UserView: View {
-    @EnvironmentObject var viewer: User
     enum Sheet: Identifiable {
         case edit, user
         
         var id: Int { hashValue }
     }
+    
+    @EnvironmentObject var viewer: User
+    @Binding var authenticated: Bool
     
     @State private var showingEditSheet = false
     @State private var selectedUser: User? = nil
@@ -62,7 +64,7 @@ struct UserView: View {
                     self.showingEditSheet = true
                 }
                 .sheet(isPresented: $showingEditSheet) {
-                    UserEditView(viewer: viewer)
+                    UserEditView(authenticated: $authenticated, viewer: viewer)
                         .environmentObject(viewer)
                 }
                 
@@ -122,6 +124,7 @@ struct UserView: View {
                 TranslucentButtonView(type: .text, action: {
                     Actions.signOut() {
                         DispatchQueue.main.async {
+                            authenticated = false
                             viewer.clearUserDetails()
                             viewer.saveToUserDefaults()
                         }
@@ -141,6 +144,8 @@ struct UserView: View {
 struct UserEditView: View {
     @Environment(\.presentationMode) var presentationMode
     @ObservedObject var viewer: User
+    @Binding var authenticated: Bool
+    
     @State private var name: String
     @State private var username: String
     @State private var description: String
@@ -148,7 +153,8 @@ struct UserEditView: View {
     @State private var passwordConfirm: String = ""
     @State private var alert: AlertMessage? = nil
     
-    init(viewer: User) {
+    init(authenticated: Binding<Bool>, viewer: User) {
+        self._authenticated = authenticated
         self.viewer = viewer
         self._name = State(initialValue: viewer.data.name ?? "")
         self._username = State(initialValue: viewer.username)
@@ -198,6 +204,16 @@ struct UserEditView: View {
                 SecureInputView("New password", text: $password)
                 SecureInputView("Confirm password", text: $passwordConfirm)
             }
+            VStack(alignment: .leading) {
+                Text("DELETE ACCOUNT")
+                    .sectionHeaderStyle()
+                    .padding(.bottom, 4)
+                ButtonView(.warning, action: deleteAccount) {
+                    Text("Delete account")
+                        .font(Font.custom("Inter", size: 14))
+                        .fontWeight(.semibold)
+                }
+            }
             Spacer()
         }
         .padding(.vertical, 24)
@@ -225,6 +241,19 @@ struct UserEditView: View {
             Actions.editUser(name: name, username: username, description: description, password: password)
         } else {
             Actions.editUser(name: name, username: username, description: description)
+        }
+    }
+    
+    func deleteAccount() {
+        Actions.deleteAccount() {
+            Actions.signOut() {
+                DispatchQueue.main.async {
+                    presentationMode.wrappedValue.dismiss()
+                    authenticated = false
+                    viewer.clearUserDetails()
+                    viewer.saveToUserDefaults()
+                }
+            }
         }
     }
 }

@@ -10,7 +10,7 @@ import SwiftyJSON
 
 struct Actions {
     // MARK: - Cookies
-    static func readCookie(forURL url: URL) -> [HTTPCookie] {
+    static func readCookies(forURL url: URL) -> [HTTPCookie] {
         let cookieStorage = HTTPCookieStorage.shared
         let cookies = cookieStorage.cookies(for: url) ?? []
         return cookies
@@ -103,6 +103,17 @@ struct Actions {
     
     // MARK: - Authentication
     
+    static func checkSignedIn(completion: @escaping (Bool) -> Void) {
+        let url = URL(string: Env.serverURL)!
+        let cookies = readCookies(forURL: url)
+        for cookie in cookies {
+            if cookie.name == "WEB_SERVICE_SESSION_KEY" {
+                completion(true)
+            }
+        }
+        completion(false)
+    }
+    
     static func signUp(username: String, password: String, accepted: Bool, completion: @escaping (User) -> Void) {
         struct Request: Codable {
             let username: String
@@ -119,19 +130,29 @@ struct Actions {
     }
     
     static func signIn(username: String, password: String, completion: @escaping (User) -> Void) {
-        printCookies()
         deleteCookies()
         let url = URL(string: Env.serverURL)!
         guard let encoded = try? JSONEncoder().encode(["data": ["username": username, "password": password]]) else {
             print("Failed to encode body")
             return
         }
-        print("before sign in call")
         makeRequest(route: "/api/sign-in", body: encoded) { data in
             if let json = try? JSON(data: data) {
                 if let token = json["token"].string {
-                    let responseCookies = HTTPCookie.cookies(withResponseHeaderFields: ["Set-Cookie": "WEB_SERVICE_SESSION_KEY=\(token)"], for: url)
-                    storeCookies(responseCookies, forURL: url)
+                    let expiry = NSDate(timeIntervalSinceNow: 3600 * 24 * 7)
+                    let properties: [HTTPCookiePropertyKey : Any] = [
+                        HTTPCookiePropertyKey.domain: Env.serverURL.replacingOccurrences(of: "https://", with: "").replacingOccurrences(of: "http://", with: ""),
+                        HTTPCookiePropertyKey.path: "/",
+                        HTTPCookiePropertyKey.name: "WEB_SERVICE_SESSION_KEY",
+                        HTTPCookiePropertyKey.value: token,
+                        HTTPCookiePropertyKey.expires: expiry,
+                    ]
+                    let cookie = HTTPCookie(properties: properties)!
+//                    let responseCookies = HTTPCookie.cookies(withResponseHeaderFields: ["Set-Cookie": "WEB_SERVICE_SESSION_KEY_OLD=\(token)"], for: url)
+//                    storeCookies(responseCookies, forURL: url)
+                    
+                    HTTPCookieStorage.shared.setCookie(cookie)
+//                    printCookies()
                     hydrateAuthenticatedUser(completion: completion)
                 }
             }
@@ -159,6 +180,12 @@ struct Actions {
     static func signOut(completion: @escaping () -> Void) {
         deleteCookies()
         completion()
+    }
+    
+    static func deleteAccount(completion: @escaping () -> Void) {
+        makeRequest(route: "/api/users/delete", body: nil) { data in
+            completion()
+        }
     }
     
     // MARK: - Users
@@ -279,7 +306,6 @@ struct Actions {
             print("Failed to encode body")
             return
         }
-        
         makeRequest(route: "/api/subscribe", body: encoded) { data in
             completion()
         }
@@ -409,5 +435,61 @@ struct Actions {
             }
             completion()
         }.resume()
+    }
+    
+    // MARK: - Activity
+    
+    static func getActivity(earliestTimestamp: String? = nil, latestTimestamp: String? = nil, completion: @escaping ([Activity]) -> Void) {
+        struct Response: Codable {
+            enum CodingKeys: String, CodingKey {
+                case activity
+            }
+            
+            let activity: [Activity]
+        }
+        
+        guard let encoded = try? JSONEncoder().encode(["data": ["earliestTimestamp": earliestTimestamp, "latestTimestamp": latestTimestamp]]) else {
+            print("Failed to encode body")
+            return
+        }
+        
+        makeRequest(route: "/api/activity/get", body: encoded) { data in
+            if let decoded = try? JSONDecoder().decode(Response.self, from: data) {
+                let activity = decoded.activity
+                completion(activity)
+            } else {
+                print("failed")
+            }
+        }
+    }
+    
+    static func getExplore(earliestTimestamp: String? = nil, latestTimestamp: String? = nil, completion: @escaping ([Activity]) -> Void) {
+        struct Request: Codable {
+            let earliestTimestamp: String?
+            let latestTimestamp: String?
+            let explore: Bool
+        }
+        
+        struct Response: Codable {
+            enum CodingKeys: String, CodingKey {
+                case activity
+            }
+            
+            let activity: [Activity]
+        }
+        
+        guard let encoded = try? JSONEncoder().encode(["data": Request(earliestTimestamp: earliestTimestamp, latestTimestamp: latestTimestamp, explore: true)]) else {
+            print("Failed to encode body")
+            return
+        }
+        
+        makeRequest(route: "/api/activity/get", body: encoded) { data in
+            if let decoded = try? JSONDecoder().decode(Response.self, from: data) {
+                let activity = decoded.activity
+                completion(activity)
+            } else {
+                print("failed")
+            }
+        }
     }
 }

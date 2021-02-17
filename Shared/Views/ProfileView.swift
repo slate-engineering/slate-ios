@@ -55,7 +55,7 @@ struct ProfileView: View {
                                 .font(Font.custom("Inter", size: 14))
                                 .foregroundColor(Color("grayBlack"))
                                 .frame(minWidth: 64, alignment: .trailing)
-                            NavigationLink(destination: ProfilePeersView(user: user, socialLoading: $socialLoading)) {
+                            NavigationLink(destination: ProfilePeersView(user: user, socialLoading: $socialLoading).environmentObject(viewer)) {
                                 TranslucentButtonView(type: .text) {
                                     Text("Peers")
                                         .font(Font.custom("Inter", size: 14))
@@ -79,6 +79,7 @@ struct ProfileView: View {
                                         MediaPreviewView(file, width: (geo.size.width - 48) / 2)
                                             .background(Color.white)
                                             .shadow(color: Color(red: 178/255, green: 178/255, blue: 178/255).opacity(0.15), radius: 10, x: 0, y: 5)
+//                                            .frame(width: (geo.size.width - 48) / 2, height: (geo.size.width - 48) / 2)
                                     }
                                 }
                                 .padding(.horizontal, Constants.sideMargin)
@@ -96,7 +97,7 @@ struct ProfileView: View {
                                     .frame(height: 8)
                                 VStack(spacing: 16) {
                                     ForEach(user.slates!) { slate in
-                                        NavigationLink(destination: SlateView(slate: slate)) {
+                                        NavigationLink(destination: SlateView(slate: slate).environmentObject(viewer)) {
                                             SlatePreviewView(slate: slate)
                                                 .padding(.horizontal, Constants.sideMargin)
                                                 .frame(width: geo.size.width, height: 0.75 * geo.size.width + 46)
@@ -120,7 +121,7 @@ struct ProfileView: View {
                                     .frame(height: 8)
                                 VStack(spacing: 16) {
                                     ForEach(slatesFollowing) { slate in
-                                        NavigationLink(destination: SlateView(slate: slate)) {
+                                        NavigationLink(destination: SlateView(slate: slate).environmentObject(viewer)) {
                                             SlatePreviewView(slate: slate)
                                                 .padding(.horizontal, Constants.sideMargin)
                                                 .frame(width: geo.size.width, height: 0.75 * geo.size.width + 46)
@@ -190,6 +191,7 @@ struct ProfileView: View {
     func fetchUser() {
         if user.library != nil && user.slates != nil {
             // NOTE(martina): already have library and slates, don't need to fetch
+            loading = false
             return
         }
         Actions.getSerializedUser(id: user.id) { fetchedUser in
@@ -203,6 +205,7 @@ struct ProfileView: View {
     func fetchSocial() {
         if user.subscriptions != nil && user.subscribers != nil {
             // NOTE(martina): already have social, don't need to fetch
+            socialLoading = false
             return
         }
         if socialLoading {

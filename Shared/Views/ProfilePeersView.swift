@@ -9,6 +9,7 @@ import SwiftUI
 
 struct ProfilePeersView: View {
     @Environment(\.presentationMode) var presentationMode
+    @EnvironmentObject var viewer: User
     @ObservedObject var user: User
     @Binding var socialLoading: Bool
     var following: [User] {
@@ -38,7 +39,7 @@ struct ProfilePeersView: View {
                             .frame(height: 64)
                         VStack {
                             ForEach(0..<following.count) { index in
-                                NavigationLink(destination: ProfileView(user: following[index])) {
+                                NavigationLink(destination: ProfileView(user: following[index]).environmentObject(viewer)) {
                                     UserEntryView(user: following[index])
                                 }
                             }
@@ -58,7 +59,7 @@ struct ProfilePeersView: View {
                             .frame(height: 64)
                         VStack {
                             ForEach(0..<followers.count) { index in
-                                NavigationLink(destination: ProfileView(user: followers[index])) {
+                                NavigationLink(destination: ProfileView(user: followers[index]).environmentObject(viewer)) {
                                     UserEntryView(user: followers[index])
                                 }
                             }
