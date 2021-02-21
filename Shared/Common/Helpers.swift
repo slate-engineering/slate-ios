@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import SwiftyJSON
 
 extension String: Identifiable {
     public var id: String { self }
@@ -14,6 +15,14 @@ extension String: Identifiable {
 extension Data {
     func toString() -> String {
         return String(decoding: self, as: UTF8.self)
+    }
+    
+    func toJSON() -> JSON {
+        if let json = try? JSON(data: self) {
+            return json
+        } else {
+            return JSON()
+        }
     }
 }
 

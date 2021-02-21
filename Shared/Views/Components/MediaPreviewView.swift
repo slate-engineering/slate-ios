@@ -27,11 +27,11 @@ struct MediaPreviewView: View {
     
     init(_ file: SlateFile, width: CGFloat, height: CGFloat? = nil, contentMode: ContentMode = .fill, border: Bool = false) {
         if let height = height {
-            self.height = height
+            self.height = max(height, 0)
         } else {
-            self.height = width
+            self.height = max(width, 0)
         }
-        self.width = width
+        self.width = max(width, 0)
         self.contentMode = contentMode
         self.border = border
         id = file.id
@@ -47,11 +47,11 @@ struct MediaPreviewView: View {
     
     init(_ file: LibraryFile, width: CGFloat, height: CGFloat? = nil, contentMode: ContentMode = .fill, border: Bool = false) {
         if let height = height {
-            self.height = height
+            self.height = max(height, 0)
         } else {
-            self.height = width
+            self.height = max(width, 0)
         }
-        self.width = width
+        self.width = max(width, 0)
         self.contentMode = contentMode
         self.border = border
         id = file.id

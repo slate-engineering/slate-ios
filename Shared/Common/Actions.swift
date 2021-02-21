@@ -7,6 +7,7 @@
 
 import Foundation
 import SwiftyJSON
+import Promises
 
 struct Actions {
     // MARK: - Cookies
@@ -53,8 +54,6 @@ struct Actions {
         
         
         URLSession.shared.dataTask(with: request) { data, response, error in
-//            print(data.toString())
-            print(error)
             guard let data = data else {
                 print("No data in response: \(error?.localizedDescription ?? "Unknown error").")
                 return
@@ -107,7 +106,7 @@ struct Actions {
         let url = URL(string: Env.serverURL)!
         let cookies = readCookies(forURL: url)
         for cookie in cookies {
-            if cookie.name == "WEB_SERVICE_SESSION_KEY" {
+            if cookie.name == Env.sessionKey {
                 completion(true)
             }
         }
@@ -140,19 +139,22 @@ struct Actions {
             if let json = try? JSON(data: data) {
                 if let token = json["token"].string {
                     let expiry = NSDate(timeIntervalSinceNow: 3600 * 24 * 7)
+                    print(url)
                     let properties: [HTTPCookiePropertyKey : Any] = [
-                        HTTPCookiePropertyKey.domain: Env.serverURL.replacingOccurrences(of: "https://", with: "").replacingOccurrences(of: "http://", with: ""),
+                        HTTPCookiePropertyKey.domain: Env.cookieDomain,
                         HTTPCookiePropertyKey.path: "/",
-                        HTTPCookiePropertyKey.name: "WEB_SERVICE_SESSION_KEY",
+                        HTTPCookiePropertyKey.name: Env.sessionKey,
                         HTTPCookiePropertyKey.value: token,
                         HTTPCookiePropertyKey.expires: expiry,
                     ]
                     let cookie = HTTPCookie(properties: properties)!
+                    HTTPCookieStorage.shared.setCookie(cookie)
+                    
+                    //old version
 //                    let responseCookies = HTTPCookie.cookies(withResponseHeaderFields: ["Set-Cookie": "WEB_SERVICE_SESSION_KEY_OLD=\(token)"], for: url)
 //                    storeCookies(responseCookies, forURL: url)
                     
-                    HTTPCookieStorage.shared.setCookie(cookie)
-//                    printCookies()
+                    printCookies()
                     hydrateAuthenticatedUser(completion: completion)
                 }
             }
@@ -387,10 +389,88 @@ struct Actions {
       return data as Data
     }
     
-    static func upload(file: Data, completion: @escaping () -> Void) {
-        let fileName = "get the filename of the file"
+//    static func uploadMultiple(items: [Upload], completion: @escaping () -> Void) {
+//        all(items.map { upload(item: $0, completion: completion) })
+//            .then(processPendingFiles)
+//    }
+    
+    static func upload(item: Upload, completion: @escaping () -> Void) {
+        var authorization = ""
+        let cookieStorage = HTTPCookieStorage.shared
+        for cookie in cookieStorage.cookies! {
+            if cookie.name == Env.sessionKey {
+                authorization = cookie.value
+            }
+        }
+        let fileData = item.fileData
+        let fileName = item.fileName
+        let mimeType = item.mimeType
+        let boundary = UUID().uuidString
+        let url = URL(string: "\(Env.uploadURL)/api/data/\(item.fileName)")!
+        var request = URLRequest(url: url)
+        request.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
+        request.setValue(authorization, forHTTPHeaderField: "authorization")
+        request.httpMethod = "POST"
         
-        makeUploadRequest(url: "\(Env.uploadURL)/api/data/\(fileName)", fileData: file) {
+        let fieldName = "data"
+        var data = Data()
+        
+        data.append("\r\n--\(boundary)\r\n".data(using: .utf8)!)
+        data.append("Content-Disposition: form-data; name=\"\(fieldName)\"; filename=\"\(fileName)\"\r\n".data(using: .utf8)!)
+        data.append("Content-Type: \(mimeType)\r\n\r\n".data(using: .utf8)!)
+        data.append(fileData)
+        data.append("\r\n--\(boundary)--\r\n".data(using: .utf8)!)
+        
+//        request.httpBody = data
+//        URLSession.shared.dataTask(with: request) { data, response, error in
+//            //also, shoudl convert heic to another format before uploading
+//            print("upload task complete")
+//            if data != nil {
+//                createPendingFiles(data: data!, completion: completion)
+//            }
+////            var data = data!.toJSON()
+////            print(data)
+////            data = data["data"]
+////            print(data)
+////            var json = JSON()
+////            json.dictionaryObject = ["data": data]
+////            print(json)
+////            if let rawData = try? json.rawData() {
+////                print("converted to raw data")
+//////                createPendingFiles(data: rawData)
+////            }
+//
+//        }.resume()
+        
+        URLSession.shared.uploadTask(with: request, from: data, completionHandler: { data, response, error in
+            
+            if data != nil {
+                var data = data!.toJSON()
+                print(data)
+                var json = JSON()
+                json.dictionaryObject = ["data": data]
+                print(json)
+                if let rawData = try? json.rawData() {
+                    createPendingFiles(data: rawData, completion: completion)
+                }
+            }
+        }).resume()
+        
+        
+        //optimize with this https://medium.com/livefront/uploading-data-in-the-background-in-ios-f93722013c6a#:~:text=The%20key%20difference%20Apple%20describes,continue%20execution%20in%20the%20background.
+    }
+    
+    static func createPendingFiles(data: Data, completion: @escaping () -> Void) {
+        //add blurhash here
+        makeRequest(route: "/api/data/create-pending", body: data) { data in
+            print(data.toString())
+            processPendingFiles(completion: completion)
+        }
+    }
+    
+    static func processPendingFiles(completion: @escaping () -> Void) {
+        makeRequest(route: "/api/data/process-pending", body: nil) { data in
+            print(data.toString())
             completion()
         }
     }
@@ -402,39 +482,77 @@ struct Actions {
 //        }
 //    }
     
-    static func makeUploadRequest(url: String, fileData: Data, completion: @escaping () -> Void) {
-        let boundary = "Boundary-\(UUID().uuidString)"
+    static func makeUploadRequest(url: String, item: Upload, completion: @escaping () -> Void) {
+        var authorization = ""
+        let cookieStorage = HTTPCookieStorage.shared
+        for cookie in cookieStorage.cookies! {
+            if cookie.name == Env.sessionKey {
+                authorization = cookie.value
+            }
+        }
+        let fileData = item.fileData
+        let fileName = item.fileName
+        let mimeType = item.mimeType
+        let boundary = UUID().uuidString
         let url = URL(string: url)!
         var request = URLRequest(url: url)
         request.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
+        request.setValue(authorization, forHTTPHeaderField: "authorization")
         request.httpMethod = "POST"
         
-        
         let fieldName = "data"
-        let fileName = "get the filename of the file"
-        let mimeType = "get the mimetype of the file"
+        var data = Data()
         
-        let data = NSMutableData()
-        data.appendString("--\(boundary)\r\n")
-        data.appendString("Content-Disposition: form-data; name=\"\(fieldName)\"; filename=\"\(fileName)\"\r\n")
-        data.appendString("Content-Type: \(mimeType)\r\n\r\n")
+        data.append("\r\n--\(boundary)\r\n".data(using: .utf8)!)
+        data.append("Content-Disposition: form-data; name=\"\(fieldName)\"; filename=\"\(fileName)\"\r\n".data(using: .utf8)!)
+        data.append("Content-Type: \(mimeType)\r\n\r\n".data(using: .utf8)!)
         data.append(fileData)
-        data.appendString("\r\n")
+        data.append("\r\n--\(boundary)--\r\n".data(using: .utf8)!)
         
-        let httpBody = NSMutableData()
-        httpBody.append(data as Data)
+        request.httpBody = data
+        URLSession.shared.dataTask(with: request) { data, response, error in
+            //take the data and upload it ot eh library after that
+            //also, shoudl convert heic to another format before uploading
+            print("upload task complete")
+            print(data!.toJSON())
+            completion()
+            //create pending files
+            //process pending files
+        }.resume()
+        
+        //optimize with this https://medium.com/livefront/uploading-data-in-the-background-in-ios-f93722013c6a#:~:text=The%20key%20difference%20Apple%20describes,continue%20execution%20in%20the%20background.
+        
+        URLSession.shared.uploadTask(with: request, from: data, completionHandler: { data, response, error in
+            print("upload task complete")
+            print(data.toString())
+            print(data)
+            print(error)
+            completion()
+        }).resume()
+        
+        
+//        let fieldName = "data"
+//        let data = NSMutableData()
+//        data.appendString("--\(boundary)\r\n")
+//        data.appendString("Content-Disposition: form-data; name=\"\(fieldName)\"; filename=\"\(fileName)\"\r\n")
+//        data.appendString("Content-Type: \(mimeType)\r\n\r\n")
+//        data.append(fileData)
+//        data.appendString("\r\n")
+        
+//        let httpBody = NSMutableData()
+//        httpBody.append(data as Data)
 //        httpBody.appendString("--\(boundary)--")
 //        request.httpBody = httpBody as Data
         
-        URLSession.shared.dataTask(with: request) { data, response, error in
-            print(data.toString())
-            print(error)
-            guard let data = data else {
-                print("No data in response: \(error?.localizedDescription ?? "Unknown error").")
-                return
-            }
-            completion()
-        }.resume()
+//        URLSession.shared.dataTask(with: request) { data, response, error in
+//            print(data.toString())
+//            print(error)
+//            guard let data = data else {
+//                print("No data in response: \(error?.localizedDescription ?? "Unknown error").")
+//                return
+//            }
+//            completion()
+//        }.resume()
     }
     
     // MARK: - Activity

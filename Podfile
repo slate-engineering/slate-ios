@@ -9,6 +9,7 @@ target 'Slate iOS (iOS)' do
   pod 'SwiftyJSON', '~> 5.0.0'
   pod 'Starscream', '~> 4.0.0'
   pod 'AssetsPickerViewController', '~> 2.9.0'
+  pod 'PromisesSwift', '~> 1.2.0'
 
 end
 
