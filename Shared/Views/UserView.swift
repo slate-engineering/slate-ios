@@ -38,6 +38,9 @@ struct UserView: View {
     
     var body: some View {
         ZStack {
+            Color("foreground")
+                .edgesIgnoringSafeArea(.all)
+            
             VStack {
                 VStack {
                     Spacer()
@@ -135,7 +138,7 @@ struct UserView: View {
                         .fontWeight(.medium)
                 }
             }
-            .padding(.bottom, 52)
+            .padding(.bottom, 8)
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
     }

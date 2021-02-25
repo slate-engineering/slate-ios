@@ -22,6 +22,9 @@ struct SlatesView: View {
     
     var body: some View {
         ZStack {
+            Color("foreground")
+                .edgesIgnoringSafeArea(.all)
+            
             GeometryReader { geo in
                 if viewIndex == 0 {
                     ScrollView(.vertical) {
@@ -78,7 +81,7 @@ struct SlatesView: View {
                         .environmentObject(viewer)
                 }
             }
-            .padding(.bottom, 52)
+            .padding(.bottom, 8)
         }
     }
 }

@@ -42,7 +42,10 @@ struct DataView: View {
         )
         GeometryReader { geo in
             ZStack {
-                if viewer.files == nil || viewer.files!.count == 0 {
+                Color("foreground")
+                    .edgesIgnoringSafeArea(.all)
+                
+                if viewer.library?[0].children == nil || viewer.library?[0].children?.count == 0 {
                     EmptyStateView(text: "Add files using the upload button", icon: Image("folder"))
                         .padding(.horizontal, 16)
                         .padding(.top, 52)
@@ -51,15 +54,15 @@ struct DataView: View {
                         Spacer()
                             .frame(height: 52)
                         LazyVStack(spacing: 1) {
-                            if viewer.files != nil {
-                                ForEach(viewer.files!, id: \.id) { file in
+                            if viewer.library?[0].children != nil {
+                                ForEach(viewer.library![0].children!, id: \.id) { file in
                                     HStack(spacing: 8) {
                                         FiletypeIconView(type: file.type)
                                             .frame(width: 20, height: 20)
                                             .foregroundColor(Color("black"))
                                         Text(file.name)
                                             .font(Font.custom("Inter", size: 14))
-    //                                        .fontWeight(.medium)
+                                            //                                        .fontWeight(.medium)
                                             .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity, alignment: .leading)
                                     }
                                     .padding(10)
@@ -71,16 +74,16 @@ struct DataView: View {
                         }
                         .shadow(color: Color(red: 178/255, green: 178/255, blue: 178/255).opacity(0.15), radius: 10, x: 0, y: 5)
                         .padding(.horizontal, Constants.sideMargin)
-                        Spacer()
-                            .frame(height: Constants.bottomMargin)
+//                        Spacer()
+//                            .frame(height: Constants.bottomMargin)
                     }
                 } else {
                     ScrollView(.vertical) {
                         Spacer()
                             .frame(height: 8)
                         LazyVGrid(columns: viewIndex == 0 ? doubleColumn : singleColumn, alignment: .center, spacing: 16) {
-                            if viewer.files != nil {
-                                ForEach(viewer.files!, id: \.id) { file in
+                            if viewer.library?[0].children != nil {
+                                ForEach(viewer.library![0].children!, id: \.id) { file in
                                     MediaPreviewView(file, width: (viewIndex == 0 ? (geo.size.width - 48) / 2 : geo.size.width - 32))
                                         .background(Color.white)
                                         .shadow(color: Color(red: 178/255, green: 178/255, blue: 178/255).opacity(0.15), radius: 10, x: 0, y: 5)
@@ -88,8 +91,8 @@ struct DataView: View {
                             }
                         }
                         .padding(.horizontal, Constants.sideMargin)
-                        Spacer()
-                            .frame(height: Constants.bottomMargin)
+//                        Spacer()
+//                            .frame(height: Constants.bottomMargin)
                     }
                 }
                 PageOverlayView(pickerOptions: views, pickerIndex: $viewIndex) {
@@ -106,144 +109,52 @@ struct DataView: View {
                         .cancel()
                     ])
                 }
-                .sheet(isPresented: showingPicker, onDismiss: loadImages) {
+                .sheet(isPresented: showingPicker, onDismiss: showingImagePicker ? { Actions.uploadImagesAndVideos(assets: assets) { Actions.rehydrateViewer(viewer: viewer) } } : {}) {
                     if showingImagePicker {
                         AssetsPicker(assets: $assets)
                     } else {
-                        DocumentPicker(documents: $documents)
+                        DocumentPicker(documents: $documents, completion: uploadDocuments)
                     }
                 }
-                .padding(.bottom, 52)
+                .padding(.bottom, 8)
             }
         }
     }
     
-    func loadImages() {
-        var files = [Upload]()
-        
-        let manager = PHImageManager.default()
-        let option = PHImageRequestOptions()
-        for asset in assets {
-//            var uiImage = UIImage()
-//            option.isSynchronous = true
-//            manager.requestImage(for: asset, targetSize: PHImageManagerMaximumSize, contentMode: .aspectFit, options: option) { result, info in
-//                uiImage = result!
-//            }
-//            images.append(Image(uiImage: uiImage))
-            
-            var fileData: Data? = nil
-            var mimeType = "application/octet-stream"
-            
-            let fileName = asset.value(forKey: "filename") as? String ?? "file"
-            if let fileExtension = fileName.components(separatedBy: ".").last {
-                if let extUTI = UTTypeCreatePreferredIdentifierForTag(kUTTagClassFilenameExtension, fileExtension as CFString, nil)?.takeUnretainedValue() {
-                    if let mimeUTI = UTTypeCopyPreferredTagWithClass(extUTI, kUTTagClassMIMEType) {
-                        mimeType = mimeUTI.takeRetainedValue() as String
-                    }
-                }
+    func uploadDocuments() {
+        print("hit upload documents")
+        print(documents.count)
+        for documentURL in documents {
+            print("inside for loop")
+            guard let data = try? Data(contentsOf: documentURL) else {
+                print("Could not read data from documentURL")
+                continue
             }
-//            print(fileName)
-//            print(mimeType)
+            print("after get data")
             
-            let mediaType = asset.mediaType
-            if mediaType == .image {
-                manager.requestImageDataAndOrientation(for: asset, options: nil) { imageData, dataUTI, orientation, info in
-//                    print("imageData")
-//                    print(imageData)
-//                    print(dataUTI)
-                    if imageData != nil {
-                        fileData = imageData!
-                        Actions.upload(item: Upload(fileData: fileData!, fileName: fileName, mimeType: mimeType)) {
-                            Actions.rehydrateViewer(viewer: viewer)
-                            print("upload complete for file named \(fileName) of type \(mimeType)")
-                        }
-                    } else {
-                        print("Request image data and orientation failed")
-                    }
-                }
-            } else if mediaType == .video {
-                guard let resource = PHAssetResource.assetResources(for: asset).first else {
-                    print("Could not get assetResources for video")
-                    continue
-                }
-                let fileName = resource.originalFilename
-                var writeURL: URL? = nil
-                if #available(iOS 10.0, *) {
-                    writeURL = FileManager.default.temporaryDirectory.appendingPathComponent("\(fileName)")
+            let fileName = documentURL.lastPathComponent
+            print("after get filename \(fileName)")
+            
+            var mimeType: String? = nil
+            let pathExtension = documentURL.pathExtension
+            if let uti = UTTypeCreatePreferredIdentifierForTag(kUTTagClassFilenameExtension, pathExtension as NSString, nil)?.takeRetainedValue() {
+                print("got uti")
+                if let type = UTTypeCopyPreferredTagWithClass(uti, kUTTagClassMIMEType)?.takeRetainedValue() {
+                    print("got type")
+                    mimeType = type as String
                 } else {
-                    writeURL = URL(fileURLWithPath: NSTemporaryDirectory(), isDirectory: true).appendingPathComponent("\(fileName)")
-                }
-                guard let localURL = writeURL else {
-                    print("Could not get writeURL for video")
+                    print("failed at let type =")
                     continue
                 }
-                let options = PHAssetResourceRequestOptions()
-                options.isNetworkAccessAllowed = false
-                PHAssetResourceManager.default().writeData(for: resource, toFile: localURL, options: options, completionHandler: { error in
-                    if let error = error {
-                        print("Error while writing data: \n\(error.localizedDescription)")
-                    }
-                    print(localURL)
-                })
-                
-                guard let data = try? Data(contentsOf: localURL) else {
-                    print("Could not read data from localURL")
-                    continue
-                }
-                fileData = data
-                
-                Actions.upload(item: Upload(fileData: fileData!, fileName: fileName, mimeType: mimeType)) {
-                    Actions.rehydrateViewer(viewer: viewer)
-                    print("upload complete for file named \(fileName) of type \(mimeType)")
-                }
-                
-//                let options = PHVideoRequestOptions()
-//                        options.deliveryMode = .highQualityFormat
-//                        options.isNetworkAccessAllowed = true
-//                manager.requestExportSession(forVideo: asset, options: options, exportPreset: AVAssetExportPresetHighestQuality) { exportSession, info in
-//                    if exportSession == nil {
-//                        print("could not export video properly")
-//                    } else {
-//                        exportSession.outputURL = ""
-//                        exportSession!.outputFileType = AVFileType.mp4
-//
-//                        exportSession!.exportAsynchronously() {
-//                            print("EXPORT DONE")
-//                        }
-//
-//                        print("progress: \(exportSession!.progress)")
-//                        print("error: \(exportSession!.error)")
-//                        print("status: \(exportSession!.status.rawValue)")
-//                    }
-//
-//                    print("exportSession:")
-//                    print(exportSession)
-//                    //set export preset name, output file type
-//                    exportSession?.exportAsynchronously {
-//
-//                    }
-//
-//                    //left off figuring out how to get the data out here and assign to filedata
-//                    if exportSession != nil {
-//                        print(exportSession!.outputFileType)
-//                    } else {
-//                        print("export session is nil")
-//                    }
-//                }
+            } else {
+                print("failed at let uti =")
+                continue
             }
-//            print("fileData")
-//            print(fileData)
-//            
-//            if fileData != nil {
-////                files.append(Upload(fileData: fileData!, fileName: fileName, mimeType: mimeType))
-//                print("actions.upload calling")
-//                Actions.upload(item: Upload(fileData: fileData!, fileName: fileName, mimeType: mimeType)) {
-//                    print("upload complete for file named \(fileName) of type \(mimeType)")
-//                }
-//            } else {
-//                print("File data was nil")
-//            }
+            print("before actions.upload")
+            Actions.upload(item: Upload(fileData: data, fileName: fileName, mimeType: mimeType!)) {
+                print("after actions.upload")
+                Actions.rehydrateViewer(viewer: viewer)
+            }
         }
-        //do something with files
     }
 }

@@ -8,6 +8,8 @@
 import Foundation
 import SwiftyJSON
 import Promises
+import Photos
+import MobileCoreServices
 
 struct Actions {
     // MARK: - Cookies
@@ -83,7 +85,7 @@ struct Actions {
     
     // MARK: - Rehydrate (temp till websockets added)
     static func rehydrateViewer(viewer: User) {
-        getSerializedUser(id: viewer.id) { user in
+        hydrateAuthenticatedUser() { user in
             DispatchQueue.main.async {
                 viewer.copyUserDetails(from: user)
                 viewer.saveToUserDefaults()
@@ -108,6 +110,7 @@ struct Actions {
         for cookie in cookies {
             if cookie.name == Env.sessionKey {
                 completion(true)
+                return
             }
         }
         completion(false)
@@ -120,7 +123,7 @@ struct Actions {
             let accepted: Bool
         }
         guard let encoded = try? JSONEncoder().encode(["data": Request(username: username, password: password, accepted: accepted)]) else {
-            print("Failed to encode body")
+            print("Failed to encode body in signUp")
             return
         }
         makeRequest(route: "/api/users/create", body: encoded) { data in
@@ -132,10 +135,11 @@ struct Actions {
         deleteCookies()
         let url = URL(string: Env.serverURL)!
         guard let encoded = try? JSONEncoder().encode(["data": ["username": username, "password": password]]) else {
-            print("Failed to encode body")
+            print("Failed to encode body in signIn")
             return
         }
         makeRequest(route: "/api/sign-in", body: encoded) { data in
+            print(data.toJSON())
             if let json = try? JSON(data: data) {
                 if let token = json["token"].string {
                     let expiry = NSDate(timeIntervalSinceNow: 3600 * 24 * 7)
@@ -156,7 +160,11 @@ struct Actions {
                     
                     printCookies()
                     hydrateAuthenticatedUser(completion: completion)
+                } else {
+                    print("Could not get token from json in signIn")
                 }
+            } else {
+                print("Could not get JSON from data in signIn")
             }
         }
     }
@@ -174,7 +182,7 @@ struct Actions {
                 let user = decoded.data
                 completion(user)
             } else {
-                print("failed")
+                print("Failed in hydrateAuthenticatedUser while decoding")
             }
         }
     }
@@ -202,7 +210,7 @@ struct Actions {
         }
         
         guard let encoded = try? JSONEncoder().encode(["data": ["id": id]]) else {
-            print("Failed to encode body")
+            print("Failed to encode body in getSerializedUser")
             return
         }
         makeRequest(route: "/api/users/get-serialized", body: encoded) { data in
@@ -210,7 +218,7 @@ struct Actions {
                 let user = decoded.data
                 completion(user)
             } else {
-                print("failed")
+                print("Failed in getSerializedUser while decoding")
             }
         }
     }
@@ -226,7 +234,7 @@ struct Actions {
         }
         
         guard let encoded = try? JSONEncoder().encode(["data": ["userId": id]]) else {
-            print("Failed to encode body")
+            print("Failed to encode body in getUserSocial")
             return
         }
         
@@ -234,14 +242,14 @@ struct Actions {
             if let decoded = try? JSONDecoder().decode(Response.self, from: data) {
                 completion(decoded.subscriptions ?? [Subscription](), decoded.subscribers ?? [Subscription]())
             } else {
-                print("failed")
+                print("Failed in getUserSocial while decoding")
             }
         }
     }
     
     static func subscribeUser(id: String, completion: @escaping () -> Void) {
         guard let encoded = try? JSONEncoder().encode(["data": ["userId": id]]) else {
-            print("Failed to encode body")
+            print("Failed to encode body in subscribeUser")
             return
         }
         
@@ -268,7 +276,7 @@ struct Actions {
         }
         
         guard let encoded = try? JSONEncoder().encode(["data": Request(username: username, password: password, data: Request.Data(description: description, name: name))]) else {
-            print("Failed to encode body")
+            print("Failed to encode body in editUser")
             return
         }
         
@@ -290,7 +298,7 @@ struct Actions {
         }
         
         guard let encoded = try? JSONEncoder().encode(["data": ["id": id]]) else {
-            print("Failed to encode body")
+            print("Failed to encode body in getSerializedSlate")
             return
         }
         makeRequest(route: "/api/slates/get-serialized", body: encoded) { data in
@@ -298,14 +306,14 @@ struct Actions {
                 let slate = decoded.data
                 completion(slate)
             } else {
-                print("failed")
+                print("Failed in getSerializedSlate while decoding")
             }
         }
     }
     
     static func subscribeSlate(id: String, completion: @escaping () -> Void) {
         guard let encoded = try? JSONEncoder().encode(["data": ["slateId": id]]) else {
-            print("Failed to encode body")
+            print("Failed to encode body in subscribeSlate")
             return
         }
         makeRequest(route: "/api/subscribe", body: encoded) { data in
@@ -327,7 +335,7 @@ struct Actions {
         }
         
         guard let encoded = try? JSONEncoder().encode(["data": Request(name: name, description: description, isPublic: isPublic)]) else {
-            print("Failed to encode body")
+            print("Failed to encode body in createSlate")
             return
         }
         
@@ -355,7 +363,7 @@ struct Actions {
         }
         
         guard let encoded = try? JSONEncoder().encode(["data": Request(id: id, data: Request.Data(name: name, description: description, isPublic: isPublic))]) else {
-            print("Failed to encode body")
+            print("Failed to encode body in editSlate")
             return
         }
         
@@ -366,7 +374,7 @@ struct Actions {
     
     static func deleteSlate(id: String, completion: @escaping () -> Void) {
         guard let encoded = try? JSONEncoder().encode(["data": ["id": id]]) else {
-            print("Failed to encode body")
+            print("Failed to encode body in deleteSlate")
             return
         }
         
@@ -389,10 +397,80 @@ struct Actions {
       return data as Data
     }
     
-//    static func uploadMultiple(items: [Upload], completion: @escaping () -> Void) {
-//        all(items.map { upload(item: $0, completion: completion) })
-//            .then(processPendingFiles)
-//    }
+    static func uploadImagesAndVideos(assets: [PHAsset], completion: @escaping () -> Void) {
+        for asset in assets {
+            var fileData: Data? = nil
+            var mimeType = "application/octet-stream"
+            
+            let fileName = asset.value(forKey: "filename") as? String ?? "file"
+            if let fileExtension = fileName.components(separatedBy: ".").last {
+                if let extUTI = UTTypeCreatePreferredIdentifierForTag(kUTTagClassFilenameExtension, fileExtension as CFString, nil)?.takeUnretainedValue() {
+                    if let mimeUTI = UTTypeCopyPreferredTagWithClass(extUTI, kUTTagClassMIMEType) {
+                        mimeType = mimeUTI.takeRetainedValue() as String
+                    }
+                }
+            }
+            
+            let mediaType = asset.mediaType
+            if mediaType == .image {
+                let manager = PHImageManager.default()
+                let option = PHImageRequestOptions()
+                option.isSynchronous = true
+                manager.requestImage(for: asset, targetSize: PHImageManagerMaximumSize, contentMode: .aspectFit, options: option) { result, info in
+                    if result != nil {
+                        var uiImage = result!
+                        fileData = uiImage.jpegData(compressionQuality: 1.0)
+                        Actions.upload(item: Upload(fileData: fileData!, fileName: fileName, mimeType: mimeType), completion: completion)
+                    } else {
+                        print("Request image jpeg data failed")
+                    }
+                }
+//                manager.requestImageDataAndOrientation(for: asset, options: nil) { imageData, dataUTI, orientation, info in
+//                    if imageData != nil {
+//                        fileData = imageData!
+//                        Actions.upload(item: Upload(fileData: fileData!, fileName: fileName, mimeType: mimeType)) {
+//                            Actions.rehydrateViewer(viewer: viewer)
+//                            print("upload complete for file named \(fileName) of type \(mimeType)")
+//                        }
+//                    } else {
+//                        print("Request image data and orientation failed")
+//                    }
+//                }
+            } else if mediaType == .video {
+                guard let resource = PHAssetResource.assetResources(for: asset).first else {
+                    print("Could not get assetResources for video")
+                    continue
+                }
+                let fileName = resource.originalFilename
+                var writeURL: URL? = nil
+                if #available(iOS 10.0, *) {
+                    writeURL = FileManager.default.temporaryDirectory.appendingPathComponent("\(fileName)")
+                } else {
+                    writeURL = URL(fileURLWithPath: NSTemporaryDirectory(), isDirectory: true).appendingPathComponent("\(fileName)")
+                }
+                guard let localURL = writeURL else {
+                    print("Could not get writeURL for video")
+                    continue
+                }
+                let options = PHAssetResourceRequestOptions()
+                options.isNetworkAccessAllowed = false
+                PHAssetResourceManager.default().writeData(for: resource, toFile: localURL, options: options, completionHandler: { error in
+                    if let error = error {
+                        print("Error while writing data: \n\(error.localizedDescription)")
+                    }
+                    print(localURL)
+                    
+                    guard let data = try? Data(contentsOf: localURL) else {
+                        print("Could not read data from localURL")
+                        return
+                    }
+                    fileData = data
+                    
+                    Actions.upload(item: Upload(fileData: fileData!, fileName: fileName, mimeType: mimeType), completion: completion)
+                })
+            }
+        }
+    }
     
     static func upload(item: Upload, completion: @escaping () -> Void) {
         var authorization = ""
@@ -441,9 +519,7 @@ struct Actions {
 ////            }
 //
 //        }.resume()
-        
         URLSession.shared.uploadTask(with: request, from: data, completionHandler: { data, response, error in
-            
             if data != nil {
                 var data = data!.toJSON()
                 print(data)
@@ -463,14 +539,12 @@ struct Actions {
     static func createPendingFiles(data: Data, completion: @escaping () -> Void) {
         //add blurhash here
         makeRequest(route: "/api/data/create-pending", body: data) { data in
-            print(data.toString())
             processPendingFiles(completion: completion)
         }
     }
     
     static func processPendingFiles(completion: @escaping () -> Void) {
         makeRequest(route: "/api/data/process-pending", body: nil) { data in
-            print(data.toString())
             completion()
         }
     }
@@ -511,22 +585,10 @@ struct Actions {
         
         request.httpBody = data
         URLSession.shared.dataTask(with: request) { data, response, error in
-            //take the data and upload it ot eh library after that
-            //also, shoudl convert heic to another format before uploading
-            print("upload task complete")
-            print(data!.toJSON())
             completion()
-            //create pending files
-            //process pending files
         }.resume()
         
-        //optimize with this https://medium.com/livefront/uploading-data-in-the-background-in-ios-f93722013c6a#:~:text=The%20key%20difference%20Apple%20describes,continue%20execution%20in%20the%20background.
-        
         URLSession.shared.uploadTask(with: request, from: data, completionHandler: { data, response, error in
-            print("upload task complete")
-            print(data.toString())
-            print(data)
-            print(error)
             completion()
         }).resume()
         
@@ -567,16 +629,17 @@ struct Actions {
         }
         
         guard let encoded = try? JSONEncoder().encode(["data": ["earliestTimestamp": earliestTimestamp, "latestTimestamp": latestTimestamp]]) else {
-            print("Failed to encode body")
+            print("Failed to encode body in getActivity")
             return
         }
         
         makeRequest(route: "/api/activity/get", body: encoded) { data in
+            print(data.toJSON())
             if let decoded = try? JSONDecoder().decode(Response.self, from: data) {
                 let activity = decoded.activity
                 completion(activity)
             } else {
-                print("failed")
+                print("Failed in getActivity while decoding")
             }
         }
     }
@@ -597,7 +660,7 @@ struct Actions {
         }
         
         guard let encoded = try? JSONEncoder().encode(["data": Request(earliestTimestamp: earliestTimestamp, latestTimestamp: latestTimestamp, explore: true)]) else {
-            print("Failed to encode body")
+            print("Failed to encode body in getExplore")
             return
         }
         
@@ -606,7 +669,7 @@ struct Actions {
                 let activity = decoded.activity
                 completion(activity)
             } else {
-                print("failed")
+                print("Failed in getExplore while decoding")
             }
         }
     }

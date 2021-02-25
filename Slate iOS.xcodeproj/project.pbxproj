@@ -10,6 +10,8 @@
 		245C5E92D814A2394E7B93D8 /* Pods_Slate_iOS__iOS_.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4EB8ACE22489270AD99037D9 /* Pods_Slate_iOS__iOS_.framework */; };
 		B435675525DB5BD400704B8F /* Upload.swift in Sources */ = {isa = PBXBuildFile; fileRef = B435675425DB5BD400704B8F /* Upload.swift */; };
 		B435675B25DC6ADF00704B8F /* Activity.swift in Sources */ = {isa = PBXBuildFile; fileRef = B435675A25DC6ADF00704B8F /* Activity.swift */; };
+		B435678425E5E69E00704B8F /* DocumentPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B435678325E5E69E00704B8F /* DocumentPickerView.swift */; };
+		B435678825E60F4E00704B8F /* CustomScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B435678725E60F4E00704B8F /* CustomScrollView.swift */; };
 		B43665AD25BA395C00C3AEBD /* Slate_iOSApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = B436659A25BA395900C3AEBD /* Slate_iOSApp.swift */; };
 		B43665AE25BA395C00C3AEBD /* Slate_iOSApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = B436659A25BA395900C3AEBD /* Slate_iOSApp.swift */; };
 		B43665AF25BA395C00C3AEBD /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B436659B25BA395900C3AEBD /* ContentView.swift */; };
@@ -76,6 +78,8 @@
 		9EA0B74C5F9E873B1FE07341 /* Pods-Slate iOS (macOS).debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Slate iOS (macOS).debug.xcconfig"; path = "Target Support Files/Pods-Slate iOS (macOS)/Pods-Slate iOS (macOS).debug.xcconfig"; sourceTree = "<group>"; };
 		B435675425DB5BD400704B8F /* Upload.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Upload.swift; sourceTree = "<group>"; };
 		B435675A25DC6ADF00704B8F /* Activity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Activity.swift; sourceTree = "<group>"; };
+		B435678325E5E69E00704B8F /* DocumentPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentPickerView.swift; sourceTree = "<group>"; };
+		B435678725E60F4E00704B8F /* CustomScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomScrollView.swift; sourceTree = "<group>"; };
 		B436659A25BA395900C3AEBD /* Slate_iOSApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Slate_iOSApp.swift; sourceTree = "<group>"; };
 		B436659B25BA395900C3AEBD /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		B436659C25BA395C00C3AEBD /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -239,8 +243,10 @@
 			children = (
 				B43665EA25BA574200C3AEBD /* ButtonView.swift */,
 				B491873425D63E7700859B76 /* CarouselView.swift */,
+				B435678725E60F4E00704B8F /* CustomScrollView.swift */,
 				B48AE36425CF3A85006FA245 /* TabGroupView.swift */,
 				B48AE3AD25D47E35006FA245 /* ToggleView.swift */,
+				B435678325E5E69E00704B8F /* DocumentPickerView.swift */,
 				B491873025D62AA800859B76 /* AssetsPickerView.swift */,
 				B48AE36C25CF899C006FA245 /* LoaderView.swift */,
 				B48AE35725CB8969006FA245 /* NavigationBarView.swift */,
@@ -511,6 +517,7 @@
 				B48AE38125D32DC1006FA245 /* ProfilePeersView.swift in Sources */,
 				B48AE2B525C4CCD5006FA245 /* FilecoinView.swift in Sources */,
 				B436661225BB9C6100C3AEBD /* CheckBoxView.swift in Sources */,
+				B435678425E5E69E00704B8F /* DocumentPickerView.swift in Sources */,
 				B48AE2A925C4CC3D006FA245 /* SlatesView.swift in Sources */,
 				B4593CE725C3A33600345013 /* MediaPreviewView.swift in Sources */,
 				B43665AF25BA395C00C3AEBD /* ContentView.swift in Sources */,
@@ -522,6 +529,7 @@
 				B48AE3AE25D47E35006FA245 /* ToggleView.swift in Sources */,
 				B4410EF325BFA5DF00030284 /* Errors.swift in Sources */,
 				B48AE35825CB8969006FA245 /* NavigationBarView.swift in Sources */,
+				B435678825E60F4E00704B8F /* CustomScrollView.swift in Sources */,
 				B4410EF725BFACF500030284 /* User.swift in Sources */,
 				B48AE35425CB6923006FA245 /* TextBoxView.swift in Sources */,
 				B436660E25BB98E100C3AEBD /* Validations.swift in Sources */,
