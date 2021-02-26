@@ -135,9 +135,6 @@ struct MyScrollView<Content: View>: UIViewRepresentable {
     }
 }
 
-
-
-
 struct CustomScrollView<Content: View>: UIViewRepresentable {
     var content: () -> Content
     

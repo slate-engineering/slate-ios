@@ -38,21 +38,26 @@ struct ActivityView: View {
                                     }
                                 }
                                 .padding(.bottom, Constants.bottomMargin)
+                                .padding(.top, 8)
                                 .padding(.horizontal, Constants.sideMargin)
                                 .frame(width: UIScreen.main.bounds.size.width)
                                 .background(Color("foreground"))
                             }
                             .background(Color("foreground"))
                             .edgesIgnoringSafeArea(.top)
-                        } else {
+                        } else if !loading {
                             EmptyStateView(text: "Follow users to see their activity here", icon: Image("globe"))
                                 .padding(.horizontal, 16)
                                 .padding(.top, 52)
+                        } else {
+                            Spacer()
                         }
                     }
                     .onAppear {
-                        loading = true
-                        fetchActivity() { loading = false }
+                        if activity.isEmpty {
+                            loading = true
+                            fetchActivity() { loading = false }
+                        }
                     }
                 }
                 if viewIndex == 1 {
@@ -69,21 +74,26 @@ struct ActivityView: View {
                                     }
                                 }
                                 .padding(.bottom, Constants.bottomMargin)
+                                .padding(.top, 8)
                                 .padding(.horizontal, Constants.sideMargin)
                                 .frame(width: UIScreen.main.bounds.size.width)
                                 .background(Color("foreground"))
                             }
                             .background(Color("foreground"))
                             .edgesIgnoringSafeArea(.top)
-                        } else {
+                        } else if !loading {
                             EmptyStateView(text: "Activity from around Slate will show up here", icon: Image("globe"))
                                 .padding(.horizontal, 16)
                                 .padding(.top, 52)
+                        } else {
+                            Spacer()
                         }
                     }
                     .onAppear {
-                        loading = true
-                        fetchExplore() { loading = false }
+                        if explore.isEmpty {
+                            loading = true
+                            fetchExplore() { loading = false }
+                        }
                     }
                 }
             }

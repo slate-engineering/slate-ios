@@ -9,6 +9,7 @@ import SwiftUI
 import AssetsPickerViewController
 import Photos
 import MobileCoreServices
+import Promises
 
 struct DataView: View {
     @EnvironmentObject var viewer: User
@@ -24,7 +25,6 @@ struct DataView: View {
         GridItem(.flexible(), spacing: Constants.sideMargin),
         GridItem(.flexible(), spacing: Constants.sideMargin)
     ]
-    @State private var images = [Image]()
     @State private var assets = [PHAsset]()
     @State private var documents = [URL]()
     
@@ -109,11 +109,13 @@ struct DataView: View {
                         .cancel()
                     ])
                 }
-                .sheet(isPresented: showingPicker, onDismiss: showingImagePicker ? { Actions.uploadImagesAndVideos(assets: assets) { Actions.rehydrateViewer(viewer: viewer) } } : {}) {
+                .sheet(isPresented: showingPicker, onDismiss: showingImagePicker ? uploadFromPhotoLibrary : {}) {
                     if showingImagePicker {
                         AssetsPicker(assets: $assets)
+                            .edgesIgnoringSafeArea(.bottom)
                     } else {
-                        DocumentPicker(documents: $documents, completion: uploadDocuments)
+                        DocumentPicker(documents: $documents, completion: uploadFromDocuments)
+                            .edgesIgnoringSafeArea(.bottom)
                     }
                 }
                 .padding(.bottom, 8)
@@ -121,40 +123,11 @@ struct DataView: View {
         }
     }
     
-    func uploadDocuments() {
-        print("hit upload documents")
-        print(documents.count)
-        for documentURL in documents {
-            print("inside for loop")
-            guard let data = try? Data(contentsOf: documentURL) else {
-                print("Could not read data from documentURL")
-                continue
-            }
-            print("after get data")
-            
-            let fileName = documentURL.lastPathComponent
-            print("after get filename \(fileName)")
-            
-            var mimeType: String? = nil
-            let pathExtension = documentURL.pathExtension
-            if let uti = UTTypeCreatePreferredIdentifierForTag(kUTTagClassFilenameExtension, pathExtension as NSString, nil)?.takeRetainedValue() {
-                print("got uti")
-                if let type = UTTypeCopyPreferredTagWithClass(uti, kUTTagClassMIMEType)?.takeRetainedValue() {
-                    print("got type")
-                    mimeType = type as String
-                } else {
-                    print("failed at let type =")
-                    continue
-                }
-            } else {
-                print("failed at let uti =")
-                continue
-            }
-            print("before actions.upload")
-            Actions.upload(item: Upload(fileData: data, fileName: fileName, mimeType: mimeType!)) {
-                print("after actions.upload")
-                Actions.rehydrateViewer(viewer: viewer)
-            }
-        }
+    func uploadFromPhotoLibrary() {
+        Uploads.upload(assets: assets) { Actions.rehydrateViewer(viewer: viewer) }
+    }
+    
+    func uploadFromDocuments() {
+        Uploads.upload(documents: documents) { Actions.rehydrateViewer(viewer: viewer) }
     }
 }

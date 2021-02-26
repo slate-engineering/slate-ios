@@ -32,16 +32,11 @@ struct DocumentPicker: UIViewControllerRepresentable {
     
     func makeUIViewController(context: Context) -> UIDocumentPickerViewController {
         let picker = UIDocumentPickerViewController(documentTypes: ["com.apple.iwork.pages.pages", "com.apple.iwork.numbers.numbers", "com.apple.iwork.keynote.key","public.image", "com.apple.application", "public.item","public.data", "public.content", "public.audiovisual-content", "public.movie", "public.audiovisual-content", "public.video", "public.audio", "public.text", "public.data", "public.zip-archive", "com.pkware.zip-archive", "public.composite-content", "public.text"], in: .import)
-        print("make ui view controller")
-        print(picker.allowsMultipleSelection)
-        picker.allowsMultipleSelection = true
-        print(picker.allowsMultipleSelection)
         picker.delegate = context.coordinator
+        picker.allowsMultipleSelection = true
         return picker
     }
     
     func updateUIViewController(_ uiViewController: UIDocumentPickerViewController, context: Context) {
-        print("uupdate ui view controller")
-        print(uiViewController.allowsMultipleSelection)
     }
 }

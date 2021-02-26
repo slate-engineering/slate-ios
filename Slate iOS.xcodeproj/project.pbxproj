@@ -12,6 +12,7 @@
 		B435675B25DC6ADF00704B8F /* Activity.swift in Sources */ = {isa = PBXBuildFile; fileRef = B435675A25DC6ADF00704B8F /* Activity.swift */; };
 		B435678425E5E69E00704B8F /* DocumentPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B435678325E5E69E00704B8F /* DocumentPickerView.swift */; };
 		B435678825E60F4E00704B8F /* CustomScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B435678725E60F4E00704B8F /* CustomScrollView.swift */; };
+		B435678C25E86C0D00704B8F /* Uploads.swift in Sources */ = {isa = PBXBuildFile; fileRef = B435678B25E86C0C00704B8F /* Uploads.swift */; };
 		B43665AD25BA395C00C3AEBD /* Slate_iOSApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = B436659A25BA395900C3AEBD /* Slate_iOSApp.swift */; };
 		B43665AE25BA395C00C3AEBD /* Slate_iOSApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = B436659A25BA395900C3AEBD /* Slate_iOSApp.swift */; };
 		B43665AF25BA395C00C3AEBD /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B436659B25BA395900C3AEBD /* ContentView.swift */; };
@@ -80,6 +81,7 @@
 		B435675A25DC6ADF00704B8F /* Activity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Activity.swift; sourceTree = "<group>"; };
 		B435678325E5E69E00704B8F /* DocumentPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentPickerView.swift; sourceTree = "<group>"; };
 		B435678725E60F4E00704B8F /* CustomScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomScrollView.swift; sourceTree = "<group>"; };
+		B435678B25E86C0C00704B8F /* Uploads.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Uploads.swift; sourceTree = "<group>"; };
 		B436659A25BA395900C3AEBD /* Slate_iOSApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Slate_iOSApp.swift; sourceTree = "<group>"; };
 		B436659B25BA395900C3AEBD /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		B436659C25BA395C00C3AEBD /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -304,6 +306,7 @@
 				B4593CF225C3AC9C00345013 /* Utilities.swift */,
 				B4410EF225BFA5DF00030284 /* Errors.swift */,
 				B436661525BBB5D000C3AEBD /* Actions.swift */,
+				B435678B25E86C0C00704B8F /* Uploads.swift */,
 				B4410EE625BF767900030284 /* Environment.swift */,
 				B4410EEA25BF9F6900030284 /* Navigation.swift */,
 			);
@@ -527,6 +530,7 @@
 				B43665AD25BA395C00C3AEBD /* Slate_iOSApp.swift in Sources */,
 				B4410EEB25BF9F6900030284 /* Navigation.swift in Sources */,
 				B48AE3AE25D47E35006FA245 /* ToggleView.swift in Sources */,
+				B435678C25E86C0D00704B8F /* Uploads.swift in Sources */,
 				B4410EF325BFA5DF00030284 /* Errors.swift in Sources */,
 				B48AE35825CB8969006FA245 /* NavigationBarView.swift in Sources */,
 				B435678825E60F4E00704B8F /* CustomScrollView.swift in Sources */,
