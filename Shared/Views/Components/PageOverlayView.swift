@@ -28,13 +28,13 @@ struct PageOverlayView<Content: View>: View {
         VStack {
             if style != .hideTop {
                 HStack {
-                    if style != .hideSearch {
-                        TranslucentButtonView(type: .icon) {
-                            Image("search-semibold")
-                                .resizable()
-                                .frame(width: 18, height: 18)
-                        }
-                    }
+//                    if style != .hideSearch {
+//                        TranslucentButtonView(type: .icon) {
+//                            Image("search-semibold")
+//                                .resizable()
+//                                .frame(width: 18, height: 18)
+//                        }
+//                    }
                     Spacer()
                     if style != .hideButton {
                         topRight

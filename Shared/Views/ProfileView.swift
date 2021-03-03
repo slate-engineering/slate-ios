@@ -26,11 +26,24 @@ struct ProfileView: View {
     @State private var loading = true
     @State private var socialLoading = true
     @State private var isFollowing: Bool = false
+    @State private var showingCarousel = false
+    @State private var carouselIndex = 0
     var isOwner: Bool {
         viewer.id == user.id
     }
     
     var body: some View {
+        let files = Binding<[File]>(
+            get: {
+                user.library?[0].children ?? [File]()
+            },
+            set: {
+                if user.library == nil {
+                    user.library = [Library(children: $0)]
+                }
+            }
+        )
+        
         ZStack {
             GeometryReader { geo in
                 VStack {
@@ -51,7 +64,7 @@ struct ProfileView: View {
                                 .padding(.top, 2)
                         }
                         HStack(spacing: 16) {
-                            Text("\(user.files?.count ?? 0) file\(user.files?.count ?? 0 == 1 ? "" : "s")")
+                            Text("\(user.library?[0].children?.count ?? 0) file\(user.library?[0].children?.count ?? 0 == 1 ? "" : "s")")
                                 .font(Font.custom("Inter", size: 14))
                                 .foregroundColor(Color("grayBlack"))
                                 .frame(minWidth: 64, alignment: .trailing)
@@ -70,15 +83,16 @@ struct ProfileView: View {
                     .frame(maxWidth: .infinity)
                     
                     if pickerIndex == 0 {
-                        if user.files != nil && user.files!.count > 0 {
+                        if user.library?[0].children != nil && user.library![0].children!.count > 0 {
                             ScrollView(.vertical) {
                                 Spacer()
                                     .frame(height: 8)
                                 LazyVGrid(columns: doubleColumn, alignment: .center, spacing: 16) {
-                                    ForEach(user.files!) { file in
+                                    ForEach(user.library![0].children!, id: \.id) { file in
                                         MediaPreviewView(file, width: (geo.size.width - 48) / 2)
                                             .background(Color.white)
                                             .shadow(color: Color(red: 178/255, green: 178/255, blue: 178/255).opacity(0.15), radius: 10, x: 0, y: 5)
+                                            .onTapGesture { openCarousel(file) }
 //                                            .frame(width: (geo.size.width - 48) / 2, height: (geo.size.width - 48) / 2)
                                     }
                                 }
@@ -158,6 +172,10 @@ struct ProfileView: View {
             }
             .padding(.bottom, 32)
             
+            if showingCarousel && user.library?[0].children != nil && user.library![0].children!.count > 0 {
+                CarouselView(isPresented: $showingCarousel, currentIndex: $carouselIndex, files: files)
+            }
+            
             if loading || (socialLoading && pickerIndex == 2) {
                 LoaderView("Loading")
             }
@@ -171,6 +189,20 @@ struct ProfileView: View {
         }
         .navigationBarTitle("")
         .navigationBarHidden(true)
+    }
+    
+    func openCarousel(_ file: File) {
+        print("open carousel")
+        if user.library?[0].children != nil {
+            for index in 0..<user.library![0].children!.count {
+                if user.library![0].children![index].id == file.id {
+                    print("found id")
+                    carouselIndex = index
+                    showingCarousel = true
+                    return
+                }
+            }
+        }
     }
     
     func determineFollowing() {

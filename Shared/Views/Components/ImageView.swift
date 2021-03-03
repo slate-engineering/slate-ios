@@ -48,6 +48,7 @@ struct ImageView: View {
             Image(uiImage: image)
                 .resizable()
                 .aspectRatio(contentMode: contentMode)
+                .background(Color("white"))
                 .frame(maxWidth: width, maxHeight: height)
                 .clipped()
                 .onReceive(imageLoader.didChange) { data in
@@ -57,6 +58,7 @@ struct ImageView: View {
             Image(uiImage: image)
                 .resizable()
                 .aspectRatio(contentMode: contentMode)
+                .background(Color("white"))
                 .frame(width: width, height: height)
                 .clipped()
                 .onReceive(imageLoader.didChange) { data in

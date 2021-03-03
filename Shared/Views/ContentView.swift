@@ -48,9 +48,6 @@ struct ContentView: View {
                 TabView(selection: $scene) {
                     DataView()
                         .environmentObject(viewer)
-//                        .padding(.top, 40)
-//                            .background(Color("foreground"))
-//                        .edgesIgnoringSafeArea(.top)
                         .navigationBarTitle("")
                         .navigationBarHidden(true)
                         .tabItem {
@@ -60,9 +57,6 @@ struct ContentView: View {
                         .tag(Navigation.data)
                     SlatesView()
                         .environmentObject(viewer)
-//                        .padding(.vertical, 40)
-//                        .background(Color("foreground"))
-//                        .edgesIgnoringSafeArea(.top)
                         .navigationBarTitle("")
                         .navigationBarHidden(true)
                         .tabItem {
@@ -72,9 +66,6 @@ struct ContentView: View {
                         .tag(Navigation.slates)
                     ActivityView()
                         .environmentObject(viewer)
-//                        .padding(.vertical, 40)
-//                        .background(Color("foreground"))
-//                        .edgesIgnoringSafeArea(.top)
                         .navigationBarTitle("")
                         .navigationBarHidden(true)
                         .tabItem {
@@ -82,11 +73,17 @@ struct ContentView: View {
                             Text("Explore")
                         }
                         .tag(Navigation.activity)
+                    SearchView()
+                        .environmentObject(viewer)
+                        .navigationBarTitle("")
+                        .navigationBarHidden(true)
+                        .tabItem {
+                            Image("search-light")
+                            Text("Search")
+                        }
+                        .tag(Navigation.search)
                     UserView(authenticated: $authenticated)
                         .environmentObject(viewer)
-//                        .padding(.vertical, 40)
-//                        .background(Color("foreground"))
-//                        .edgesIgnoringSafeArea(.top)
                         .navigationBarTitle("")
                         .navigationBarHidden(true)
                         .tabItem {
@@ -94,18 +91,6 @@ struct ContentView: View {
                             Text("User")
                         }
                         .tag(Navigation.user)
-                    FilecoinView()
-                        .environmentObject(viewer)
-//                        .padding(.vertical, 40)
-//                        .background(Color("foreground"))
-//                        .edgesIgnoringSafeArea(.top)
-                        .navigationBarTitle("")
-                        .navigationBarHidden(true)
-                        .tabItem {
-                            Image("wallet-light")
-                            Text("Filecoin")
-                        }
-                        .tag(Navigation.filecoin)
                 }
                 .accentColor(Color("brand"))
             }

@@ -44,8 +44,8 @@ struct Actions {
     }
     
     // MARK: Make request
-    static func makeRequest(route: String, body: Data?, completion: @escaping (Data) -> Void) {
-        let url = URL(string: "\(Env.serverURL)\(route)")!
+    static func makeRequest(baseURL: String = Env.serverURL, route: String, body: Data?, completion: @escaping (Data) -> Void) {
+        let url = URL(string: "\(baseURL)\(route)")!
         var request = URLRequest(url: url)
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         request.httpMethod = "POST"
@@ -286,8 +286,6 @@ struct Actions {
     
     // MARK: - Slates
     
-//    static func getSlate
-    
     static func getSerializedSlate(id: String, completion: @escaping (Slate) -> Void) {
         struct Response: Codable {
             enum CodingKeys: String, CodingKey {
@@ -440,6 +438,47 @@ struct Actions {
                 completion(activity)
             } else {
                 print("Failed in getExplore while decoding")
+            }
+        }
+    }
+    
+    
+    // MARK: - Search
+    
+    static func search(query: String, type: SearchResult.ResultType?, completion: @escaping ([SearchResult]) -> Void) {
+        struct Request: Codable {
+            let earliestTimestamp: String?
+            let latestTimestamp: String?
+            let explore: Bool
+        }
+        
+        struct Response: Codable {
+            enum CodingKeys: String, CodingKey {
+                case data
+            }
+            
+            let data: ResponseData
+            
+            struct ResponseData: Codable {
+                enum CodingKeys: String, CodingKey {
+                    case results
+                }
+                
+                let results: [SearchResult]
+            }
+        }
+        
+        guard let encoded = try? JSONEncoder().encode(["data": ["query": query, "type": type?.rawValue]]) else {
+            print("Failed to encode body in search")
+            return
+        }
+        
+        makeRequest(baseURL: Env.searchURL, route: "/search", body: encoded) { data in
+            if let decoded = try? JSONDecoder().decode(Response.self, from: data) {
+                let results = decoded.data.results
+                completion(results)
+            } else {
+                print("Failed in search while decoding")
             }
         }
     }

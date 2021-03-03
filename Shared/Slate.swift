@@ -18,7 +18,7 @@ class Slate: ObservableObject, Codable, Identifiable {
     var id: String
     @Published var slatename: String
     @Published var data: SlateData
-    var createdAt: String? //these are not getting decoded properly
+    var createdAt: String? 
     var updatedAt: String?
     var publishedAt: String?
     @Published var user: User?
@@ -64,7 +64,7 @@ class Slate: ObservableObject, Codable, Identifiable {
 
 struct SlateData: Codable {
     enum CodingKeys: String, CodingKey {
-        case name, ownerId, body, layouts, objects
+        case name, ownerId, body, objects, layouts
         case isPublic = "public"
     }
     
@@ -73,7 +73,7 @@ struct SlateData: Codable {
     var ownerId: String
     var isPublic: Bool
     var layouts: SlateLayout?
-    var objects: [SlateFile]
+    var objects: [File]
     
     init(from decoder: Decoder) throws {
         let values = try decoder.container(keyedBy: CodingKeys.self)
@@ -82,7 +82,7 @@ struct SlateData: Codable {
         ownerId = try values.decodeIfPresent(String.self, forKey: .ownerId) ?? ""
         isPublic = try values.decodeIfPresent(Bool.self, forKey: .isPublic) ?? false
         layouts = try values.decodeIfPresent(SlateLayout.self, forKey: .layouts)
-        objects = try values.decodeIfPresent([SlateFile].self, forKey: .objects) ?? [SlateFile]()
+        objects = try values.decodeIfPresent([File].self, forKey: .objects) ?? [File]()
     }
     
     func encode(to encoder: Encoder) throws {
@@ -94,23 +94,6 @@ struct SlateData: Codable {
         try container.encode(layouts, forKey: .layouts)
         try container.encode(objects, forKey: .objects)
     }
-}
-
-struct SlateFile: Codable {
-    enum CodingKeys: String, CodingKey {
-        case blurhash, cid, id, name, ownerId, size, title, type, url, coverImage
-    }
-    
-    var cid: String?
-    let id: String
-    var name: String
-    var title: String?
-    var size: Int?
-    var type: String
-    var blurhash: String?
-    var coverImage: CoverImage?
-    var url: String
-    var ownerId: String?
 }
 
 struct SlateLayout: Codable {
@@ -126,13 +109,13 @@ struct SlateLayout: Codable {
 
 struct Placement: Codable {
     enum CodingKeys: String, CodingKey {
-        case h, w, x, y, z, id
+        case id, h, w, x, z, y
     }
     
     let id: String
-    var h: Double
-    var w: Double
-    var x: Double
-    var y: Double
-    var z: Double
+    var h: Double?
+    var w: Double?
+    var x: Double?
+    var y: Double?
+    var z: Double?
 }

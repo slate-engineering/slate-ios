@@ -10,7 +10,7 @@ import SwiftyJSON
 
 class User: ObservableObject, Codable, Identifiable {
     enum CodingKeys: String, CodingKey {
-        case id, username, data, library, slates, subscribers, subscriptions, onboarding, status
+        case id, username, data, library, subscribers, subscriptions, onboarding, status, slates
     }
     
     var id: String
@@ -22,8 +22,8 @@ class User: ObservableObject, Codable, Identifiable {
     @Published var subscriptions: [Subscription]?
     var onboarding: [String: Bool]?
     var status: [String: Bool]?
-    var files: [LibraryFile]? {
-        library?[0].children ?? [LibraryFile]()
+    var files: [File] {
+        library?[0].children ?? [File]()
     }
     
     init(id: String) {
@@ -205,41 +205,7 @@ struct Library: Codable {
         case children
     }
     
-    var children: [LibraryFile]?
-}
-
-struct LibraryFile: Codable, Identifiable {
-    enum CodingKeys: String, CodingKey {
-        case cid, id, file, name, size, type, blurhash, coverImage, date
-        case isPublic = "public"
-    }
-    
-    var cid: String
-    var id: String
-    var date: String
-    var file: String
-    var name: String
-    var size: Int
-    var type: String
-    var blurhash: String?
-    var coverImage: CoverImage?
-    @DecodableDefault.False var isPublic: Bool
-}
-
-struct CoverImage: Codable {
-    enum CodingKeys: String, CodingKey {
-        case cid, id, file, name, size, type, blurhash, url, date
-    }
-    
-    var cid: String
-    var id: String
-    var date: String
-    var file: String
-    var name: String
-    var size: Int
-    var type: String
-    var blurhash: String?
-    var url: String
+    var children: [File]?
 }
 
 struct Subscription: Codable {

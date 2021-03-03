@@ -41,7 +41,7 @@ struct ActivityData: Codable {
 }
 
 struct ActivityContext: Codable {
-    var file: SlateFile?
+    var file: File?
     var slate: Slate
     var user: User
 }

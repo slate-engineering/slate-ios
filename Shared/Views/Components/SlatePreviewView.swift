@@ -9,11 +9,11 @@ import SwiftUI
 
 struct SlatePreviewView: View {
     var slate: Slate
-    var imageObjects: [SlateFile]
+    var imageObjects: [File]
     
     init(slate: Slate) {
         self.slate = slate
-        var images = [SlateFile]()
+        var images = [File]()
         for obj in slate.data.objects {
             if Utilities.getFileType(obj.type) == .image {
                 images.append(obj)

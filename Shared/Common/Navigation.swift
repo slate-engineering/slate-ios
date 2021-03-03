@@ -8,5 +8,5 @@
 import Foundation
 
 enum Navigation {
-    case signIn, data, slates, user, activity, filecoin
+    case signIn, data, slates, user, activity, search
 }

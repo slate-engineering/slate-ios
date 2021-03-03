@@ -13,6 +13,7 @@
 		B435678425E5E69E00704B8F /* DocumentPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B435678325E5E69E00704B8F /* DocumentPickerView.swift */; };
 		B435678825E60F4E00704B8F /* CustomScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B435678725E60F4E00704B8F /* CustomScrollView.swift */; };
 		B435678C25E86C0D00704B8F /* Uploads.swift in Sources */ = {isa = PBXBuildFile; fileRef = B435678B25E86C0C00704B8F /* Uploads.swift */; };
+		B435679025E9ECBC00704B8F /* PDFKitView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B435678F25E9ECBB00704B8F /* PDFKitView.swift */; };
 		B43665AD25BA395C00C3AEBD /* Slate_iOSApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = B436659A25BA395900C3AEBD /* Slate_iOSApp.swift */; };
 		B43665AE25BA395C00C3AEBD /* Slate_iOSApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = B436659A25BA395900C3AEBD /* Slate_iOSApp.swift */; };
 		B43665AF25BA395C00C3AEBD /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B436659B25BA395900C3AEBD /* ContentView.swift */; };
@@ -34,6 +35,8 @@
 		B436660E25BB98E100C3AEBD /* Validations.swift in Sources */ = {isa = PBXBuildFile; fileRef = B436660D25BB98E100C3AEBD /* Validations.swift */; };
 		B436661225BB9C6100C3AEBD /* CheckBoxView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B436661125BB9C6100C3AEBD /* CheckBoxView.swift */; };
 		B436661625BBB5D100C3AEBD /* Actions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B436661525BBB5D000C3AEBD /* Actions.swift */; };
+		B438002825EDC7BA0051B4BB /* SearchResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = B438002725EDC7BA0051B4BB /* SearchResult.swift */; };
+		B438002C25EF2A490051B4BB /* File.swift in Sources */ = {isa = PBXBuildFile; fileRef = B438002B25EF2A490051B4BB /* File.swift */; };
 		B4410EE325BF6C9F00030284 /* SwiftyJSON in Frameworks */ = {isa = PBXBuildFile; productRef = B4410EE225BF6C9F00030284 /* SwiftyJSON */; };
 		B4410EE725BF767900030284 /* Environment.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4410EE625BF767900030284 /* Environment.swift */; };
 		B4410EEB25BF9F6900030284 /* Navigation.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4410EEA25BF9F6900030284 /* Navigation.swift */; };
@@ -47,7 +50,7 @@
 		B48AE2A925C4CC3D006FA245 /* SlatesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B48AE2A825C4CC3D006FA245 /* SlatesView.swift */; };
 		B48AE2AD25C4CCB6006FA245 /* ActivityView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B48AE2AC25C4CCB6006FA245 /* ActivityView.swift */; };
 		B48AE2B125C4CCC7006FA245 /* UserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B48AE2B025C4CCC7006FA245 /* UserView.swift */; };
-		B48AE2B525C4CCD5006FA245 /* FilecoinView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B48AE2B425C4CCD5006FA245 /* FilecoinView.swift */; };
+		B48AE2B525C4CCD5006FA245 /* SearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B48AE2B425C4CCD5006FA245 /* SearchView.swift */; };
 		B48AE2C225C4E4C6006FA245 /* Blur.swift in Sources */ = {isa = PBXBuildFile; fileRef = B48AE2C125C4E4C6006FA245 /* Blur.swift */; };
 		B48AE2C625C4EB73006FA245 /* TranslucentButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B48AE2C525C4EB73006FA245 /* TranslucentButtonView.swift */; };
 		B48AE2CA25C4FBD9006FA245 /* PageOverlayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B48AE2C925C4FBD9006FA245 /* PageOverlayView.swift */; };
@@ -82,6 +85,7 @@
 		B435678325E5E69E00704B8F /* DocumentPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentPickerView.swift; sourceTree = "<group>"; };
 		B435678725E60F4E00704B8F /* CustomScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomScrollView.swift; sourceTree = "<group>"; };
 		B435678B25E86C0C00704B8F /* Uploads.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Uploads.swift; sourceTree = "<group>"; };
+		B435678F25E9ECBB00704B8F /* PDFKitView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDFKitView.swift; sourceTree = "<group>"; };
 		B436659A25BA395900C3AEBD /* Slate_iOSApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Slate_iOSApp.swift; sourceTree = "<group>"; };
 		B436659B25BA395900C3AEBD /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		B436659C25BA395C00C3AEBD /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -103,6 +107,8 @@
 		B436660D25BB98E100C3AEBD /* Validations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Validations.swift; sourceTree = "<group>"; };
 		B436661125BB9C6100C3AEBD /* CheckBoxView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckBoxView.swift; sourceTree = "<group>"; };
 		B436661525BBB5D000C3AEBD /* Actions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Actions.swift; sourceTree = "<group>"; };
+		B438002725EDC7BA0051B4BB /* SearchResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResult.swift; sourceTree = "<group>"; };
+		B438002B25EF2A490051B4BB /* File.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = File.swift; sourceTree = "<group>"; };
 		B4410EE625BF767900030284 /* Environment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Environment.swift; sourceTree = "<group>"; };
 		B4410EEA25BF9F6900030284 /* Navigation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Navigation.swift; sourceTree = "<group>"; };
 		B4410EEE25BFA20900030284 /* DataView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataView.swift; sourceTree = "<group>"; };
@@ -115,7 +121,7 @@
 		B48AE2A825C4CC3D006FA245 /* SlatesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SlatesView.swift; sourceTree = "<group>"; };
 		B48AE2AC25C4CCB6006FA245 /* ActivityView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityView.swift; sourceTree = "<group>"; };
 		B48AE2B025C4CCC7006FA245 /* UserView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserView.swift; sourceTree = "<group>"; };
-		B48AE2B425C4CCD5006FA245 /* FilecoinView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilecoinView.swift; sourceTree = "<group>"; };
+		B48AE2B425C4CCD5006FA245 /* SearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchView.swift; sourceTree = "<group>"; };
 		B48AE2C125C4E4C6006FA245 /* Blur.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Blur.swift; sourceTree = "<group>"; };
 		B48AE2C525C4EB73006FA245 /* TranslucentButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranslucentButtonView.swift; sourceTree = "<group>"; };
 		B48AE2C925C4FBD9006FA245 /* PageOverlayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageOverlayView.swift; sourceTree = "<group>"; };
@@ -206,6 +212,8 @@
 				B435675425DB5BD400704B8F /* Upload.swift */,
 				B435675A25DC6ADF00704B8F /* Activity.swift */,
 				B4593CE225C351BF00345013 /* Slate.swift */,
+				B438002B25EF2A490051B4BB /* File.swift */,
+				B438002725EDC7BA0051B4BB /* SearchResult.swift */,
 				B48AE38925D35CBD006FA245 /* Websocket.swift */,
 				B43665E325BA54D600C3AEBD /* Inter.ttf */,
 				B436659C25BA395C00C3AEBD /* Assets.xcassets */,
@@ -245,6 +253,7 @@
 			children = (
 				B43665EA25BA574200C3AEBD /* ButtonView.swift */,
 				B491873425D63E7700859B76 /* CarouselView.swift */,
+				B435678F25E9ECBB00704B8F /* PDFKitView.swift */,
 				B435678725E60F4E00704B8F /* CustomScrollView.swift */,
 				B48AE36425CF3A85006FA245 /* TabGroupView.swift */,
 				B48AE3AD25D47E35006FA245 /* ToggleView.swift */,
@@ -285,7 +294,7 @@
 				B48AE2B025C4CCC7006FA245 /* UserView.swift */,
 				B48AE36025CF372B006FA245 /* ProfileView.swift */,
 				B48AE38025D32DC1006FA245 /* ProfilePeersView.swift */,
-				B48AE2B425C4CCD5006FA245 /* FilecoinView.swift */,
+				B48AE2B425C4CCD5006FA245 /* SearchView.swift */,
 				B48AE2AC25C4CCB6006FA245 /* ActivityView.swift */,
 				B4410EEE25BFA20900030284 /* DataView.swift */,
 				B48AE2D125C54675006FA245 /* SlateView.swift */,
@@ -518,7 +527,7 @@
 				B48AE2CE25C51029006FA245 /* SlatePreviewView.swift in Sources */,
 				B4593CE325C351BF00345013 /* Slate.swift in Sources */,
 				B48AE38125D32DC1006FA245 /* ProfilePeersView.swift in Sources */,
-				B48AE2B525C4CCD5006FA245 /* FilecoinView.swift in Sources */,
+				B48AE2B525C4CCD5006FA245 /* SearchView.swift in Sources */,
 				B436661225BB9C6100C3AEBD /* CheckBoxView.swift in Sources */,
 				B435678425E5E69E00704B8F /* DocumentPickerView.swift in Sources */,
 				B48AE2A925C4CC3D006FA245 /* SlatesView.swift in Sources */,
@@ -531,13 +540,16 @@
 				B4410EEB25BF9F6900030284 /* Navigation.swift in Sources */,
 				B48AE3AE25D47E35006FA245 /* ToggleView.swift in Sources */,
 				B435678C25E86C0D00704B8F /* Uploads.swift in Sources */,
+				B438002C25EF2A490051B4BB /* File.swift in Sources */,
 				B4410EF325BFA5DF00030284 /* Errors.swift in Sources */,
 				B48AE35825CB8969006FA245 /* NavigationBarView.swift in Sources */,
 				B435678825E60F4E00704B8F /* CustomScrollView.swift in Sources */,
 				B4410EF725BFACF500030284 /* User.swift in Sources */,
 				B48AE35425CB6923006FA245 /* TextBoxView.swift in Sources */,
+				B435679025E9ECBC00704B8F /* PDFKitView.swift in Sources */,
 				B436660E25BB98E100C3AEBD /* Validations.swift in Sources */,
 				B4410EEF25BFA20900030284 /* DataView.swift in Sources */,
+				B438002825EDC7BA0051B4BB /* SearchResult.swift in Sources */,
 				B43665DC25BA534200C3AEBD /* ComponentStyles.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

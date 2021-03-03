@@ -12,12 +12,10 @@ import MobileCoreServices
 import Promises
 
 struct DataView: View {
+    //parameters
     @EnvironmentObject var viewer: User
+    
     let views = ["Gallery", "Column", "List"]
-    @State private var viewIndex = 0
-    @State private var showingActionSheet = false
-    @State private var showingImagePicker = false
-    @State private var showingDocumentPicker = false
     let singleColumn: [GridItem] = [
         GridItem(.flexible())
     ]
@@ -25,10 +23,31 @@ struct DataView: View {
         GridItem(.flexible(), spacing: Constants.sideMargin),
         GridItem(.flexible(), spacing: Constants.sideMargin)
     ]
+    
+    @State private var viewIndex = 0
+    
+    //upload
+    @State private var showingActionSheet = false
+    @State private var showingImagePicker = false
+    @State private var showingDocumentPicker = false
     @State private var assets = [PHAsset]()
     @State private var documents = [URL]()
     
+    //carousel
+    @State private var carouselIndex = 0
+    @State private var showingCarousel = false
+    
     var body: some View {
+        let files = Binding<[File]>(
+            get: {
+                viewer.library?[0].children ?? [File]()
+            },
+            set: {
+                if viewer.library == nil {
+                    viewer.library = [Library(children: $0)]
+                }
+            }
+        )
         let showingPicker = Binding<Bool>(
             get: {
                 showingImagePicker || showingDocumentPicker
@@ -60,7 +79,7 @@ struct DataView: View {
                                         FiletypeIconView(type: file.type)
                                             .frame(width: 20, height: 20)
                                             .foregroundColor(Color("black"))
-                                        Text(file.name)
+                                        Text(file.name ?? file.title ?? file.file ?? "")
                                             .font(Font.custom("Inter", size: 14))
                                             //                                        .fontWeight(.medium)
                                             .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity, alignment: .leading)
@@ -69,6 +88,7 @@ struct DataView: View {
                                     .background(Color("white"))
                                     .frame(height: 40)
                                     .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity, alignment: .topLeading)
+                                    .onTapGesture { openCarousel(file) }
                                 }
                             }
                         }
@@ -87,6 +107,7 @@ struct DataView: View {
                                     MediaPreviewView(file, width: (viewIndex == 0 ? (geo.size.width - 48) / 2 : geo.size.width - 32))
                                         .background(Color.white)
                                         .shadow(color: Color(red: 178/255, green: 178/255, blue: 178/255).opacity(0.15), radius: 10, x: 0, y: 5)
+                                        .onTapGesture { openCarousel(file) }
                                 }
                             }
                         }
@@ -119,6 +140,22 @@ struct DataView: View {
                     }
                 }
                 .padding(.bottom, 8)
+                
+                if showingCarousel && viewer.library?[0].children != nil && viewer.library![0].children!.count > 0 {
+                    CarouselView(isPresented: $showingCarousel, currentIndex: $carouselIndex, files: files)
+                }
+            }
+        }
+    }
+    
+    func openCarousel(_ file: File) {
+        if viewer.library?[0].children != nil {
+            for index in 0..<viewer.library![0].children!.count {
+                if viewer.library![0].children![index].id == file.id {
+                    carouselIndex = index
+                    showingCarousel = true
+                    return
+                }
             }
         }
     }
